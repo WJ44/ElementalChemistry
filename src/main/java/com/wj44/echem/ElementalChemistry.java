@@ -1,5 +1,6 @@
 package com.wj44.echem;
 
+import com.wj44.echem.configuration.ConfigurationHandler;
 import com.wj44.echem.proxy.IProxy;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.Mod;
@@ -17,13 +18,13 @@ public class ElementalChemistry
     @Mod.Instance(Reference.MOD_ID)
     public static ElementalChemistry instance;
 
-    @SidedProxy(clientSide = "com.wj44.echem.proxy.ClientProxy", serverSide = "com.wj44.echem.proxy.ServerProxy")
+    @SidedProxy(clientSide = Reference.CLIENT_PROXY_CLASS, serverSide = Reference.SERVER_PROXY_CLASS)
     public static IProxy proxy;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
-
+        ConfigurationHandler.init(event.getSuggestedConfigurationFile());
     }
 
     @Mod.EventHandler
