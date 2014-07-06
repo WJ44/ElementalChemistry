@@ -3,6 +3,7 @@ package com.wj44.echem;
 import com.wj44.echem.handler.ConfigurationHandler;
 import com.wj44.echem.proxy.IProxy;
 import com.wj44.echem.reference.Reference;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -29,6 +30,7 @@ public class ElementalChemistry
     public void preInit(FMLPreInitializationEvent event)
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
+        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
     }
 
     @Mod.EventHandler
