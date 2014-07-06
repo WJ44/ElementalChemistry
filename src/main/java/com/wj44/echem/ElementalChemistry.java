@@ -1,6 +1,7 @@
 package com.wj44.echem;
 
 import com.wj44.echem.handler.ConfigurationHandler;
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.proxy.IProxy;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -31,6 +32,8 @@ public class ElementalChemistry
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+
+        ModItems.init();
     }
 
     @Mod.EventHandler
