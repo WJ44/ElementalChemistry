@@ -1,2 +1,5 @@
 # Items
 item.echem:logo.name=ElementalChemistry Logo
+
+# Blocks
+tile.echem:testBlock.name=Test Block
