@@ -1,5 +1,6 @@
 package com.wj44.echem.block;
 
+import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -19,6 +20,7 @@ public class BlockEChem extends Block
     public BlockEChem(Material material)
     {
         super(material);
+        this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     }
 
     public BlockEChem()
