@@ -14,18 +14,12 @@ import net.minecraft.item.Item;
  */
 public class CreativeTabEChem
 {
-    public static final CreativeTabs ECHEM_TAB = new CreativeTabs(Reference.MOD_ID)
+    public static final CreativeTabs ECHEM_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase())
     {
         @Override
         public Item getTabIconItem()
         {
             return ModItems.logo;
-        }
-
-        @Override
-        public String getTranslatedTabLabel()
-        {
-            return "ElementalChemistry";
         }
     };
 }
