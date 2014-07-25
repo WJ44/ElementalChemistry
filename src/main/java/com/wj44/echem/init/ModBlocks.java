@@ -15,7 +15,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
 {
-    public static final BlockEChem testBlock = new BlockTest();
+    public static final BlockEChem testBlock = new BlockTest(); //TODO Delete
 
     public static void init()
     {

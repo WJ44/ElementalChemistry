@@ -18,3 +18,5 @@ public class BlockTest extends BlockEChem
         this.setBlockName("testBlock");
     }
 }
+
+//TODO Delete class
