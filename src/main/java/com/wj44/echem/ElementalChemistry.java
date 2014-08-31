@@ -1,5 +1,6 @@
 package com.wj44.echem;
 
+import com.wj44.echem.client.handler.KeyInputEventHandler;
 import com.wj44.echem.handler.ConfigurationHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
@@ -18,7 +19,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
  *
  * Part of the ElementalChemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
 @Mod(modid = Reference.MOD_ID, name = Reference.MOD_NAME, version = Reference.VERSION, guiFactory = Reference.GUI_FACTORY_CLASS)
 public class ElementalChemistry
@@ -35,6 +36,8 @@ public class ElementalChemistry
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
         FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
 
+        proxy.registerKeyBindings();
+
         ModItems.init();
 
         ModBlocks.init();
@@ -43,6 +46,8 @@ public class ElementalChemistry
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+
         Recipes.init();
     }
 

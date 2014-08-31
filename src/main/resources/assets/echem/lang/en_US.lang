@@ -4,5 +4,9 @@ item.echem:logo.name=ElementalChemistry Logo
 # Blocks
 tile.echem:testBlock.name=Test Block
 
-# CreativeTab
+# Creative Tabs
 itemGroup.echem=ElementalChemistry
+
+# Keys
+keys.echem.category=ElementalChemistry
+keys.echem.gui=Open Item GUI

@@ -5,8 +5,13 @@ package com.wj44.echem.proxy;
  *
  * Part of the ElementalChemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
- * (http://creativecommons.org/licenses/by-nc-sa/3.0/deed.en_GB)
+ * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
 public class ServerProxy extends CommonProxy
 {
+    @Override
+    public void registerKeyBindings()
+    {
+        // NOOP
+    }
 }
