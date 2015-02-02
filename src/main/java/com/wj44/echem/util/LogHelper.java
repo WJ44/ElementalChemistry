@@ -1,4 +1,4 @@
-package com.wj44.echem.utility;
+package com.wj44.echem.util;
 
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.FMLLog;

@@ -2,7 +2,6 @@ package com.wj44.echem.client.handler;
 
 import com.wj44.echem.client.settings.Keybindings;
 import com.wj44.echem.reference.Key;
-import com.wj44.echem.utility.LogHelper;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent;
 

@@ -1,4 +1,4 @@
-package com.wj44.echem.utility;
+package com.wj44.echem.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

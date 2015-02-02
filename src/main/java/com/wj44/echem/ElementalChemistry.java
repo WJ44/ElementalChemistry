@@ -2,9 +2,12 @@ package com.wj44.echem;
 
 import com.wj44.echem.client.handler.KeyInputEventHandler;
 import com.wj44.echem.handler.ConfigurationHandler;
+import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.Recipes;
+import com.wj44.echem.init.TileEntities;
+import com.wj44.echem.network.PacketHandler;
 import com.wj44.echem.proxy.IProxy;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -13,6 +16,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
 /**
  * Created by Wesley "WJ44" Joosten on 22-6-2014.
@@ -34,7 +38,8 @@ public class ElementalChemistry
     public void preInit(FMLPreInitializationEvent event)
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
-        FMLCommonHandler.instance().bus().register(new ConfigurationHandler());
+
+        PacketHandler.init();
 
         proxy.registerKeyBindings();
 
@@ -46,7 +51,9 @@ public class ElementalChemistry
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        FMLCommonHandler.instance().bus().register(new KeyInputEventHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
+        TileEntities.init();
 
         Recipes.init();
     }
