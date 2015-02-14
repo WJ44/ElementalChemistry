@@ -7,7 +7,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.event.TextureStitchEvent;
 
 /**
  * Created by Wesley "WJ44" Joosten on 6-7-2014.

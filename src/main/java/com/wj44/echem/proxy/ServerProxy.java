@@ -10,8 +10,20 @@ package com.wj44.echem.proxy;
 public class ServerProxy extends CommonProxy
 {
     @Override
-    public void registerKeyBindings()
+    public void preInit()
     {
-        // NOOP
+
+    }
+
+    @Override
+    public void init()
+    {
+
+    }
+
+    @Override
+    public void postInit()
+    {
+
     }
 }

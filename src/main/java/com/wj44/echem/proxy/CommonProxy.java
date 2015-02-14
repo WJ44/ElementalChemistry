@@ -7,6 +7,11 @@ package com.wj44.echem.proxy;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public abstract class CommonProxy implements IProxy
+public abstract class CommonProxy
 {
+    public abstract void preInit();
+
+    public abstract void init();
+
+    public abstract void postInit();
 }

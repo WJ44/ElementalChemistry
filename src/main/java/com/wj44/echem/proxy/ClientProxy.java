@@ -1,8 +1,5 @@
 package com.wj44.echem.proxy;
 
-import com.wj44.echem.client.settings.Keybindings;
-import cpw.mods.fml.client.registry.ClientRegistry;
-
 /**
  * Created by Wesley "WJ44" Joosten on 26-6-2014.
  *
@@ -13,8 +10,20 @@ import cpw.mods.fml.client.registry.ClientRegistry;
 public class ClientProxy extends CommonProxy
 {
     @Override
-    public void registerKeyBindings()
+    public void preInit()
     {
-        ClientRegistry.registerKeyBinding(Keybindings.gui);
+
+    }
+
+    @Override
+    public void init()
+    {
+
+    }
+
+    @Override
+    public void postInit()
+    {
+
     }
 }

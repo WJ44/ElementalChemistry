@@ -1,8 +1,5 @@
 package com.wj44.echem.block;
 
-import com.wj44.echem.creativetab.CreativeTabEChem;
-import net.minecraft.creativetab.CreativeTabs;
-
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
  * -
