@@ -5,6 +5,7 @@ import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.Recipes;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
+import com.wj44.echem.util.LogHelper;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -35,6 +36,8 @@ public class ElementalChemistry
         ModItems.init();
 
         ModBlocks.init();
+
+        LogHelper.info("Pre Initialization Complete");
     }
 
     @Mod.EventHandler
@@ -43,11 +46,15 @@ public class ElementalChemistry
         proxy.init();
 
         Recipes.init();
+
+        LogHelper.info("Initialization Complete");
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit();
+
+        LogHelper.info("Post Initialization Complete");
     }
 }
