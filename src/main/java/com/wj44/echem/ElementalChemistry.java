@@ -6,8 +6,6 @@ import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.Recipes;
-import com.wj44.echem.init.TileEntities;
-import com.wj44.echem.network.PacketHandler;
 import com.wj44.echem.proxy.IProxy;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -39,8 +37,6 @@ public class ElementalChemistry
     {
         ConfigurationHandler.init(event.getSuggestedConfigurationFile());
 
-        PacketHandler.init();
-
         proxy.registerKeyBindings();
 
         ModItems.init();
@@ -52,8 +48,6 @@ public class ElementalChemistry
     public void init(FMLInitializationEvent event)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-        TileEntities.init();
 
         Recipes.init();
     }
