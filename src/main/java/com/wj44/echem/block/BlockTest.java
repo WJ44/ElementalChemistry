@@ -1,5 +1,10 @@
 package com.wj44.echem.block;
 
+import com.wj44.echem.init.ModBlocks;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
+
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
  * -

@@ -6,11 +6,14 @@ import com.wj44.echem.init.Recipes;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.util.LogHelper;
+import com.wj44.echem.world.gen.WorldGeneratorEChem;
+import com.wj44.echem.world.gen.WorldGeneratorEChem;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
  * Created by Wesley "WJ44" Joosten on 22-6-2014.
@@ -32,6 +35,8 @@ public class ElementalChemistry
     public void preInit(FMLPreInitializationEvent event)
     {
         proxy.preInit();
+
+        GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
 
         ModItems.init();
 

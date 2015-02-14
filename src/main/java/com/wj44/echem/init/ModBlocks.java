@@ -1,6 +1,7 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.block.BlockEChem;
+import com.wj44.echem.block.BlockEChemOre;
 import com.wj44.echem.block.BlockTest;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -16,9 +17,13 @@ import cpw.mods.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
     public static final BlockEChem testBlock = new BlockTest(); //TODO Delete
+    public static final BlockEChemOre platinumOre = new BlockEChemOre("platinum", 3.0F, 2);
+    public static final BlockEChemOre silverOre = new BlockEChemOre("silver", 3.0F, 2);
 
     public static void init()
     {
         GameRegistry.registerBlock(testBlock, "testBlock");
+        GameRegistry.registerBlock(platinumOre, "platinumOre");
+        GameRegistry.registerBlock(silverOre, "silverOre");
     }
 }

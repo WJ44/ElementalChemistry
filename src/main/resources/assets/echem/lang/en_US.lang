@@ -3,6 +3,8 @@ item.echem:logo.name=ElementalChemistry Logo
 
 # Blocks
 tile.echem:testBlock.name=Test Block
+tile.echem:platinumOre.name=Platinum Ore
+tile.echem:silverOre.name=Silver Ore
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry
