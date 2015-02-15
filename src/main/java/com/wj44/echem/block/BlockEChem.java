@@ -31,7 +31,7 @@ public class BlockEChem extends Block
     @Override
     public String getUnlocalizedName()
     {
-        return String.format("tile.%s%s", Reference.MOD_ID.toLowerCase() + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        return String.format("tile.%s%s", Reference.LOWERCASE_MOD_ID + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
     @Override

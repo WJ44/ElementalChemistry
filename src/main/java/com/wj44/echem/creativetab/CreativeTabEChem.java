@@ -14,7 +14,7 @@ import net.minecraft.item.Item;
  */
 public class CreativeTabEChem
 {
-    public static final CreativeTabs ECHEM_TAB = new CreativeTabs(Reference.MOD_ID.toLowerCase())
+    public static final CreativeTabs ECHEM_TAB = new CreativeTabs(Reference.LOWERCASE_MOD_ID)
     {
         @Override
         public Item getTabIconItem()

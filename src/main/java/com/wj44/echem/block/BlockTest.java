@@ -1,6 +1,7 @@
 package com.wj44.echem.block;
 
 import com.wj44.echem.init.ModBlocks;
+import com.wj44.echem.reference.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
@@ -18,6 +19,7 @@ public class BlockTest extends BlockEChem
     {
         super();
         this.setBlockName("testBlock");
+        setBlockTextureName(Reference.LOWERCASE_MOD_ID + ";" + "testBlock");
     }
 }
 

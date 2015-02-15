@@ -11,4 +11,4 @@ itemGroup.echem=ElementalChemistry
 
 # Keys
 keys.echem.category=ElementalChemistry
-keys.echem.gui=Open Item GUI
+keys.echem.explode=Explode

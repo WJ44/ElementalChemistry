@@ -1,14 +1,11 @@
 package com.wj44.echem.world.gen;
 
 import com.wj44.echem.init.ModBlocks;
-import com.wj44.echem.util.LogHelper;
 import cpw.mods.fml.common.IWorldGenerator;
-import cpw.mods.fml.common.Mod;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-import org.apache.commons.logging.Log;
 
 import java.util.Random;
 
