@@ -3,10 +3,10 @@ package com.wj44.echem;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.Recipes;
+import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
-import com.wj44.echem.util.LogHelper;
-import com.wj44.echem.world.gen.WorldGeneratorEChem;
+import com.wj44.echem.util.Log;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -36,13 +36,15 @@ public class ElementalChemistry
     {
         proxy.preInit();
 
-        GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
-
         ModItems.init();
 
         ModBlocks.init();
 
-        LogHelper.info("Pre Initialization Complete");
+        GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
+
+        NetworkHandler.init();
+
+        Log.info("Pre Initialization Complete");
     }
 
     @Mod.EventHandler
@@ -52,7 +54,7 @@ public class ElementalChemistry
 
         Recipes.init();
 
-        LogHelper.info("Initialization Complete");
+        Log.info("Initialization Complete");
     }
 
     @Mod.EventHandler
@@ -60,6 +62,6 @@ public class ElementalChemistry
     {
         proxy.postInit();
 
-        LogHelper.info("Post Initialization Complete");
+        Log.info("Post Initialization Complete");
     }
 }
