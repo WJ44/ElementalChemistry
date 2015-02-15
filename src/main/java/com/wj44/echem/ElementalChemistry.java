@@ -4,6 +4,7 @@ import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.ModTileEntities;
 import com.wj44.echem.init.Recipes;
+import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
@@ -38,14 +39,13 @@ public class ElementalChemistry
         proxy.preInit();
 
         ModItems.init();
-
         ModBlocks.init();
-
         ModTileEntities.init();
 
         GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
 
         NetworkHandler.init();
+        DescriptionHandler.init();
 
         Log.info("Pre Initialization Complete");
     }

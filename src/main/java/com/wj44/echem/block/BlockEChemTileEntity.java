@@ -3,6 +3,7 @@ package com.wj44.echem.block;
 import com.wj44.echem.creativetab.CreativeTabEChem;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -25,4 +26,5 @@ public abstract class BlockEChemTileEntity extends BlockContainer
     {
         this(Material.rock);
     }
+
 }

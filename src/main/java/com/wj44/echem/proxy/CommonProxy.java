@@ -1,5 +1,7 @@
 package com.wj44.echem.proxy;
 
+import net.minecraft.entity.player.EntityPlayer;
+
 /**
  * Created by Wesley "WJ44" Joosten on 26-6-2014.
  *
@@ -14,4 +16,6 @@ public abstract class CommonProxy
     public abstract void init();
 
     public abstract void postInit();
+
+    public abstract EntityPlayer getEntityPlayer();
 }
