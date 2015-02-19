@@ -9,6 +9,13 @@ package com.wj44.echem.reference;
  */
 public final class Names
 {
+    public static final class Items
+    {
+        public static final String LOGO = "logo";
+        public static final String ELEMENT_CONTAINER = "elementContainer";
+        public static final String[] ELEMENT_CONTAINER_SUBTYPES = {"Empty", "Hydrogen", "Helium", "Lithium", "Beryllium"};
+    }
+
     public static final class  Keys
     {
         public static final String CATEGORY = "keys.echem.category";

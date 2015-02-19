@@ -10,10 +10,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class ModTileEntities
+public class TileEntities
 {
     public static void init()
     {
-        GameRegistry.registerTileEntity(TileEntityMine.class, Reference.LOWERCASE_MOD_ID + ":mine");
     }
 }

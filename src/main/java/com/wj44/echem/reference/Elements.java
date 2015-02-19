@@ -7,12 +7,7 @@ package com.wj44.echem.reference;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class Textures
+public enum Elements
 {
-    public static final String RESOURCE_PREFIX = Reference.LOWERCASE_MOD_ID + ":";
-
-    public static final class Gui
-    {
-        private static final String GUI_SHEET_LOCATION = "textures/gui/";
-    }
+    NONE, HYDROGEN, HELIUM, LITHIUM, BERYLLIUM
 }

@@ -34,11 +34,11 @@ public class KeyInputHandler
         {
             switch (key)
             {
-                case EXPLODE:
-                    NetworkHandler.sendToServer(new MessageExplode(3)); //todo Delete
-                    break;
-                case EXPLODE_BIG:
-                    NetworkHandler.sendToServer(new MessageExplode(30)); //todo Delete
+                //case EXPLODE:
+                    //NetworkHandler.sendToServer(new MessageExplode(3)); //todo Delete
+                  //  break;
+                //case EXPLODE_BIG:
+              //      NetworkHandler.sendToServer(new MessageExplode(30)); //todo Delete
             }
         }
     }

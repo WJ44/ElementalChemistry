@@ -20,8 +20,6 @@ public class NetworkHandler
     public static void init()
     {
         INSTANCE = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.MOD_ID);
-
-        INSTANCE.registerMessage(MessageExplode.class, MessageExplode.class, 0, Side.SERVER); //Todo delete
     }
 
     public static void sendToServer(IMessage message)

@@ -1,7 +1,7 @@
 package com.wj44.echem.item;
 
 import com.wj44.echem.creativetab.CreativeTabEChem;
-import com.wj44.echem.reference.Reference;
+import com.wj44.echem.reference.Textures;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -23,16 +23,23 @@ public class ItemEChem extends Item
         this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     }
 
+    public ItemEChem(String name)
+    {
+        super();
+        this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
+        this.setUnlocalizedName(name);
+    }
+
     @Override
     public String getUnlocalizedName()
     {
-        return String.format("item.%s%s", Reference.LOWERCASE_MOD_ID + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        return String.format("item.%s%s", Textures.RESOURCE_PREFIX, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-        return String.format("item.%s%s", Reference.LOWERCASE_MOD_ID + ":", getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
+        return String.format("item.%s%s", Textures.RESOURCE_PREFIX, getUnwrappedUnlocalizedName(super.getUnlocalizedName()));
     }
 
     @Override

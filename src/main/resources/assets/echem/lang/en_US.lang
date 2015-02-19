@@ -1,5 +1,11 @@
 # Items
 item.echem:logo.name=ElementalChemistry Logo
+item.echem:elementContainerEmpty.name=Element Container
+item.echem:elementContainerHydrogen.name=Element Container (Hydrogen)
+item.echem:elementContainerHelium.name=Element Container (Helium)
+item.echem:elementContainerLithium.name=Element Container (Lithium)
+item.echem:elementContainerBeryllium.name=Element Container (Beryllium)
+
 
 # Blocks
 tile.echem:testBlock.name=Test Block

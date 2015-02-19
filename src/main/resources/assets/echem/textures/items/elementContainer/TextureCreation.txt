@@ -1,0 +1,5 @@
+Calibri, 18
+Second colour on palette(grey)
+
+no middle vertically? -> go up
+no middle horizontally? -> go right

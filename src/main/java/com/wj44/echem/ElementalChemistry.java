@@ -3,7 +3,7 @@ package com.wj44.echem;
 import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
-import com.wj44.echem.init.ModTileEntities;
+import com.wj44.echem.init.TileEntities;
 import com.wj44.echem.init.Recipes;
 import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
@@ -42,7 +42,7 @@ public class ElementalChemistry
 
         ModItems.init();
         ModBlocks.init();
-        ModTileEntities.init();
+        TileEntities.init();
 
         GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
 

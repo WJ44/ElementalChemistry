@@ -1,7 +1,8 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.item.ItemEChem;
-import com.wj44.echem.item.ItemLogo;
+import com.wj44.echem.item.ItemElementContainer;
+import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -15,10 +16,12 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModItems
 {
-    public static final ItemEChem logo = new ItemLogo();
+    public static final ItemEChem logo = new ItemEChem(Names.Items.LOGO);
+    public static final ItemEChem elementContainer = new ItemElementContainer();
 
     public static void init()
     {
-        GameRegistry.registerItem(logo, "logo");
+        GameRegistry.registerItem(logo, Names.Items.LOGO);
+        GameRegistry.registerItem(elementContainer, Names.Items.ELEMENT_CONTAINER);
     }
 }
