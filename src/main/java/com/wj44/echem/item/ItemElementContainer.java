@@ -1,5 +1,6 @@
 package com.wj44.echem.item;
 
+import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Textures;
@@ -29,6 +30,7 @@ public class ItemElementContainer extends ItemEChem
     public ItemElementContainer()
     {
         super();
+        this.setCreativeTab(CreativeTabEChem.ELEMENT_CONTAINER_TAB);
         this.setHasSubtypes(true);
         this.setUnlocalizedName(Names.Items.ELEMENT_CONTAINER);
     }

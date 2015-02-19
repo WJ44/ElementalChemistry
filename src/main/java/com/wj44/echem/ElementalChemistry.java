@@ -8,6 +8,7 @@ import com.wj44.echem.init.Recipes;
 import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
+import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.util.LogHelper;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
@@ -70,5 +71,6 @@ public class ElementalChemistry
         proxy.postInit();
 
         LogHelper.info("Post Initialization Complete");
+        LogHelper.info(Elements.PALLADIUM.ordinal());
     }
 }

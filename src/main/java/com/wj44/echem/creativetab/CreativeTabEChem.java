@@ -4,6 +4,7 @@ import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Reference;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
@@ -20,6 +21,15 @@ public class CreativeTabEChem
         public Item getTabIconItem()
         {
             return ModItems.logo;
+        }
+    };
+
+    public static final CreativeTabs ELEMENT_CONTAINER_TAB = new CreativeTabs("elementContainers")
+    {
+        @Override
+        public Item getTabIconItem()
+        {
+            return new ItemStack(ModItems.elementContainer, 0, 1).getItem();
         }
     };
 }
