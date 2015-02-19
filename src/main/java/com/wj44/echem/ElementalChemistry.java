@@ -1,5 +1,6 @@
 package com.wj44.echem;
 
+import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.ModTileEntities;
@@ -8,13 +9,14 @@ import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
-import com.wj44.echem.util.Log;
+import com.wj44.echem.util.LogHelper;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -47,7 +49,9 @@ public class ElementalChemistry
         NetworkHandler.init();
         DescriptionHandler.init();
 
-        Log.info("Pre Initialization Complete");
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
+        LogHelper.info("Pre Initialization Complete");
     }
 
     @Mod.EventHandler
@@ -57,7 +61,7 @@ public class ElementalChemistry
 
         Recipes.init();
 
-        Log.info("Initialization Complete");
+        LogHelper.info("Initialization Complete");
     }
 
     @Mod.EventHandler
@@ -65,6 +69,6 @@ public class ElementalChemistry
     {
         proxy.postInit();
 
-        Log.info("Post Initialization Complete");
+        LogHelper.info("Post Initialization Complete");
     }
 }

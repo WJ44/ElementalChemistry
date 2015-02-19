@@ -1,7 +1,6 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.reference.Reference;
-import com.wj44.echem.tileentity.TileEntityMine;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**

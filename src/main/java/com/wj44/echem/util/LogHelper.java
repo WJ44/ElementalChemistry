@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Level;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class Log
+public class LogHelper
 {
     public static void log(Level logLevel, Object object)
     {
