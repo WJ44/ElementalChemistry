@@ -2,13 +2,15 @@ package com.wj44.echem.creativetab;
 
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Reference;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
- *
+ * <p/>
  * Part of the Elemental Chemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
@@ -29,7 +31,15 @@ public class CreativeTabEChem
         @Override
         public Item getTabIconItem()
         {
-            return new ItemStack(ModItems.elementContainer, 0, 1).getItem();
+            return ModItems.elementContainer;
+        }
+
+        //Sets the metadata value for the IconItem
+        @Override
+        @SideOnly(Side.CLIENT)
+        public int func_151243_f()
+        {
+            return 1;
         }
     };
 }
