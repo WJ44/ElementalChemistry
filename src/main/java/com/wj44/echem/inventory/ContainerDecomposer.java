@@ -30,21 +30,15 @@ public class ContainerDecomposer extends ContainerEChem
         this.tileEntityDecomposer = tileEntityDecomposer;
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX, 116, 35));
-        int i;
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX, 116, 17));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+1, 134, 17));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+2, 116, 35));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+3, 134, 35));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+4, 116, 53));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+5, 134, 53));
 
-        for (i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 9; ++j)
-            {
-                this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
 
-        for (i = 0; i < 9; ++i)
-        {
-            this.addSlotToContainer(new Slot(inventoryPlayer, i, 8 + i * 18, 142));
-        }
+        addPlayerSlots(inventoryPlayer, 8, 84);
     }
 
     public void addCraftingToCrafters(ICrafting iCrafting)

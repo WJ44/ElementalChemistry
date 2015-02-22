@@ -17,8 +17,8 @@ public abstract class ContainerEChem extends Container
     /**
      * Adds the player inventory and the hotbar
      * @param playerInventory
-     * @param x The x-position where the inventory should start
-     * @param y The y-position where the inventory should start
+     * @param x The x-position where the inventory should start (default 8)
+     * @param y The y-position where the inventory should start (default 84)
      */
     protected void addPlayerSlots(InventoryPlayer playerInventory, int x, int y)
     {

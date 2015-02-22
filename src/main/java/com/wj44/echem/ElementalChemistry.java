@@ -9,7 +9,9 @@ import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Elements;
+import com.wj44.echem.reference.ItemElements;
 import com.wj44.echem.reference.Reference;
+import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.LogHelper;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
 import cpw.mods.fml.common.Mod;
@@ -57,6 +59,8 @@ public class ElementalChemistry
     public void init(FMLInitializationEvent event)
     {
         TileEntities.init();
+
+        ItemElements.init();
 
         proxy.init();
 

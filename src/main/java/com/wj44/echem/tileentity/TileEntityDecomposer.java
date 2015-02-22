@@ -1,7 +1,9 @@
 package com.wj44.echem.tileentity;
 
-import com.wj44.echem.item.crafting.DecomposerRecipes;
+import com.wj44.echem.init.ModItems;
+import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.util.ElementHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -25,7 +27,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class TileEntityDecomposer extends TileEntityEChem implements ISidedInventory
 {
-    public static final int INVENTORY_SIZE = 3;
+    public static final int INVENTORY_SIZE = 8;
     public static final int INPUT_INVENTORY_INDEX = 0;
     public static final int FUEL_INVENTORY_INDEX = 1;
     public static final int OUTPUT_INVENTORY_INDEX = 2;
@@ -274,12 +276,13 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
         else
         {
-            ItemStack itemstack = DecomposerRecipes.smelting().getSmeltingResult(this.inventory[INPUT_INVENTORY_INDEX]);
-            if (itemstack == null) return false;
+            if (!ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
             if (this.inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
-            if (!this.inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack)) return false;
-            int result = inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize;
-            return result <= getInventoryStackLimit() && result <= this.inventory[OUTPUT_INVENTORY_INDEX].getMaxStackSize();
+            ItemStack[] outputStacks = {inventory[2], inventory[3], inventory[4], inventory[5], inventory[6], inventory[7]};
+            if (new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).compareContainersWithElements(outputStacks)) return true;
+            //int result = inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize;
+            //return result <= getInventoryStackLimit() && result <= this.inventory[OUTPUT_INVENTORY_INDEX].getMaxStackSize();
+            return false;
         }
     }
 
@@ -287,15 +290,58 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     {
         if (this.canSmelt())
         {
-            ItemStack itemstack = DecomposerRecipes.smelting().getSmeltingResult(this.inventory[INPUT_INVENTORY_INDEX]);
-
-            if (this.inventory[OUTPUT_INVENTORY_INDEX] == null)
+            for (Elements element : new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
             {
-                this.inventory[OUTPUT_INVENTORY_INDEX] = itemstack.copy();
-            }
-            else if (this.inventory[OUTPUT_INVENTORY_INDEX].getItem() == itemstack.getItem())
-            {
-                this.inventory[OUTPUT_INVENTORY_INDEX].stackSize += itemstack.stackSize;
+                int amount = new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
+                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
+                if (inventory[2] == null)
+                {
+                    inventory[2] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[2].getItemDamage() && output.stackSize + inventory[2].stackSize <= 64)
+                {
+                    inventory[2].stackSize += output.stackSize;
+                }
+                else if (inventory[3] == null)
+                {
+                    inventory[3] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[3].getItemDamage() && output.stackSize + inventory[3].stackSize <= 64)
+                {
+                    inventory[3].stackSize += output.stackSize;
+                }
+                else if (inventory[4] == null)
+                {
+                    inventory[4] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[4].getItemDamage() && output.stackSize + inventory[4].stackSize <= 64)
+                {
+                    inventory[4].stackSize += output.stackSize;
+                }
+                else if (inventory[5] == null)
+                {
+                    inventory[5] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[5].getItemDamage() && output.stackSize + inventory[5].stackSize <= 64)
+                {
+                    inventory[5].stackSize += output.stackSize;
+                }
+                else if (inventory[6] == null)
+                {
+                    inventory[6] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[6].getItemDamage() && output.stackSize + inventory[6].stackSize <= 64)
+                {
+                    inventory[6].stackSize += output.stackSize;
+                }
+                else if (inventory[7] == null)
+                {
+                    inventory[7] = output.copy();
+                }
+                else if (output.getItemDamage() == inventory[7].getItemDamage() && output.stackSize + inventory[7].stackSize <= 64)
+                {
+                    inventory[7].stackSize += output.stackSize;
+                }
             }
 
             decrStackSize(INPUT_INVENTORY_INDEX, 1);
@@ -332,9 +378,9 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
                 }
             }
 
-            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemHoe && ((ItemHoe)item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD")) return 200;
             if (item == Items.stick) return 100;
             if (item == Items.coal) return 1600;
             if (item == Items.lava_bucket) return 20000;
@@ -371,7 +417,7 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-    return slot == OUTPUT_INVENTORY_INDEX ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        return slot == OUTPUT_INVENTORY_INDEX ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
     }
 
     @Override

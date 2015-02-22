@@ -124,11 +124,11 @@ item.echem:elementContainerUnunoctium.name=Element Container (Ununoctium)
 tile.echem:testBlock.name=Test Block
 tile.echem:platinumOre.name=Platinum Ore
 tile.echem:silverOre.name=Silver Ore
+tile.echem:decomposer.name=Thermal Decomposer
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry
 itemGroup.elementContainers= Element Containers
 
-# Keys
-keys.echem.category=ElementalChemistry
-keys.echem.explode=Explode
+# Containers
+container.echem:decomposer=Thermal Decomposer
