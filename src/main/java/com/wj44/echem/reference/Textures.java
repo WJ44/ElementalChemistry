@@ -1,5 +1,8 @@
 package com.wj44.echem.reference;
 
+import com.wj44.echem.util.ResourceLocationHelper;
+import net.minecraft.util.ResourceLocation;
+
 /**
  * Created by Wesley "WJ44" Joosten on 19-2-2015.
  * <p/>
@@ -14,5 +17,6 @@ public class Textures
     public static final class Gui
     {
         private static final String GUI_SHEET_LOCATION = "textures/gui/";
+        public static final ResourceLocation DECOMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "decomposer.png");
     }
 }

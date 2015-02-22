@@ -43,21 +43,21 @@ public class ElementalChemistry
 
         ModItems.init();
         ModBlocks.init();
-        TileEntities.init();
 
         GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
 
         NetworkHandler.init();
+
         DescriptionHandler.init();
 
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-
-        LogHelper.info("Pre Initialization Complete");
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        TileEntities.init();
+
         proxy.init();
 
         Recipes.init();
@@ -69,8 +69,5 @@ public class ElementalChemistry
     public void postInit(FMLPostInitializationEvent event)
     {
         proxy.postInit();
-
-        LogHelper.info("Post Initialization Complete");
-        LogHelper.info(Elements.PALLADIUM.ordinal());
     }
 }

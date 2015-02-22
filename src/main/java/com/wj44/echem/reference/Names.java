@@ -9,6 +9,13 @@ package com.wj44.echem.reference;
  */
 public final class Names
 {
+    public static final class Blocks
+    {
+        public static final String PLATINUM_ORE = "platinumOre";
+        public static final String SILVER_ORE = "silverOre";
+        public static final String DECOMPOSER = "decomposer";
+    }
+
     public static final class Items
     {
         public static final String LOGO = "logo";
@@ -16,9 +23,13 @@ public final class Names
         public static final String[] ELEMENT_CONTAINER_SUBTYPES = {"Empty", "Hydrogen", "Helium", "Lithium", "Beryllium", "Boron", "Carbon", "Nitrogen", "Oxygen", "Fluorine", "Neon", "Sodium", "Magnesium", "Aluminium", "Silicon", "Phosphorus", "Sulfur", "Chlorine", "Argon", "Potassium", "Calcium", "Scandium", "Titanium", "Vanadium", "Chromium", "Manganese", "Iron", "Cobalt", "Nickel", "Copper", "Zinc", "Gallium", "Germanium", "Arsenic", "Selenium", "Bromine", "Krypton", "Rubidium", "Strontium", "Yttrium", "Zirconium", "Niobium", "Molybdenum", "Technetium", "Ruthenium", "Rhodium", "Palladium", "Silver", "Cadmium", "Indium", "Tin", "Antimony", "Tellurium", "Iodine", "Xenon", "Caesium", "Barium", "Lanthanum", "Cerium", "Praseodymium", "Neodymium", "Promethium", "Samarium", "Europium", "Gadolinium", "Terbium", "Dysprosium", "Holmium", "Erbium", "Thulium", "Ytterbium", "Lutetium", "Hafnium", "Tantalum", "Tungsten", "Rhenium", "Osmium", "Iridium", "Platinum", "Gold", "Mercury", "Thallium", "Lead", "Bismuth", "Polonium", "Astatine", "Radon", "Francium", "Radium", "Actinium", "Thorium", "Protactinium", "Uranium", "Neptunium", "Plutonium", "Americium", "Curium", "Berkelium", "Californium", "Einsteinium", "Fermium", "Mendelevium", "Nobelium", "Lawrencium", "Rutherfordium", "Dubnium", "Seaborgium", "Bohrium", "Hassium", "Meitnerium", "Darmstadtium", "Roentgenium", "Copernicium", "Ununtrium", "Flerovium", "Ununpentium", "Livermorium", "Ununseptium", "Ununoctium"};
     }
 
-    public static final class Keys
+    public static final class Containers
     {
-        public static final String CATEGORY = "keys.echem.category";
-        public static final String EXPLODE = "keys.echem.explode";
+        public static final String DECOMPOSER = "container.echem:" + Blocks.DECOMPOSER;
+    }
+
+    public static final class NBT
+    {
+        public static final String ITEMS = "Items";
     }
 }

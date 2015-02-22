@@ -37,22 +37,37 @@ public class WorldGeneratorEChem implements IWorldGenerator
         }
     }
 
+    //Generation for the overworld
     private void generateSurface(World world, int x, int z, Random random)
     {;
         oreGen(ModBlocks.platinumOre, 0, 64, 8, 10, world, x, z, random);
         oreGen(ModBlocks.silverOre, 0, 64, 8, 10, world, x, z, random);
     }
 
+    //Generation for the nether
     private void generateNether(World world, int x, int z, Random random)
     {
 
     }
 
+    //Generation for the end
     private void generateEnd(World world, int x, int z, Random random)
     {
 
     }
 
+    /**
+     * Adds ore generation
+     * @param block The ore
+     * @param minHeight The lowest level the ore generates at
+     * @param heightModifier How many levels above the minHeight
+     * @param veinSize The (average?) size of a vein
+     * @param density How often per chunk the ore generates
+     * @param world
+     * @param x
+     * @param z
+     * @param random
+     */
     private void oreGen(Block block, int minHeight, int heightModifier, int veinSize, int density, World world, int x, int z, Random random)
     {
         for (int i = 0; i < density; i++)

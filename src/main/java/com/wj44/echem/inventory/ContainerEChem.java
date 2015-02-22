@@ -14,8 +14,15 @@ import net.minecraft.inventory.Slot;
  */
 public abstract class ContainerEChem extends Container
 {
+    /**
+     * Adds the player inventory and the hotbar
+     * @param playerInventory
+     * @param x The x-position where the inventory should start
+     * @param y The y-position where the inventory should start
+     */
     protected void addPlayerSlots(InventoryPlayer playerInventory, int x, int y)
     {
+        //Adds the inventory
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 9; j++)
@@ -24,9 +31,18 @@ public abstract class ContainerEChem extends Container
             }
         }
 
+        //Adds the hotbar
         for (int i = 0; i < 9; i++)
         {
             addSlotToContainer(new Slot(playerInventory, i, x + i * 18, y + 58));
         }
     }
+
+    @Override
+    public boolean canInteractWith(EntityPlayer entityPlayer)
+    {
+        return true;
+    }
+
+    //When using mergeItemStack, the first int is the first slot it tries to use, the second when the last + 1, the boolean is whether to do it in reverse or not
 }

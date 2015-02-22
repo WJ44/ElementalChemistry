@@ -1,6 +1,9 @@
 package com.wj44.echem.handler;
 
+import com.wj44.echem.client.gui.inventory.GuiDecomposer;
+import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.reference.GUIs;
+import com.wj44.echem.tileentity.TileEntityDecomposer;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -17,22 +20,20 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-        switch (GUIs.values()[ID])
+        if (ID == GUIs.DECOMPOSER.ordinal())
         {
-            case MINE:
-                return null;
+            return new ContainerDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(x, y, z));
         }
-        throw new IllegalArgumentException("No gui with id " + ID);
+        return null;
     }
 
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
-        switch (GUIs.values()[ID])
+        if (ID == GUIs.DECOMPOSER.ordinal())
         {
-            case MINE:
-                return null;
+            return new GuiDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(x, y, z));
         }
-        throw new IllegalArgumentException("No gui with id " + ID);
+        return null;
     }
 }

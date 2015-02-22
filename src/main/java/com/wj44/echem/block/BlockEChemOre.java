@@ -13,7 +13,7 @@ public class BlockEChemOre extends BlockEChem
 {
     public BlockEChemOre(String oreType, float hardness, int harverstLevel)
     {
-        this.setBlockName(oreType + "Ore");
+        this.setBlockName(oreType);
         this.setHardness(hardness);
         this.setHarvestLevel("pickaxe", harverstLevel);
     }
