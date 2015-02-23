@@ -4,6 +4,7 @@ import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
+import com.wj44.echem.util.ItemElementDamageValueHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -277,6 +278,7 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         else
         {
             if (!ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
+            if (!ItemElementDamageValueHelper.damageValueHelper(inventory[OUTPUT_INVENTORY_INDEX])) return false;
             if (this.inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
             ItemStack[] outputStacks = {inventory[2], inventory[3], inventory[4], inventory[5], inventory[6], inventory[7]};
             if (new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).compareContainersWithElements(outputStacks)) return true;

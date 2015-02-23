@@ -1,6 +1,7 @@
 package com.wj44.echem.util;
 
 import com.wj44.echem.reference.Elements;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
@@ -28,9 +29,14 @@ public class ElementHelper
         itemElementsList.put(item, elementList);
     }
 
+    public static void addItemToItemElementList(Block block, Map elementList)
+    {
+        itemElementsList.put(Item.getItemFromBlock(block), elementList);
+    }
+
     public Set<Elements> getElements()
     {
-       return elementList.keySet();
+        return elementList.keySet();
     }
 
     public int getAmount(Elements element)
@@ -42,7 +48,7 @@ public class ElementHelper
     {
         int availableSlots = 0;
 
-        for(ItemStack itemStack : itemStacks)
+        for (ItemStack itemStack : itemStacks)
         {
             if (itemStack == null)
             {
