@@ -15,36 +15,30 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.*;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.util.ForgeDirection;
 
 /**
- * Created by Wesley "WJ44" Joosten on 20-2-2015.
+ * Created by Wesley "WJ44" Joosten on 24-2-2015.
  * <p/>
  * Part of the ElementalChemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDecomposer extends TileEntityEChem implements ISidedInventory
+public class TileEntityItemScanner extends TileEntityEChem implements ISidedInventory
 {
-    public static final int INVENTORY_SIZE = 8;
+    public static final int INVENTORY_SIZE = 3;
     public static final int INPUT_INVENTORY_INDEX = 0;
     public static final int FUEL_INVENTORY_INDEX = 1;
-    public static final int OUTPUT_INVENTORY_INDEX1 = 2;
-    public static final int OUTPUT_INVENTORY_INDEX2 = OUTPUT_INVENTORY_INDEX1+1;
-    public static final int OUTPUT_INVENTORY_INDEX3 = OUTPUT_INVENTORY_INDEX2+1;
-    public static final int OUTPUT_INVENTORY_INDEX4 = OUTPUT_INVENTORY_INDEX3+1;
-    public static final int OUTPUT_INVENTORY_INDEX5 = OUTPUT_INVENTORY_INDEX4+1;
-    public static final int OUTPUT_INVENTORY_INDEX6 = OUTPUT_INVENTORY_INDEX5+1;
-    public static final int output[] = {OUTPUT_INVENTORY_INDEX1, OUTPUT_INVENTORY_INDEX2, OUTPUT_INVENTORY_INDEX3, OUTPUT_INVENTORY_INDEX4, OUTPUT_INVENTORY_INDEX5, OUTPUT_INVENTORY_INDEX6};
+    public static final int OUTPUT_INVENTORY_INDEX = 2;
 
-    public int decomposerBurnTime;
-    public int decomposerCookTime;
+    public int itemScannerBurnTime;
+    public int itemScannerCookTime;
     public int currentItemBurnTime;
 
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
-    public final ItemStack[] outputStacks = {inventory[OUTPUT_INVENTORY_INDEX1], inventory[OUTPUT_INVENTORY_INDEX2], inventory[OUTPUT_INVENTORY_INDEX3], inventory[OUTPUT_INVENTORY_INDEX4], inventory[OUTPUT_INVENTORY_INDEX5], inventory[OUTPUT_INVENTORY_INDEX6]};
 
     private String customName;
 
@@ -120,7 +114,7 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     @Override
     public String getInventoryName()
     {
-        return this.hasCustomInventoryName() ? customName : Names.Containers.DECOMPOSER;
+        return this.hasCustomInventoryName() ? customName : Names.Containers.ITEM_SCANNER;
     }
 
     @Override
@@ -148,8 +142,8 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
             }
         }
 
-        decomposerBurnTime = nbtTagCompound.getShort("BurnTime");
-        decomposerCookTime = nbtTagCompound.getShort("CookTime");
+        itemScannerBurnTime = nbtTagCompound.getShort("BurnTime");
+        itemScannerCookTime = nbtTagCompound.getShort("CookTime");
         currentItemBurnTime = getItemBurnTime(inventory[FUEL_INVENTORY_INDEX]);
 
         if (nbtTagCompound.hasKey("CustomName", 8))
@@ -161,8 +155,8 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
         super.writeToNBT(nbtTagCompound);
-        nbtTagCompound.setShort("BurnTime", (short) decomposerBurnTime);
-        nbtTagCompound.setShort("CookTime", (short) decomposerCookTime);
+        nbtTagCompound.setShort("BurnTime", (short) itemScannerBurnTime);
+        nbtTagCompound.setShort("CookTime", (short) itemScannerCookTime);
         NBTTagList tagList = new NBTTagList();
 
         for (int i = 0; i < inventory.length; ++i)
@@ -192,7 +186,7 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     @SideOnly(Side.CLIENT)
     public int getCookProgressScaled(int scale)
     {
-        return decomposerCookTime * scale / 200;
+        return itemScannerCookTime * scale / 200;
     }
 
     @SideOnly(Side.CLIENT)
@@ -203,34 +197,34 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
             this.currentItemBurnTime = 200;
         }
 
-        return decomposerBurnTime * scale / this.currentItemBurnTime;
+        return itemScannerBurnTime * scale / this.currentItemBurnTime;
     }
 
     public boolean isBurning()
     {
-        return this.decomposerBurnTime > 0;
+        return this.itemScannerBurnTime > 0;
     }
 
     @Override
     public void updateEntity()
     {
-        boolean isBurning = this.decomposerBurnTime > 0;
+        boolean isBurning = this.itemScannerBurnTime > 0;
         boolean sendUpdate = false;
 
-        if (this.decomposerBurnTime > 0)
+        if (this.itemScannerBurnTime > 0)
         {
-            --this.decomposerBurnTime;
+            --this.itemScannerBurnTime;
         }
 
         if (!this.worldObj.isRemote)
         {
-            if (this.decomposerBurnTime != 0 || this.inventory[FUEL_INVENTORY_INDEX] != null && this.inventory[INPUT_INVENTORY_INDEX] != null)
+            if (this.itemScannerBurnTime != 0 || this.inventory[FUEL_INVENTORY_INDEX] != null && this.inventory[INPUT_INVENTORY_INDEX] != null)
             {
-                if (this.decomposerBurnTime == 0 && this.canSmelt())
+                if (this.itemScannerBurnTime == 0 && this.canSmelt())
                 {
-                    this.currentItemBurnTime = this.decomposerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
+                    this.currentItemBurnTime = this.itemScannerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
-                    if (this.decomposerBurnTime > 0)
+                    if (this.itemScannerBurnTime > 0)
                     {
                         sendUpdate = true;
 
@@ -248,25 +242,25 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
 
                 if (this.isBurning() && this.canSmelt())
                 {
-                    ++this.decomposerCookTime;
+                    ++this.itemScannerCookTime;
 
-                    if (this.decomposerCookTime == 200)
+                    if (this.itemScannerCookTime == 200)
                     {
-                        this.decomposerCookTime = 0;
+                        this.itemScannerCookTime = 0;
                         this.smeltItem();
                         sendUpdate = true;
                     }
                 }
                 else
                 {
-                    this.decomposerCookTime = 0;
+                    this.itemScannerCookTime = 0;
                 }
             }
 
-            if (isBurning != this.decomposerBurnTime > 0)
+            if (isBurning != this.itemScannerBurnTime > 0)
             {
                 sendUpdate = true;
-                //BlockDecomposer.updateDecomposerBlockState(this.decomposerBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord); //TODO
+                //BlockItemScanner.updateItemScannerBlockState(this.itemScannerBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord); //TODO
             }
         }
 
@@ -278,80 +272,28 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
 
     private boolean canSmelt()
     {
-        if (inventory[INPUT_INVENTORY_INDEX] == null)
+
+        if (inventory[INPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.getBoolean("isScanned"))
         {
             return false;
         }
-        else
-        {
-            if (!ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
-            if (!ItemElementDamageValueHelper.damageValueHelper(inventory[INPUT_INVENTORY_INDEX])) return false;
-            if (new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).compareContainersWithElements(outputStacks)) return true;
-            return false;
-        }
+
+        return true;
     }
 
     public void smeltItem()
     {
         if (this.canSmelt())
         {
-            for (Elements element : new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
+            if (inventory[INPUT_INVENTORY_INDEX].getItem() == Items.diamond)
             {
-                int amount = new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
-                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
-                if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX1] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX1].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX1].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX1].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX2] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX2] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX2].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX2].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX2].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX3] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX3] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX3].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX3].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX3].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX4] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX4] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX4].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX4].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX4].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX5] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX5] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX5].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX5].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX5].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX6] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX6] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX6].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX6].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX6].stackSize += output.stackSize;
-                }
-            }
+                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setString("Formula", "C");
 
-            decrStackSize(INPUT_INVENTORY_INDEX, 1);
+                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setBoolean("isScanned", true);
+            }
         }
     }
+
 
     public static int getItemBurnTime(ItemStack stack)
     {
@@ -422,13 +364,13 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack)
     {
-        return slot == output[1] || slot == output[2] || slot == output[3] || slot == output[4] || slot == output[5] || slot == output[6] ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        return slot == OUTPUT_INVENTORY_INDEX ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
     }
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side)
     {
-        return side == ForgeDirection.DOWN.ordinal() ? new int[]{FUEL_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]} : new int[]{INPUT_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]};
+        return side == ForgeDirection.DOWN.ordinal() ? new int[]{FUEL_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX} : new int[]{INPUT_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX};
     }
 
     @Override
@@ -440,7 +382,6 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side)
     {
-        return slot == output[1] || slot == output[2] || slot == output[3] || slot == output[4] || slot == output[5] || slot == output[6];
+        return slot == OUTPUT_INVENTORY_INDEX;
     }
-
 }

@@ -1,12 +1,10 @@
 package com.wj44.echem.init;
 
-import com.wj44.echem.block.BlockDecomposer;
-import com.wj44.echem.block.BlockEChem;
-import com.wj44.echem.block.BlockEChemOre;
-import com.wj44.echem.block.BlockTest;
+import com.wj44.echem.block.*;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
@@ -18,10 +16,11 @@ import cpw.mods.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
 {
-    public static final BlockEChem testBlock = new BlockTest(); //TODO Delete
-    public static final BlockEChemOre platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
-    public static final BlockEChemOre silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
-    public static final BlockDecomposer decomposer = new BlockDecomposer();
+    public static final Block testBlock = new BlockTest(); //TODO Delete
+    public static final Block platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
+    public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
+    public static final Block decomposer = new BlockDecomposer();
+    public static final Block itemScanner = new BlockItemScanner();
 
     public static void init()
     {
@@ -29,5 +28,6 @@ public class ModBlocks
         GameRegistry.registerBlock(platinumOre, Names.Blocks.PLATINUM_ORE);
         GameRegistry.registerBlock(silverOre, Names.Blocks.SILVER_ORE);
         GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);
+        GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
     }
 }

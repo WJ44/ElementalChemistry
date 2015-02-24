@@ -10,6 +10,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 /**
  * Created by Wesley "WJ44" Joosten on 23-2-2015.
  * <p/>
@@ -19,12 +21,10 @@ import net.minecraft.world.World;
  */
 public class ItemDataCard extends ItemEChem
 {
-    @SideOnly(Side.CLIENT)
-    private IIcon[] icons;
-
     public ItemDataCard()
     {
         super();
+        setMaxStackSize(1);
         this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
         this.setUnlocalizedName(Names.Items.DATA_CARD);
     }
@@ -33,6 +33,26 @@ public class ItemDataCard extends ItemEChem
     public void onCreated(ItemStack itemStack, World world, EntityPlayer player)
     {
         itemStack.stackTagCompound = new NBTTagCompound();
+        itemStack.stackTagCompound.setBoolean("isScanned", false);
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
+    {
+        if (itemStack.stackTagCompound == null)
+        {
+            itemStack.setTagCompound(new NBTTagCompound());
+        }
+
+        if (itemStack.stackTagCompound.getBoolean("isScanned"))
+        {
+            list.remove("Empty");
+            list.add("Formula: " + itemStack.stackTagCompound.getString("Formula"));
+        }
+        else
+        {
+            list.add("Empty");
+        }
     }
 }
 

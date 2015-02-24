@@ -7,9 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 /**
  * Created by Wesley "WJ44" Joosten on 20-2-2015.
@@ -30,12 +28,12 @@ public class ContainerDecomposer extends ContainerEChem
         this.tileEntityDecomposer = tileEntityDecomposer;
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX, 116, 17));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+1, 134, 17));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+2, 116, 35));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+3, 134, 35));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+4, 116, 53));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX+5, 134, 53));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, 116, 17));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX2, 134, 17));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX3, 116, 35));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX4, 134, 35));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX5, 116, 53));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX6, 134, 53));
 
 
         addPlayerSlots(inventoryPlayer, 8, 84);
@@ -133,7 +131,7 @@ public class ContainerDecomposer extends ContainerEChem
                  */
                 if (TileEntityDecomposer.isItemFuel(slotStack))
                 {
-                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.OUTPUT_INVENTORY_INDEX, true))
+                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, true))
                     {
                         return null;
                     }
