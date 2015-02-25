@@ -3,6 +3,7 @@ package com.wj44.echem.tileentity;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.util.DataHelper;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemElementDamageValueHelper;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -285,9 +286,9 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
     {
         if (this.canSmelt())
         {
-            if (inventory[INPUT_INVENTORY_INDEX].getItem() == Items.diamond)
+            if (ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem()))
             {
-                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setString("Formula", "C");
+                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setString("Formula", DataHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
                 inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setBoolean("isScanned", true);
             }

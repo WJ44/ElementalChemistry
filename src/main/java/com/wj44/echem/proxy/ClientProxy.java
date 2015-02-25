@@ -2,7 +2,6 @@ package com.wj44.echem.proxy;
 
 import com.wj44.echem.client.handler.KeyInputHandler;
 import com.wj44.echem.client.settings.Keybindings;
-import com.wj44.echem.client.handler.ItemToolTipEventHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
@@ -31,8 +30,6 @@ public class ClientProxy extends CommonProxy
         {
             ClientRegistry.registerKeyBinding(key.getKeybind());
         }
-
-        MinecraftForge.EVENT_BUS.register(new ItemToolTipEventHandler());
     }
 
     @Override

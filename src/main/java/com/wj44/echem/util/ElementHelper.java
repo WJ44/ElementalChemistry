@@ -17,11 +17,11 @@ import java.util.*;
 public class ElementHelper
 {
     public static Map itemElementsList = new HashMap();
-    private Map elementList = new HashMap();
+    private Map elementList;
 
     public ElementHelper(Item item)
     {
-        this.elementList.putAll((Map) itemElementsList.get(item));
+        elementList = new LinkedHashMap((LinkedHashMap) itemElementsList.get(item));
     }
 
     public static void addItemToItemElementList(Item item, Map elementList)
