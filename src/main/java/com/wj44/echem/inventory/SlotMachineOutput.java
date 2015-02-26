@@ -1,10 +1,11 @@
 package com.wj44.echem.inventory;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 /**
  * Created by Wesley "WJ44" Joosten on 24-2-2015.

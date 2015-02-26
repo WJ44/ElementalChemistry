@@ -2,11 +2,10 @@ package com.wj44.echem.creativetab;
 
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Reference;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 12-7-2014.
@@ -37,7 +36,7 @@ public class CreativeTabEChem
         //Sets the metadata value for the IconItem
         @Override
         @SideOnly(Side.CLIENT)
-        public int func_151243_f()
+        public int getIconItemDamage()
         {
             return 1;
         }

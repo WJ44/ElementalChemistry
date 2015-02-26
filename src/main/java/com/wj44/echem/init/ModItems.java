@@ -5,8 +5,8 @@ import com.wj44.echem.item.ItemEChem;
 import com.wj44.echem.item.ItemElementContainer;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Wesley "WJ44" Joosten on 6-7-2014.

@@ -4,14 +4,11 @@ import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Textures;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIcon;
-import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
@@ -25,7 +22,6 @@ import java.util.List;
 public class ItemElementContainer extends ItemEChem
 {
     @SideOnly(Side.CLIENT)
-    private  IIcon[] icons;
 
     public ItemElementContainer()
     {
@@ -48,25 +44,6 @@ public class ItemElementContainer extends ItemEChem
         for (int meta = 0; meta < Elements.values().length; ++meta)
         {
             list.add(new ItemStack(this, 1, meta));
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int meta)
-    {
-        return icons[meta];
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        icons = new IIcon[Elements.values().length];
-
-        for (int i = 0; i < Elements.values().length; i++)
-        {
-            icons[i] = iconRegister.registerIcon(Textures.RESOURCE_PREFIX + "/elementContainer/" + Names.Items.ELEMENT_CONTAINER + Names.Items.ELEMENT_CONTAINER_SUBTYPES[i]);
         }
     }
 }

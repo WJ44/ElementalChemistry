@@ -1,12 +1,7 @@
 package com.wj44.echem.proxy;
 
-import com.wj44.echem.client.handler.KeyInputHandler;
-import com.wj44.echem.client.settings.Keybindings;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.MinecraftForge;
 
 /**
  * Created by Wesley "WJ44" Joosten on 26-6-2014.
@@ -25,11 +20,7 @@ public class ClientProxy extends CommonProxy
 
     private void registerKeyBinds()
     {
-        FMLCommonHandler.instance().bus().register(new KeyInputHandler());
-        for (Keybindings key : Keybindings.values())
-        {
-            ClientRegistry.registerKeyBinding(key.getKeybind());
-        }
+
     }
 
     @Override

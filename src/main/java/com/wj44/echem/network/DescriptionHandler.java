@@ -3,13 +3,14 @@ package com.wj44.echem.network;
 import com.wj44.echem.ElementalChemistry;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.tileentity.TileEntityEChem;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 /**
  * Created by Wesley "WJ44" Joosten on 15-2-2015.
@@ -41,7 +42,7 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
         int y = buf.readInt();
         int z = buf.readInt();
 
-        TileEntity te = ElementalChemistry.proxy.getEntityPlayer().worldObj.getTileEntity(x, y, z);
+        TileEntity te = ElementalChemistry.proxy.getEntityPlayer().worldObj.getTileEntity(new BlockPos(x, y, z));
 
         if(te instanceof TileEntityEChem)
         {

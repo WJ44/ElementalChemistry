@@ -3,7 +3,7 @@ package com.wj44.echem.init;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Created by Wesley "WJ44" Joosten on 15-2-2015.

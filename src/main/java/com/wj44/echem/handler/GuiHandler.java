@@ -7,9 +7,10 @@ import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
 import com.wj44.echem.tileentity.TileEntityItemScanner;
-import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 
 /**
  * Created by Wesley "WJ44" Joosten on 19-2-2015.
@@ -23,13 +24,14 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
+        BlockPos pos = new BlockPos(x, y, z);
         if (ID == GUIs.DECOMPOSER.ordinal())
         {
-            return new ContainerDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(x, y, z));
+            return new ContainerDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
         }
         else if (ID == GUIs.ITEM_SCANNER.ordinal())
         {
-            return new ContainerItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(x, y, z));
+            return new ContainerItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(pos));
         }
         return null;
     }
@@ -37,13 +39,14 @@ public class GuiHandler implements IGuiHandler
     @Override
     public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
     {
+        BlockPos pos = new BlockPos(x, y, z);
         if (ID == GUIs.DECOMPOSER.ordinal())
         {
-            return new GuiDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(x, y, z));
+            return new GuiDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
         }
         else if (ID == GUIs.ITEM_SCANNER.ordinal())
         {
-            return new GuiItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(x, y, z));
+            return new GuiItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(pos));
         }
         return null;
     }

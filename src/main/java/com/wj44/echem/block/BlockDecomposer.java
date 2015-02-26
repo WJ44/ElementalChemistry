@@ -5,8 +5,11 @@ import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 /**
@@ -20,7 +23,7 @@ public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
 {
     public BlockDecomposer()
     {
-        setBlockName(Names.Blocks.DECOMPOSER);
+        setUnlocalizedName(Names.Blocks.DECOMPOSER);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float hitX, float hitY, float hitZ)
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         if (player.isSneaking())
         {
@@ -40,7 +43,7 @@ public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
         {
             if (!world.isRemote)
             {
-                    player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, x, y, z);
+                    player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;

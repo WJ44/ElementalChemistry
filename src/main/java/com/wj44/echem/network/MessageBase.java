@@ -1,12 +1,11 @@
 package com.wj44.echem.network;
 
 import com.wj44.echem.ElementalChemistry;
-import cpw.mods.fml.common.network.simpleimpl.IMessage;
-import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
-import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Created by Wesley "WJ44" Joosten on 15-2-2015.
@@ -26,7 +25,7 @@ public abstract class MessageBase<REQ extends IMessage> implements IMessage, IMe
         }
         else
         {
-            //handeleClientSide(message, ElementalChemistry.proxy.getPlayer()); TODO do the things
+            handleClientSide(message, ElementalChemistry.proxy.getEntityPlayer());
         }
         return null;
     }

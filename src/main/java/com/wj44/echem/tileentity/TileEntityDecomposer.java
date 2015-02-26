@@ -5,19 +5,22 @@ import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemElementDamageValueHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.*;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.tileentity.TileEntityLockable;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 20-2-2015.
@@ -26,7 +29,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDecomposer extends TileEntityEChem implements ISidedInventory
+public class TileEntityDecomposer extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
 {
     public static final int INVENTORY_SIZE = 8;
     public static final int INPUT_INVENTORY_INDEX = 0;
@@ -38,48 +41,55 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
     public static final int OUTPUT_INVENTORY_INDEX5 = OUTPUT_INVENTORY_INDEX4+1;
     public static final int OUTPUT_INVENTORY_INDEX6 = OUTPUT_INVENTORY_INDEX5+1;
     public static final int output[] = {OUTPUT_INVENTORY_INDEX1, OUTPUT_INVENTORY_INDEX2, OUTPUT_INVENTORY_INDEX3, OUTPUT_INVENTORY_INDEX4, OUTPUT_INVENTORY_INDEX5, OUTPUT_INVENTORY_INDEX6};
-
-    public int decomposerBurnTime;
-    public int decomposerCookTime;
-    public int currentItemBurnTime;
-
+    /** The ItemStacks that hold the items currently being used in the decomposer */
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
-    public final ItemStack[] outputStacks = {inventory[OUTPUT_INVENTORY_INDEX1], inventory[OUTPUT_INVENTORY_INDEX2], inventory[OUTPUT_INVENTORY_INDEX3], inventory[OUTPUT_INVENTORY_INDEX4], inventory[OUTPUT_INVENTORY_INDEX5], inventory[OUTPUT_INVENTORY_INDEX6]};
+    /** The number of ticks that the decomposer will keep burning */
+    private int decomposerBurnTime;
+    /** The number of ticks that a fresh copy of the currently-burning item would keep the decomposer burning for */
+    private int currentItemBurnTime;
+    private int cookTime;
+    private int totalCookTime;
+    private String decomposerCustomName;
 
-    private String customName;
-
-    @Override
+    /**
+     * Returns the number of slots in the inventory.
+     */
     public int getSizeInventory()
     {
-        return inventory.length;
+        return this.inventory.length;
     }
 
-    @Override
-    public ItemStack getStackInSlot(int slot)
+    /**
+     * Returns the stack in slot i
+     */
+    public ItemStack getStackInSlot(int index)
     {
-        return inventory[slot];
+        return this.inventory[index];
     }
 
-    @Override
-    public ItemStack decrStackSize(int slot, int decrementAmount)
+    /**
+     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
+     * new stack.
+     */
+    public ItemStack decrStackSize(int index, int count)
     {
-        if (inventory[slot] != null)
+        if (this.inventory[index] != null)
         {
             ItemStack itemstack;
 
-            if (inventory[slot].stackSize <= decrementAmount)
+            if (this.inventory[index].stackSize <= count)
             {
-                itemstack = inventory[slot];
-                inventory[slot] = null;
+                itemstack = this.inventory[index];
+                this.inventory[index] = null;
                 return itemstack;
             }
             else
             {
-                itemstack = inventory[slot].splitStack(decrementAmount);
+                itemstack = this.inventory[index].splitStack(count);
 
-                if (inventory[slot].stackSize == 0)
+                if (this.inventory[index].stackSize == 0)
                 {
-                    inventory[slot] = null;
+                    this.inventory[index] = null;
                 }
 
                 return itemstack;
@@ -91,13 +101,16 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
     }
 
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
+    /**
+     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
+     * like when you close a workbench GUI.
+     */
+    public ItemStack getStackInSlotOnClosing(int index)
     {
-        if (inventory[slot] != null)
+        if (this.inventory[index] != null)
         {
-            ItemStack itemstack = inventory[slot];
-            inventory[slot] = null;
+            ItemStack itemstack = this.inventory[index];
+            this.inventory[index] = null;
             return itemstack;
         }
         else
@@ -106,29 +119,47 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
     }
 
-    @Override
-    public void setInventorySlotContents(int slot, ItemStack stack)
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
+    public void setInventorySlotContents(int index, ItemStack stack)
     {
-        inventory[slot] = stack;
+        boolean flag = stack != null && stack.isItemEqual(this.inventory[index]) && ItemStack.areItemStackTagsEqual(stack, this.decomposerItemStacks[index]);
+        this.inventory[index] = stack;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit())
         {
             stack.stackSize = this.getInventoryStackLimit();
         }
+
+        if (index == 0 && !flag)
+        {
+            this.totalCookTime = this.func_174904_a(stack);
+            this.cookTime = 0;
+            this.markDirty();
+        }
     }
 
-    @Override
-    public String getInventoryName()
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName()
     {
-        return this.hasCustomInventoryName() ? customName : Names.Containers.DECOMPOSER;
+        return this.hasCustomName() ? this.decomposerCustomName : "container.decomposer";
     }
 
-    @Override
-    public boolean hasCustomInventoryName()
+    /**
+     * Returns true if this thing is named
+     */
+    public boolean hasCustomName()
     {
-        return customName != null && customName.length() > 0;
+        return this.decomposerCustomName != null && this.decomposerCustomName.length() > 0;
     }
 
+    public void setCustomInventoryName(String name)
+    {
+        this.decomposerCustomName = name;
+    }
 
     public void readFromNBT(NBTTagCompound nbtTagCompound)
     {
@@ -148,21 +179,23 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
             }
         }
 
-        decomposerBurnTime = nbtTagCompound.getShort("BurnTime");
-        decomposerCookTime = nbtTagCompound.getShort("CookTime");
-        currentItemBurnTime = getItemBurnTime(inventory[FUEL_INVENTORY_INDEX]);
+        this.decomposerBurnTime = nbtTagCompound.getShort("BurnTime");
+        this.cookTime = nbtTagCompound.getShort("CookTime");
+        this.totalCookTime = nbtTagCompound.getShort("CookTimeTotal");
+        this.currentItemBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
-            customName = nbtTagCompound.getString("CustomName");
+            this.decomposerCustomName = nbtTagCompound.getString("CustomName");
         }
     }
 
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
         super.writeToNBT(nbtTagCompound);
-        nbtTagCompound.setShort("BurnTime", (short) decomposerBurnTime);
-        nbtTagCompound.setShort("CookTime", (short) decomposerCookTime);
+        nbtTagCompound.setShort("BurnTime", (short) this.decomposerBurnTime);
+        nbtTagCompound.setShort("CookTime", (short) this.cookTime);
+        nbtTagCompound.setShort("CookTimeTotal", (short) this.totalCookTime);
         NBTTagList tagList = new NBTTagList();
 
         for (int i = 0; i < inventory.length; ++i)
@@ -177,60 +210,64 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
         nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
 
-        if (this.hasCustomInventoryName())
+        if (this.hasCustomName())
         {
             nbtTagCompound.setString("CustomName", customName);
         }
     }
 
-    @Override
+    /**
+     * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended. *Isn't
+     * this more of a set than a get?*
+     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
-    @SideOnly(Side.CLIENT)
-    public int getCookProgressScaled(int scale)
-    {
-        return decomposerCookTime * scale / 200;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public int getBurnTimeRemainingScaled(int scale)
-    {
-        if (this.currentItemBurnTime == 0)
-        {
-            this.currentItemBurnTime = 200;
-        }
-
-        return decomposerBurnTime * scale / this.currentItemBurnTime;
-    }
-
+    /**
+     * Decomposer isBurning
+     */
     public boolean isBurning()
     {
         return this.decomposerBurnTime > 0;
     }
 
-    @Override
-    public void updateEntity()
+    @SideOnly(Side.CLIENT)
+    public static boolean isBurning(IInventory inventory)
     {
-        boolean isBurning = this.decomposerBurnTime > 0;
+        return inventory.getField(0) > 0;
+    }
+
+    /**
+     * Updates the JList with a new model.
+     */
+    public void update()
+    {
+        boolean burning = this.isBurning();
         boolean sendUpdate = false;
 
-        if (this.decomposerBurnTime > 0)
+        if (this.isBurning())
         {
             --this.decomposerBurnTime;
         }
 
         if (!this.worldObj.isRemote)
         {
-            if (this.decomposerBurnTime != 0 || this.inventory[FUEL_INVENTORY_INDEX] != null && this.inventory[INPUT_INVENTORY_INDEX] != null)
+            if (!this.isBurning() && (this.inventory[FUEL_INVENTORY_INDEX] == null || this.inventory[INPUT_INVENTORY_INDEX] == null))
             {
-                if (this.decomposerBurnTime == 0 && this.canSmelt())
+                if (!this.isBurning() && this.cookTime > 0)
+                {
+                    this.cookTime = MathHelper.clamp_int(this.cookTime - 2, 0, this.totalCookTime);
+                }
+            }
+            else
+            {
+                if (!this.isBurning() && this.canSmelt())
                 {
                     this.currentItemBurnTime = this.decomposerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
-                    if (this.decomposerBurnTime > 0)
+                    if (this.isBurning())
                     {
                         sendUpdate = true;
 
@@ -240,7 +277,7 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
 
                             if (this.inventory[FUEL_INVENTORY_INDEX].stackSize == 0)
                             {
-                                this.inventory[FUEL_INVENTORY_INDEX] = this.inventory[FUEL_INVENTORY_INDEX].getItem().getContainerItem(inventory[FUEL_INVENTORY_INDEX]);
+                                this.inventory[FUEL_INVENTORY_INDEX] = inventory[FUEL_INVENTORY_INDEX].getItem().getContainerItem(inventory[FUEL_INVENTORY_INDEX]);
                             }
                         }
                     }
@@ -248,25 +285,26 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
 
                 if (this.isBurning() && this.canSmelt())
                 {
-                    ++this.decomposerCookTime;
+                    ++this.cookTime;
 
-                    if (this.decomposerCookTime == 200)
+                    if (this.cookTime == this.totalCookTime)
                     {
-                        this.decomposerCookTime = 0;
+                        this.cookTime = 0;
+                        this.totalCookTime = 200;
                         this.smeltItem();
                         sendUpdate = true;
                     }
                 }
                 else
                 {
-                    this.decomposerCookTime = 0;
+                    this.cookTime = 0;
                 }
             }
 
-            if (isBurning != this.decomposerBurnTime > 0)
+            if (burning != this.isBurning())
             {
                 sendUpdate = true;
-                //BlockDecomposer.updateDecomposerBlockState(this.decomposerBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord); //TODO
+                //BlockDecomposer.setState(this.isBurning(), this.worldObj, this.pos); TODO
             }
         }
 
@@ -276,6 +314,9 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
     }
 
+    /**
+     * Returns true if the decomposer can smelt an item, i.e. has a source item, destination stack isn't full, etc.
+     */
     private boolean canSmelt()
     {
         if (inventory[INPUT_INVENTORY_INDEX] == null)
@@ -291,6 +332,9 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
     }
 
+    /**
+     * Turn one item from the decomposer source stack into the appropriate smelted item in the decomposer result stack
+     */
     public void smeltItem()
     {
         if (this.canSmelt())
@@ -353,15 +397,19 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
         }
     }
 
-    public static int getItemBurnTime(ItemStack stack)
+    /**
+     * Returns the number of ticks that the supplied fuel item will keep the decomposer burning, or 0 if the item isn't
+     * fuel
+     */
+    public static int getItemBurnTime(ItemStack itemStack)
     {
-        if (stack == null)
+        if (itemStack == null)
         {
             return 0;
         }
         else
         {
-            Item item = stack.getItem();
+            Item item = itemStack.getItem();
 
             if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
             {
@@ -383,64 +431,126 @@ public class TileEntityDecomposer extends TileEntityEChem implements ISidedInven
                 }
             }
 
-            if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD")) return 200;
             if (item == Items.stick) return 100;
             if (item == Items.coal) return 1600;
             if (item == Items.lava_bucket) return 20000;
             if (item == Item.getItemFromBlock(Blocks.sapling)) return 100;
             if (item == Items.blaze_rod) return 2400;
-            return GameRegistry.getFuelValue(stack);
+            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(itemStack);
         }
     }
 
-    public static boolean isItemFuel(ItemStack stack)
+    public static boolean isItemFuel(ItemStack p_145954_0_)
     {
-        return getItemBurnTime(stack) > 0;
+        /**
+         * Returns the number of ticks that the supplied fuel item will keep the decomposer burning, or 0 if the item isn't
+         * fuel
+         */
+        return getItemBurnTime(p_145954_0_) > 0;
     }
 
-
-    @Override
+    /**
+     * Do not make give this method the name canInteractWith because it clashes with Container
+     */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return true;
+        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+    }
+
+    public void openInventory(EntityPlayer player) {}
+
+    public void closeInventory(EntityPlayer player) {}
+
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     */
+    public boolean isItemValidForSlot(int index, ItemStack stack)
+    {
+        return index == output[1] || index == output[2] || index == output[3] || index == output[4] || index == output[5] || index == output[6] ? false : (index == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+    }
+
+    public int[] getSlotsForFace(EnumFacing side)
+    {
+        return side == EnumFacing.DOWN ? new int[]{FUEL_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]} : new int[]{INPUT_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]};
+    }
+
+    /**
+     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
+    {
+        return this.isItemValidForSlot(index, itemStackIn);
+    }
+
+    /**
+     * Returns true if automation can extract the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
+    {
+        return index == output[1] || index == output[2] || index == output[3] || index == output[4] || index == output[5] || index == output[6];
+    }
+
+    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+    {
+        return new ContainerDecomposer(playerInventory, this);
     }
 
     @Override
-    public void openInventory()
+    public String getGuiID()
     {
-        //NOOP
+        return null;
     }
 
-    @Override
-    public void closeInventory()
+    public int getField(int id)
     {
-        //NOOP
+        switch (id)
+        {
+            case 0:
+                return this.decomposerBurnTime;
+            case 1:
+                return this.currentItemBurnTime;
+            case 2:
+                return this.cookTime;
+            case 3:
+                return this.totalCookTime;
+            default:
+                return 0;
+        }
     }
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    public void setField(int id, int value)
     {
-        return slot == output[1] || slot == output[2] || slot == output[3] || slot == output[4] || slot == output[5] || slot == output[6] ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        switch (id)
+        {
+            case 0:
+                this.decomposerBurnTime = value;
+                break;
+            case 1:
+                this.currentItemBurnTime = value;
+                break;
+            case 2:
+                this.cookTime = value;
+                break;
+            case 3:
+                this.totalCookTime = value;
+        }
     }
 
-    @Override
-    public int[] getAccessibleSlotsFromSide(int side)
+    public int getFieldCount()
     {
-        return side == ForgeDirection.DOWN.ordinal() ? new int[]{FUEL_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]} : new int[]{INPUT_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]};
+        return 4;
     }
 
-    @Override
-    public boolean canInsertItem(int slot, ItemStack stack, int side)
+    public void clear()
     {
-        return isItemValidForSlot(slot, stack);
+        for (int i = 0; i < this.inventory.length; ++i)
+        {
+            this.inventory[i] = null;
+        }
     }
-
-    @Override
-    public boolean canExtractItem(int slot, ItemStack stack, int side)
-    {
-        return slot == output[1] || slot == output[2] || slot == output[3] || slot == output[4] || slot == output[5] || slot == output[6];
-    }
-
 }

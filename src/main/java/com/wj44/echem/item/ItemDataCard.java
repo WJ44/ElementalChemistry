@@ -2,12 +2,9 @@ package com.wj44.echem.item;
 
 import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Names;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -32,22 +29,22 @@ public class ItemDataCard extends ItemEChem
     @Override
     public void onCreated(ItemStack itemStack, World world, EntityPlayer player)
     {
-        itemStack.stackTagCompound = new NBTTagCompound();
-        itemStack.stackTagCompound.setBoolean("isScanned", false);
+        itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setBoolean("isScanned", false);
     }
 
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
-        if (itemStack.stackTagCompound == null)
+        if (itemStack.hasTagCompound())
         {
             itemStack.setTagCompound(new NBTTagCompound());
         }
 
-        if (itemStack.stackTagCompound.getBoolean("isScanned"))
+        if (itemStack.getTagCompound().getBoolean("isScanned"))
         {
             list.remove("Empty");
-            list.add("Formula: " + itemStack.stackTagCompound.getString("Formula"));
+            list.add("Formula: " + itemStack.getTagCompound().getString("Formula"));
         }
         else
         {

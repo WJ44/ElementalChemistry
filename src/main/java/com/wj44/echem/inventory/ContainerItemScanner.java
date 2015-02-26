@@ -2,13 +2,13 @@ package com.wj44.echem.inventory;
 
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.tileentity.TileEntityItemScanner;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 24-2-2015.
@@ -19,39 +19,27 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerItemScanner extends ContainerEChem
 {
-    private TileEntityItemScanner tileEntityItemScanner;
-    private int lastCookTime;
-    private int lastBurnTime;
-    private int lastItemBurnTime;
+    private final TileEntityItemScanner tileItemScanner;
+    private int currentItemBurnTime;
+    private int field_178153_g;
+    private int itemScannerCookTime;
+    private int itemScannerBurnTime;
 
-    public ContainerItemScanner(InventoryPlayer inventoryPlayer, TileEntityItemScanner tileEntityItemScanner)
+    public ContainerItemScanner(InventoryPlayer playerInventory, TileEntityItemScanner tileEntityItemScanner)
     {
-        this.tileEntityItemScanner = tileEntityItemScanner;
+        this.tileItemScanner = tileEntityItemScanner;
         this.addSlotToContainer(new Slot(tileEntityItemScanner, tileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17));
-        this.addSlotToContainer(new Slot(tileEntityItemScanner, tileEntityItemScanner.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntityItemScanner, tileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35)
-        {
-            @Override
-            public boolean isItemValid(ItemStack itemStack)
-            {
-                if (itemStack.getItem() == ModItems.dataCard)
-                {
-                    return !itemStack.stackTagCompound.getBoolean("isScanned");
-                }
+        this.addSlotToContainer(new SlotMachineFuel(tileEntityItemScanner, tileEntityItemScanner.FUEL_INVENTORY_INDEX, 56, 53));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityItemScanner, tileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35));
 
-                return false;
-            }
-        });
 
-        addPlayerSlots(inventoryPlayer, 8, 84);
+        addPlayerSlots(playerInventory, 8, 84);
     }
 
-    public void addCraftingToCrafters(ICrafting iCrafting)
+    public void onCraftGuiOpened(ICrafting listener)
     {
-        super.addCraftingToCrafters(iCrafting);
-        iCrafting.sendProgressBarUpdate(this, 0, this.tileEntityItemScanner.itemScannerCookTime);
-        iCrafting.sendProgressBarUpdate(this, 1, this.tileEntityItemScanner.itemScannerBurnTime);
-        iCrafting.sendProgressBarUpdate(this, 2, this.tileEntityItemScanner.currentItemBurnTime);
+        super.onCraftGuiOpened(listener);
+        listener.func_175173_a(this, this.tileItemScanner);
     }
 
     public void detectAndSendChanges()
@@ -62,49 +50,42 @@ public class ContainerItemScanner extends ContainerEChem
         {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
 
-            if (this.lastCookTime != this.tileEntityItemScanner.itemScannerCookTime)
+            if (this.currentItemBurnTime != this.tileItemScanner.getField(2))
             {
-                icrafting.sendProgressBarUpdate(this, 0, this.tileEntityItemScanner.itemScannerCookTime);
+                icrafting.sendProgressBarUpdate(this, 2, this.tileItemScanner.getField(2));
             }
 
-            if (this.lastBurnTime != this.tileEntityItemScanner.itemScannerBurnTime)
+            if (this.itemScannerCookTime != this.tileItemScanner.getField(0))
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tileEntityItemScanner.itemScannerBurnTime);
+                icrafting.sendProgressBarUpdate(this, 0, this.tileItemScanner.getField(0));
             }
 
-            if (this.lastItemBurnTime != this.tileEntityItemScanner.currentItemBurnTime)
+            if (this.itemScannerBurnTime != this.tileItemScanner.getField(1))
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tileEntityItemScanner.currentItemBurnTime);
+                icrafting.sendProgressBarUpdate(this, 1, this.tileItemScanner.getField(1));
+            }
+
+            if (this.field_178153_g != this.tileItemScanner.getField(3))
+            {
+                icrafting.sendProgressBarUpdate(this, 3, this.tileItemScanner.getField(3));
             }
         }
 
-        this.lastCookTime = this.tileEntityItemScanner.itemScannerCookTime;
-        this.lastBurnTime = this.tileEntityItemScanner.itemScannerBurnTime;
-        this.lastItemBurnTime = this.tileEntityItemScanner.currentItemBurnTime;
+        this.currentItemBurnTime = this.tileItemScanner.getField(2);
+        this.itemScannerCookTime = this.tileItemScanner.getField(0);
+        this.itemScannerBurnTime = this.tileItemScanner.getField(1);
+        this.field_178153_g = this.tileItemScanner.getField(3);
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int valueType, int updatedValue)
+    public void updateProgressBar(int id, int data)
     {
-        if (valueType == 0)
-        {
-            this.tileEntityItemScanner.itemScannerCookTime = updatedValue;
-        }
-
-        if (valueType == 1)
-        {
-            this.tileEntityItemScanner.itemScannerBurnTime = updatedValue;
-        }
-
-        if (valueType == 2)
-        {
-            this.tileEntityItemScanner.currentItemBurnTime = updatedValue;
-        }
+        this.tileItemScanner.setField(id, data);
     }
 
-    public boolean canInteractWith(EntityPlayer player)
+    public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.tileEntityItemScanner.isUseableByPlayer(player);
+        return this.tileItemScanner.isUseableByPlayer(playerIn);
     }
 
     @Override
@@ -147,7 +128,7 @@ public class ContainerItemScanner extends ContainerEChem
                 /**
                  * if the item is a data card, try to put it in either the input slot, or fuel slot, in reverse
                  */
-                if (slotStack.getItem() == ModItems.dataCard && !slotStack.stackTagCompound.getBoolean("isScanned"))
+                if (slotStack.getItem() == ModItems.dataCard && !slotStack.getTagCompound().getBoolean("isScanned"))
                 {
                     if (!mergeItemStack(slotStack, TileEntityItemScanner.INPUT_INVENTORY_INDEX, TileEntityItemScanner.OUTPUT_INVENTORY_INDEX+1, true))
                     {

@@ -1,13 +1,13 @@
 package com.wj44.echem.inventory;
 
+
 import com.wj44.echem.tileentity.TileEntityDecomposer;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ICrafting;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 20-2-2015.
@@ -18,33 +18,31 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerDecomposer extends ContainerEChem
 {
-    private TileEntityDecomposer tileEntityDecomposer;
-    private int lastCookTime;
-    private int lastBurnTime;
-    private int lastItemBurnTime;
+    private final TileEntityDecomposer tileDecomposer;
+    private int currentItemBurnTime;
+    private int totalCookTime;
+    private int cookTime;
+    private int decomposerBurnTime;
 
-    public ContainerDecomposer(InventoryPlayer inventoryPlayer, TileEntityDecomposer tileEntityDecomposer)
+    public ContainerDecomposer(InventoryPlayer playerInventory, TileEntityDecomposer tileEntityDecomposer)
     {
-        this.tileEntityDecomposer = tileEntityDecomposer;
+        this.tileDecomposer = tileEntityDecomposer;
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
+        this.addSlotToContainer(new SlotMachineFuel(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, 116, 17));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX2, 134, 17));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX3, 116, 35));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX4, 134, 35));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX5, 116, 53));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX6, 134, 53));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX6, 1134, 43));
 
-
-        addPlayerSlots(inventoryPlayer, 8, 84);
+        addPlayerSlots(playerInventory, 8, 84);
     }
 
-    public void addCraftingToCrafters(ICrafting iCrafting)
+    public void onCraftGuiOpened(ICrafting listener)
     {
-        super.addCraftingToCrafters(iCrafting);
-        iCrafting.sendProgressBarUpdate(this, 0, this.tileEntityDecomposer.decomposerCookTime);
-        iCrafting.sendProgressBarUpdate(this, 1, this.tileEntityDecomposer.decomposerBurnTime);
-        iCrafting.sendProgressBarUpdate(this, 2, this.tileEntityDecomposer.currentItemBurnTime);
+        super.onCraftGuiOpened(listener);
+        listener.func_175173_a(this, this.tileDecomposer);
     }
 
     public void detectAndSendChanges()
@@ -55,49 +53,42 @@ public class ContainerDecomposer extends ContainerEChem
         {
             ICrafting icrafting = (ICrafting)this.crafters.get(i);
 
-            if (this.lastCookTime != this.tileEntityDecomposer.decomposerCookTime)
+            if (this.currentItemBurnTime != this.tileDecomposer.getField(2))
             {
-                icrafting.sendProgressBarUpdate(this, 0, this.tileEntityDecomposer.decomposerCookTime);
+                icrafting.sendProgressBarUpdate(this, 2, this.tileDecomposer.getField(2));
             }
 
-            if (this.lastBurnTime != this.tileEntityDecomposer.decomposerBurnTime)
+            if (this.cookTime != this.tileDecomposer.getField(0))
             {
-                icrafting.sendProgressBarUpdate(this, 1, this.tileEntityDecomposer.decomposerBurnTime);
+                icrafting.sendProgressBarUpdate(this, 0, this.tileDecomposer.getField(0));
             }
 
-            if (this.lastItemBurnTime != this.tileEntityDecomposer.currentItemBurnTime)
+            if (this.decomposerBurnTime != this.tileDecomposer.getField(1))
             {
-                icrafting.sendProgressBarUpdate(this, 2, this.tileEntityDecomposer.currentItemBurnTime);
+                icrafting.sendProgressBarUpdate(this, 1, this.tileDecomposer.getField(1));
+            }
+
+            if (this.totalCookTime != this.tileDecomposer.getField(3))
+            {
+                icrafting.sendProgressBarUpdate(this, 3, this.tileDecomposer.getField(3));
             }
         }
 
-        this.lastCookTime = this.tileEntityDecomposer.decomposerCookTime;
-        this.lastBurnTime = this.tileEntityDecomposer.decomposerBurnTime;
-        this.lastItemBurnTime = this.tileEntityDecomposer.currentItemBurnTime;
+        this.currentItemBurnTime = this.tileDecomposer.getField(2);
+        this.cookTime = this.tileDecomposer.getField(0);
+        this.decomposerBurnTime = this.tileDecomposer.getField(1);
+        this.totalCookTime = this.tileDecomposer.getField(3);
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int valueType, int updatedValue)
+    public void updateProgressBar(int id, int data)
     {
-        if (valueType == 0)
-        {
-            this.tileEntityDecomposer.decomposerCookTime = updatedValue;
-        }
-
-        if (valueType == 1)
-        {
-            this.tileEntityDecomposer.decomposerBurnTime = updatedValue;
-        }
-
-        if (valueType == 2)
-        {
-            this.tileEntityDecomposer.currentItemBurnTime = updatedValue;
-        }
+        this.tileDecomposer.setField(id, data);
     }
 
-    public boolean canInteractWith(EntityPlayer player)
+    public boolean canInteractWith(EntityPlayer playerIn)
     {
-        return this.tileEntityDecomposer.isUseableByPlayer(player);
+        return this.tileDecomposer.isUseableByPlayer(playerIn);
     }
 
     @Override
