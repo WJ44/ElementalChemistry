@@ -1,6 +1,7 @@
 package com.wj44.echem.tileentity;
 
 import com.wj44.echem.init.ModItems;
+import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
@@ -43,6 +44,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     public static final int output[] = {OUTPUT_INVENTORY_INDEX1, OUTPUT_INVENTORY_INDEX2, OUTPUT_INVENTORY_INDEX3, OUTPUT_INVENTORY_INDEX4, OUTPUT_INVENTORY_INDEX5, OUTPUT_INVENTORY_INDEX6};
     /** The ItemStacks that hold the items currently being used in the decomposer */
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
+    public final ItemStack[] outputStacks = {inventory[OUTPUT_INVENTORY_INDEX1], inventory[OUTPUT_INVENTORY_INDEX2], inventory[OUTPUT_INVENTORY_INDEX3], inventory[OUTPUT_INVENTORY_INDEX4], inventory[OUTPUT_INVENTORY_INDEX5], inventory[OUTPUT_INVENTORY_INDEX6]};
     /** The number of ticks that the decomposer will keep burning */
     private int decomposerBurnTime;
     /** The number of ticks that a fresh copy of the currently-burning item would keep the decomposer burning for */
@@ -124,7 +126,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
      */
     public void setInventorySlotContents(int index, ItemStack stack)
     {
-        boolean flag = stack != null && stack.isItemEqual(this.inventory[index]) && ItemStack.areItemStackTagsEqual(stack, this.decomposerItemStacks[index]);
+        boolean flag = stack != null && stack.isItemEqual(this.inventory[index]) && ItemStack.areItemStackTagsEqual(stack, this.inventory[index]);
         this.inventory[index] = stack;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit())
@@ -134,7 +136,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
 
         if (index == 0 && !flag)
         {
-            this.totalCookTime = this.func_174904_a(stack);
+            this.totalCookTime = 200;
             this.cookTime = 0;
             this.markDirty();
         }
@@ -212,7 +214,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
 
         if (this.hasCustomName())
         {
-            nbtTagCompound.setString("CustomName", customName);
+            nbtTagCompound.setString("CustomName", decomposerCustomName);
         }
     }
 

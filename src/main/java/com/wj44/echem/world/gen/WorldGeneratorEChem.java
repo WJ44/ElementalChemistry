@@ -1,11 +1,12 @@
 package com.wj44.echem.world.gen;
 
 import com.wj44.echem.init.ModBlocks;
-import cpw.mods.fml.common.IWorldGenerator;
 import net.minecraft.block.Block;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraftforge.fml.common.IWorldGenerator;
 
 import java.util.Random;
 
@@ -23,7 +24,7 @@ public class WorldGeneratorEChem implements IWorldGenerator
     {
         int x = chunkX * 16;
         int z = chunkZ * 16;
-        switch (world.provider.dimensionId)
+        switch (world.provider.getDimensionId())
         {
             case 0:
                 generateSurface(world, x, z, random);
@@ -75,7 +76,7 @@ public class WorldGeneratorEChem implements IWorldGenerator
             int randX = x + random.nextInt(16);
             int randY = minHeight + random.nextInt(heightModifier);
             int randZ = z + random.nextInt(16);
-            new WorldGenMinable(block, veinSize).generate(world, random, randX, randY, randZ);
+            new WorldGenMinable(block.getDefaultState(), veinSize).generate(world, random, new BlockPos(randX, randY, randZ));
         }
     }
 }

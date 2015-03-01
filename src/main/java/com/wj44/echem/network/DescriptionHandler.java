@@ -2,7 +2,6 @@ package com.wj44.echem.network;
 
 import com.wj44.echem.ElementalChemistry;
 import com.wj44.echem.reference.Reference;
-import com.wj44.echem.tileentity.TileEntityEChem;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -44,9 +43,9 @@ public class DescriptionHandler extends SimpleChannelInboundHandler<FMLProxyPack
 
         TileEntity te = ElementalChemistry.proxy.getEntityPlayer().worldObj.getTileEntity(new BlockPos(x, y, z));
 
-        if(te instanceof TileEntityEChem)
-        {
-            ((TileEntityEChem)te).readFromPacket(buf);
-        }
+//        if(te instanceof TileEntityEChem)
+//        {
+//            ((TileEntityEChem)te).readFromPacket(buf);
+//        }
     }
 }

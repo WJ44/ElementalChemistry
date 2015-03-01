@@ -3,6 +3,7 @@ package com.wj44.echem.client.gui.inventory;
 import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.reference.Textures;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -21,10 +22,13 @@ public class GuiDecomposer extends GuiEChem
 {
     private final TileEntityDecomposer tileEntityDecomposer;
 
+    InventoryPlayer inventoryPlayer;
+
     public GuiDecomposer(InventoryPlayer playerInventory, TileEntityDecomposer tileEntityDecomposer)
     {
         super(new ContainerDecomposer(playerInventory, tileEntityDecomposer), Textures.Gui.DECOMPOSER, tileEntityDecomposer);
         this.tileEntityDecomposer = tileEntityDecomposer;
+        this.inventoryPlayer = playerInventory;
     }
 
     @Override
@@ -39,19 +43,38 @@ public class GuiDecomposer extends GuiEChem
         int i1;
         if (this.tileEntityDecomposer.isBurning())
         {
-            i1 = this.tileEntityDecomposer.getBurnTimeRemainingScaled(13);
+            i1 = getBurnTimeRemainingScaled(13);
             this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 1);
         }
 
-        i1 = this.tileEntityDecomposer.getCookProgressScaled(24);
+        i1 = getCookProgressScaled(24);
         this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
     }
 
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        String s = tileEntityDecomposer.hasCustomInventoryName() ? tileEntityDecomposer.getInventoryName() : I18n.format(tileEntityDecomposer.getInventoryName());
-        fontRendererObj.drawString(s, xSize / 2 - fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
-        fontRendererObj.drawString(I18n.format("container.inventory"), 8, ySize - 96 + 2, 4210752);
+        String s = this.tileEntityDecomposer.getDisplayName().getUnformattedText();
+        this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
+        this.fontRendererObj.drawString(this.inventoryPlayer.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
+    }
+
+    private int getCookProgressScaled(int scale)
+    {
+        int j = this.tileEntityDecomposer.getField(2);
+        int k = this.tileEntityDecomposer.getField(3);
+        return k != 0 && j != 0 ? j * scale / k : 0;
+    }
+
+    private int getBurnTimeRemainingScaled(int scale)
+    {
+        int j = this.tileEntityDecomposer.getField(1);
+
+        if (j == 0)
+        {
+            j = 200;
+        }
+
+        return this.tileEntityDecomposer.getField(0) * scale / j;
     }
 }

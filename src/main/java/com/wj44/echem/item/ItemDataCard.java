@@ -36,9 +36,10 @@ public class ItemDataCard extends ItemEChem
     @Override
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
     {
-        if (itemStack.hasTagCompound())
+        if (!itemStack.hasTagCompound())
         {
             itemStack.setTagCompound(new NBTTagCompound());
+            itemStack.getTagCompound().setBoolean("isScanned", false);
         }
 
         if (itemStack.getTagCompound().getBoolean("isScanned"))

@@ -1,25 +1,32 @@
 package com.wj44.echem.tileentity;
 
 import com.wj44.echem.init.ModItems;
+import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.DataHelper;
+
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemElementDamageValueHelper;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+
+import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.*;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
+import net.minecraft.tileentity.TileEntityLockable;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MathHelper;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 24-2-2015.
@@ -28,53 +35,61 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityItemScanner extends TileEntityEChem implements ISidedInventory
+public class TileEntityItemScanner extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
 {
     public static final int INVENTORY_SIZE = 3;
     public static final int INPUT_INVENTORY_INDEX = 0;
     public static final int FUEL_INVENTORY_INDEX = 1;
     public static final int OUTPUT_INVENTORY_INDEX = 2;
-
-    public int itemScannerBurnTime;
-    public int itemScannerCookTime;
-    public int currentItemBurnTime;
-
+    /** The ItemStacks that hold the items currently being used in the itemScanner */
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
+    /** The number of ticks that the itemScanner will keep burning */
+    private int itemScannerBurnTime;
+    /** The number of ticks that a fresh copy of the currently-burning item would keep the itemScanner burning for */
+    private int currentItemBurnTime;
+    private int cookTime;
+    private int totalCookTime;
+    private String itemScannerCustomName;
 
-    private String customName;
-
-    @Override
+    /**
+     * Returns the number of slots in the inventory.
+     */
     public int getSizeInventory()
     {
-        return inventory.length;
+        return this.inventory.length;
     }
 
-    @Override
-    public ItemStack getStackInSlot(int slot)
+    /**
+     * Returns the stack in slot i
+     */
+    public ItemStack getStackInSlot(int index)
     {
-        return inventory[slot];
+        return this.inventory[index];
     }
 
-    @Override
-    public ItemStack decrStackSize(int slot, int decrementAmount)
+    /**
+     * Removes from an inventory slot (first arg) up to a specified number (second arg) of items and returns them in a
+     * new stack.
+     */
+    public ItemStack decrStackSize(int index, int count)
     {
-        if (inventory[slot] != null)
+        if (this.inventory[index] != null)
         {
             ItemStack itemstack;
 
-            if (inventory[slot].stackSize <= decrementAmount)
+            if (this.inventory[index].stackSize <= count)
             {
-                itemstack = inventory[slot];
-                inventory[slot] = null;
+                itemstack = this.inventory[index];
+                this.inventory[index] = null;
                 return itemstack;
             }
             else
             {
-                itemstack = inventory[slot].splitStack(decrementAmount);
+                itemstack = this.inventory[index].splitStack(count);
 
-                if (inventory[slot].stackSize == 0)
+                if (this.inventory[index].stackSize == 0)
                 {
-                    inventory[slot] = null;
+                    this.inventory[index] = null;
                 }
 
                 return itemstack;
@@ -86,13 +101,16 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         }
     }
 
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
+    /**
+     * When some containers are closed they call this on each slot, then drop whatever it returns as an EntityItem -
+     * like when you close a workbench GUI.
+     */
+    public ItemStack getStackInSlotOnClosing(int index)
     {
-        if (inventory[slot] != null)
+        if (this.inventory[index] != null)
         {
-            ItemStack itemstack = inventory[slot];
-            inventory[slot] = null;
+            ItemStack itemstack = this.inventory[index];
+            this.inventory[index] = null;
             return itemstack;
         }
         else
@@ -101,29 +119,47 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         }
     }
 
-    @Override
-    public void setInventorySlotContents(int slot, ItemStack stack)
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
+    public void setInventorySlotContents(int index, ItemStack stack)
     {
-        inventory[slot] = stack;
+        boolean flag = stack != null && stack.isItemEqual(this.inventory[index]) && ItemStack.areItemStackTagsEqual(stack, this.inventory[index]);
+        this.inventory[index] = stack;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit())
         {
             stack.stackSize = this.getInventoryStackLimit();
         }
+
+        if (index == 0 && !flag)
+        {
+            this.totalCookTime = 200;
+            this.cookTime = 0;
+            this.markDirty();
+        }
     }
 
-    @Override
-    public String getInventoryName()
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName()
     {
-        return this.hasCustomInventoryName() ? customName : Names.Containers.ITEM_SCANNER;
+        return this.hasCustomName() ? this.itemScannerCustomName : "container.itemScanner";
     }
 
-    @Override
-    public boolean hasCustomInventoryName()
+    /**
+     * Returns true if this thing is named
+     */
+    public boolean hasCustomName()
     {
-        return customName != null && customName.length() > 0;
+        return this.itemScannerCustomName != null && this.itemScannerCustomName.length() > 0;
     }
 
+    public void setCustomInventoryName(String name)
+    {
+        this.itemScannerCustomName = name;
+    }
 
     public void readFromNBT(NBTTagCompound nbtTagCompound)
     {
@@ -143,21 +179,23 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
             }
         }
 
-        itemScannerBurnTime = nbtTagCompound.getShort("BurnTime");
-        itemScannerCookTime = nbtTagCompound.getShort("CookTime");
-        currentItemBurnTime = getItemBurnTime(inventory[FUEL_INVENTORY_INDEX]);
+        this.itemScannerBurnTime = nbtTagCompound.getShort("BurnTime");
+        this.cookTime = nbtTagCompound.getShort("CookTime");
+        this.totalCookTime = nbtTagCompound.getShort("CookTimeTotal");
+        this.currentItemBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
-            customName = nbtTagCompound.getString("CustomName");
+            this.itemScannerCustomName = nbtTagCompound.getString("CustomName");
         }
     }
 
     public void writeToNBT(NBTTagCompound nbtTagCompound)
     {
         super.writeToNBT(nbtTagCompound);
-        nbtTagCompound.setShort("BurnTime", (short) itemScannerBurnTime);
-        nbtTagCompound.setShort("CookTime", (short) itemScannerCookTime);
+        nbtTagCompound.setShort("BurnTime", (short) this.itemScannerBurnTime);
+        nbtTagCompound.setShort("CookTime", (short) this.cookTime);
+        nbtTagCompound.setShort("CookTimeTotal", (short) this.totalCookTime);
         NBTTagList tagList = new NBTTagList();
 
         for (int i = 0; i < inventory.length; ++i)
@@ -172,60 +210,64 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         }
         nbtTagCompound.setTag(Names.NBT.ITEMS, tagList);
 
-        if (this.hasCustomInventoryName())
+        if (this.hasCustomName())
         {
-            nbtTagCompound.setString("CustomName", customName);
+            nbtTagCompound.setString("CustomName", itemScannerCustomName);
         }
     }
 
-    @Override
+    /**
+     * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended. *Isn't
+     * this more of a set than a get?*
+     */
     public int getInventoryStackLimit()
     {
         return 64;
     }
 
-    @SideOnly(Side.CLIENT)
-    public int getCookProgressScaled(int scale)
-    {
-        return itemScannerCookTime * scale / 200;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public int getBurnTimeRemainingScaled(int scale)
-    {
-        if (this.currentItemBurnTime == 0)
-        {
-            this.currentItemBurnTime = 200;
-        }
-
-        return itemScannerBurnTime * scale / this.currentItemBurnTime;
-    }
-
+    /**
+     * ItemScanner isBurning
+     */
     public boolean isBurning()
     {
         return this.itemScannerBurnTime > 0;
     }
 
-    @Override
-    public void updateEntity()
+    @SideOnly(Side.CLIENT)
+    public static boolean isBurning(IInventory inventory)
     {
-        boolean isBurning = this.itemScannerBurnTime > 0;
+        return inventory.getField(0) > 0;
+    }
+
+    /**
+     * Updates the JList with a new model.
+     */
+    public void update()
+    {
+        boolean burning = this.isBurning();
         boolean sendUpdate = false;
 
-        if (this.itemScannerBurnTime > 0)
+        if (this.isBurning())
         {
             --this.itemScannerBurnTime;
         }
 
         if (!this.worldObj.isRemote)
         {
-            if (this.itemScannerBurnTime != 0 || this.inventory[FUEL_INVENTORY_INDEX] != null && this.inventory[INPUT_INVENTORY_INDEX] != null)
+            if (!this.isBurning() && (this.inventory[FUEL_INVENTORY_INDEX] == null || this.inventory[INPUT_INVENTORY_INDEX] == null))
             {
-                if (this.itemScannerBurnTime == 0 && this.canSmelt())
+                if (!this.isBurning() && this.cookTime > 0)
+                {
+                    this.cookTime = MathHelper.clamp_int(this.cookTime - 2, 0, this.totalCookTime);
+                }
+            }
+            else
+            {
+                if (!this.isBurning() && this.canSmelt())
                 {
                     this.currentItemBurnTime = this.itemScannerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
-                    if (this.itemScannerBurnTime > 0)
+                    if (this.isBurning())
                     {
                         sendUpdate = true;
 
@@ -235,7 +277,7 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
 
                             if (this.inventory[FUEL_INVENTORY_INDEX].stackSize == 0)
                             {
-                                this.inventory[FUEL_INVENTORY_INDEX] = this.inventory[FUEL_INVENTORY_INDEX].getItem().getContainerItem(inventory[FUEL_INVENTORY_INDEX]);
+                                this.inventory[FUEL_INVENTORY_INDEX] = inventory[FUEL_INVENTORY_INDEX].getItem().getContainerItem(inventory[FUEL_INVENTORY_INDEX]);
                             }
                         }
                     }
@@ -243,25 +285,26 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
 
                 if (this.isBurning() && this.canSmelt())
                 {
-                    ++this.itemScannerCookTime;
+                    ++this.cookTime;
 
-                    if (this.itemScannerCookTime == 200)
+                    if (this.cookTime == this.totalCookTime)
                     {
-                        this.itemScannerCookTime = 0;
+                        this.cookTime = 0;
+                        this.totalCookTime = 200;
                         this.smeltItem();
                         sendUpdate = true;
                     }
                 }
                 else
                 {
-                    this.itemScannerCookTime = 0;
+                    this.cookTime = 0;
                 }
             }
 
-            if (isBurning != this.itemScannerBurnTime > 0)
+            if (burning != this.isBurning())
             {
                 sendUpdate = true;
-                //BlockItemScanner.updateItemScannerBlockState(this.itemScannerBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord); //TODO
+                //BlockItemScanner.setState(this.isBurning(), this.worldObj, this.pos); TODO
             }
         }
 
@@ -271,10 +314,12 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         }
     }
 
+    /**
+     * Returns true if the itemScanner can smelt an item, i.e. has a source item, destination stack isn't full, etc.
+     */
     private boolean canSmelt()
     {
-
-        if (inventory[INPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.getBoolean("isScanned"))
+        if (inventory[INPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX] == null || inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().getBoolean("isScanned"))
         {
             return false;
         }
@@ -282,29 +327,35 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         return true;
     }
 
+    /**
+     * Turn one item from the itemScanner source stack into the appropriate smelted item in the itemScanner result stack
+     */
     public void smeltItem()
     {
         if (this.canSmelt())
         {
             if (ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem()))
             {
-                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setString("Formula", DataHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", DataHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
-                inventory[OUTPUT_INVENTORY_INDEX].stackTagCompound.setBoolean("isScanned", true);
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }
         }
     }
 
-
-    public static int getItemBurnTime(ItemStack stack)
+    /**
+     * Returns the number of ticks that the supplied fuel item will keep the itemScanner burning, or 0 if the item isn't
+     * fuel
+     */
+    public static int getItemBurnTime(ItemStack itemStack)
     {
-        if (stack == null)
+        if (itemStack == null)
         {
             return 0;
         }
         else
         {
-            Item item = stack.getItem();
+            Item item = itemStack.getItem();
 
             if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
             {
@@ -326,63 +377,126 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
                 }
             }
 
-            if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemHoe && ((ItemHoe) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD")) return 200;
             if (item == Items.stick) return 100;
             if (item == Items.coal) return 1600;
             if (item == Items.lava_bucket) return 20000;
             if (item == Item.getItemFromBlock(Blocks.sapling)) return 100;
             if (item == Items.blaze_rod) return 2400;
-            return GameRegistry.getFuelValue(stack);
+            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(itemStack);
         }
     }
 
-    public static boolean isItemFuel(ItemStack stack)
+    public static boolean isItemFuel(ItemStack p_145954_0_)
     {
-        return getItemBurnTime(stack) > 0;
+        /**
+         * Returns the number of ticks that the supplied fuel item will keep the itemScanner burning, or 0 if the item isn't
+         * fuel
+         */
+        return getItemBurnTime(p_145954_0_) > 0;
     }
 
-
-    @Override
+    /**
+     * Do not make give this method the name canInteractWith because it clashes with Container
+     */
     public boolean isUseableByPlayer(EntityPlayer player)
     {
-        return true;
+        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+    }
+
+    public void openInventory(EntityPlayer player) {}
+
+    public void closeInventory(EntityPlayer player) {}
+
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     */
+    public boolean isItemValidForSlot(int index, ItemStack stack)
+    {
+        return index == OUTPUT_INVENTORY_INDEX ? false : (index == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+    }
+
+    public int[] getSlotsForFace(EnumFacing side)
+    {
+        return side == EnumFacing.DOWN ? new int[]{FUEL_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX} : new int[]{INPUT_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX};
+    }
+
+    /**
+     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
+    {
+        return this.isItemValidForSlot(index, itemStackIn);
+    }
+
+    /**
+     * Returns true if automation can extract the given item in the given slot from the given side. Args: slot, item,
+     * side
+     */
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
+    {
+        return index == OUTPUT_INVENTORY_INDEX;
+    }
+
+    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
+    {
+        return new ContainerItemScanner(playerInventory, this);
     }
 
     @Override
-    public void openInventory()
+    public String getGuiID()
     {
-        //NOOP
+        return null;
     }
 
-    @Override
-    public void closeInventory()
+    public int getField(int id)
     {
-        //NOOP
+        switch (id)
+        {
+            case 0:
+                return this.itemScannerBurnTime;
+            case 1:
+                return this.currentItemBurnTime;
+            case 2:
+                return this.cookTime;
+            case 3:
+                return this.totalCookTime;
+            default:
+                return 0;
+        }
     }
 
-    @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack)
+    public void setField(int id, int value)
     {
-        return slot == OUTPUT_INVENTORY_INDEX ? false : (slot == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        switch (id)
+        {
+            case 0:
+                this.itemScannerBurnTime = value;
+                break;
+            case 1:
+                this.currentItemBurnTime = value;
+                break;
+            case 2:
+                this.cookTime = value;
+                break;
+            case 3:
+                this.totalCookTime = value;
+        }
     }
 
-    @Override
-    public int[] getAccessibleSlotsFromSide(int side)
+    public int getFieldCount()
     {
-        return side == ForgeDirection.DOWN.ordinal() ? new int[]{FUEL_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX} : new int[]{INPUT_INVENTORY_INDEX, OUTPUT_INVENTORY_INDEX};
+        return 4;
     }
 
-    @Override
-    public boolean canInsertItem(int slot, ItemStack stack, int side)
+    public void clear()
     {
-        return isItemValidForSlot(slot, stack);
-    }
-
-    @Override
-    public boolean canExtractItem(int slot, ItemStack stack, int side)
-    {
-        return slot == OUTPUT_INVENTORY_INDEX;
+        for (int i = 0; i < this.inventory.length; ++i)
+        {
+            this.inventory[i] = null;
+        }
     }
 }
