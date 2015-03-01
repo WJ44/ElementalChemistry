@@ -1,14 +1,10 @@
 package com.wj44.echem;
 
 import com.wj44.echem.handler.GuiHandler;
-import com.wj44.echem.init.ModBlocks;
-import com.wj44.echem.init.ModItems;
-import com.wj44.echem.init.TileEntities;
-import com.wj44.echem.init.Recipes;
+import com.wj44.echem.init.*;
 import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
-import com.wj44.echem.init.ItemElements;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.util.LogHelper;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
