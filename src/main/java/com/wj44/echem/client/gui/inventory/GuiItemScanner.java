@@ -24,7 +24,7 @@ public class GuiItemScanner extends GuiEChem
 
     public GuiItemScanner(InventoryPlayer playerInventory, TileEntityItemScanner tileEntityItemScanner)
     {
-        super(new ContainerItemScanner(playerInventory, tileEntityItemScanner), Textures.Gui.DECOMPOSER, tileEntityItemScanner);
+        super(new ContainerItemScanner(playerInventory, tileEntityItemScanner), Textures.Gui.ITEM_SCANNER, tileEntityItemScanner);
         this.tileEntityItemScanner = tileEntityItemScanner;
         this.inventoryPlayer = playerInventory;
     }
@@ -33,7 +33,7 @@ public class GuiItemScanner extends GuiEChem
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Textures.Gui.DECOMPOSER);
+        this.mc.getTextureManager().bindTexture(Textures.Gui.ITEM_SCANNER);
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);

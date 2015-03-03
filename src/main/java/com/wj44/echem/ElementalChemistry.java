@@ -5,9 +5,14 @@ import com.wj44.echem.init.*;
 import com.wj44.echem.network.DescriptionHandler;
 import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
+import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
+import com.wj44.echem.reference.Textures;
 import com.wj44.echem.util.LogHelper;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -15,6 +20,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 
 /**
  * Created by Wesley "WJ44" Joosten on 22-6-2014.

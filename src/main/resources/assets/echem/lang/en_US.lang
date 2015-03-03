@@ -1,7 +1,7 @@
 # Items
 item.echem:logo.name=ElementalChemistry Logo
 item.echem:elementContainerEmpty.name=Element Container
-item.echem:dataCard=Data Card
+item.echem:dataCard.name=Data Card
 
 # Blocks
 tile.echem:testBlock.name=Test Block

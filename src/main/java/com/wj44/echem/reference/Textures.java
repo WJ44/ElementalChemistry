@@ -1,6 +1,7 @@
 package com.wj44.echem.reference;
 
 import com.wj44.echem.util.ResourceLocationHelper;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.util.ResourceLocation;
 
 /**
@@ -19,5 +20,12 @@ public class Textures
         private static final String GUI_SHEET_LOCATION = "textures/gui/";
         public static final ResourceLocation DECOMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "decomposer.png");
         public static final ResourceLocation ITEM_SCANNER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "itemScanner.png");
+    }
+
+    public static final class Item
+    {
+        public static final ModelResourceLocation DATA_CARD = ResourceLocationHelper.getModelResourceLocation(Names.Items.DATA_CARD);
+        public static final ModelResourceLocation LOGO = ResourceLocationHelper.getModelResourceLocation(Names.Items.LOGO);
+        public static final ModelResourceLocation[] ELEMENT_CONTAINERS = ResourceLocationHelper.getModelResourceLocations(Names.Items.ELEMENT_CONTAINER, Names.Items.ELEMENT_CONTAINER_SUBTYPES);
     }
 }

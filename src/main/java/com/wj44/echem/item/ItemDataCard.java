@@ -1,7 +1,10 @@
 package com.wj44.echem.item;
 
 import com.wj44.echem.creativetab.CreativeTabEChem;
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.reference.Textures;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

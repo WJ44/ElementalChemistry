@@ -1,9 +1,11 @@
 package com.wj44.echem.item;
 
 import com.wj44.echem.creativetab.CreativeTabEChem;
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Textures;
+import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,5 +47,15 @@ public class ItemElementContainer extends ItemEChem
         {
             list.add(new ItemStack(this, 1, meta));
         }
+    }
+
+    public static void registerVariants()
+    {
+        String[] variantNames = new String[Names.Items.ELEMENT_CONTAINER_SUBTYPES.length];
+        for (int i = 0; i < Names.Items.ELEMENT_CONTAINER_SUBTYPES.length; i++)
+        {
+            variantNames[i] = Textures.RESOURCE_PREFIX + Names.Items.ELEMENT_CONTAINER + Names.Items.ELEMENT_CONTAINER_SUBTYPES[i];
+        }
+        ModelBakery.addVariantName(ModItems.elementContainer, variantNames);
     }
 }

@@ -1,6 +1,12 @@
 package com.wj44.echem.proxy;
 
+import com.wj44.echem.init.ModItems;
+import com.wj44.echem.item.ItemElementContainer;
+import com.wj44.echem.reference.Names;
+import com.wj44.echem.reference.Textures;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -15,18 +21,15 @@ public class ClientProxy extends CommonProxy
     @Override
     public void preInit()
     {
-        registerKeyBinds();
-    }
-
-    private void registerKeyBinds()
-    {
 
     }
 
     @Override
     public void init()
     {
+        ItemElementContainer.registerVariants();
 
+        ModItems.registerRenders();
     }
 
     @Override

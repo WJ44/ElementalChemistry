@@ -5,6 +5,11 @@ import com.wj44.echem.item.ItemEChem;
 import com.wj44.echem.item.ItemElementContainer;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
+import com.wj44.echem.reference.Textures;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -27,5 +32,22 @@ public class ModItems
         GameRegistry.registerItem(logo, Names.Items.LOGO);
         GameRegistry.registerItem(elementContainer, Names.Items.ELEMENT_CONTAINER);
         GameRegistry.registerItem(dataCard, Names.Items.DATA_CARD);
+    }
+
+    public static void registerRenders()
+    {
+        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
+        renderItem.getItemModelMesher().register(dataCard, 0, Textures.Item.DATA_CARD);
+        renderItem.getItemModelMesher().register(logo, 0, Textures.Item.LOGO);
+        registerHasSubtypes(elementContainer, Textures.Item.ELEMENT_CONTAINERS, renderItem);
+    }
+
+    private static void registerHasSubtypes(Item item, ModelResourceLocation[] resourceLocations, RenderItem renderItem)
+    {
+        for (int i = 0; i < resourceLocations.length; i++)
+        {
+            renderItem.getItemModelMesher().register(item, i, resourceLocations[i]);
+        }
     }
 }
