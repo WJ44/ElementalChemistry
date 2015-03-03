@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
 {
-    public static final Block testBlock = new BlockEChem(); //TODO Delete
+    public static final Block testBlock = new BlockEChem("testBlock"); //TODO Delete
     public static final Block platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
     public static final Block decomposer = new BlockDecomposer();

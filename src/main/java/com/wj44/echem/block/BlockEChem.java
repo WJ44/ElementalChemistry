@@ -25,6 +25,12 @@ public class BlockEChem extends Block
         this(Material.rock);
     }
 
+    public BlockEChem(String name)
+    {
+        this();
+        this.setUnlocalizedName(name);
+    }
+
     @Override
     public String getUnlocalizedName()
     {

@@ -28,14 +28,12 @@ public class ClientProxy extends CommonProxy
     public void init()
     {
         ItemElementContainer.registerVariants();
-
-        ModItems.registerRenders();
     }
 
     @Override
     public void postInit()
     {
-
+        ModItems.registerRenders();
     }
 
     @Override

@@ -147,7 +147,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
      */
     public String getCommandSenderName()
     {
-        return this.hasCustomName() ? this.decomposerCustomName : "container.decomposer";
+        return this.hasCustomName() ? this.decomposerCustomName : Names.Containers.DECOMPOSER;
     }
 
     /**

@@ -145,7 +145,7 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
      */
     public String getCommandSenderName()
     {
-        return this.hasCustomName() ? this.itemScannerCustomName : "container.itemScanner";
+        return this.hasCustomName() ? this.itemScannerCustomName : Names.Containers.ITEM_SCANNER;
     }
 
     /**
