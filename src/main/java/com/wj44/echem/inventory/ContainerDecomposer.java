@@ -1,10 +1,13 @@
 package com.wj44.echem.inventory;
 
 
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
+import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.ICrafting;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,6 +32,19 @@ public class ContainerDecomposer extends ContainerEChem
         this.tileDecomposer = tileEntityDecomposer;
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new SlotMachineFuel(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
+        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, 17, 35)
+        {
+            @Override
+            public boolean isItemValid(ItemStack itemStack)
+            {
+                if (itemStack.getItem() == ModItems.dataCard)
+                {
+                    return itemStack.getTagCompound().getBoolean("isScanned");
+                }
+
+                return false;
+            }
+        });
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, 116, 17));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX2, 134, 17));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX3, 116, 35));
@@ -51,7 +67,7 @@ public class ContainerDecomposer extends ContainerEChem
 
         for (int i = 0; i < this.crafters.size(); ++i)
         {
-            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+            ICrafting icrafting = (ICrafting) this.crafters.get(i);
 
             if (this.currentItemBurnTime != this.tileDecomposer.getField(2))
             {
@@ -120,12 +136,20 @@ public class ContainerDecomposer extends ContainerEChem
                 /**
                  * if the item is a fuel, try to put it in either the input slot, or fuel slot, in reverse
                  */
-                if (TileEntityDecomposer.isItemFuel(slotStack))
+                if (ItemStackHelper.isItemFuel(slotStack))
                 {
-                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, true))
+                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, true))
                     {
                         return null;
                     }
+                }
+
+                else if (slotStack.getItem() == ModItems.dataCard && slotStack.getTagCompound().getBoolean("isScanned"))
+                {
+                        if (!mergeItemStack(slotStack, TileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, TileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, false))
+                        {
+                            return null;
+                        }
                 }
                 /**
                  * try to put it in the input slot

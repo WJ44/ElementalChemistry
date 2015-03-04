@@ -8,6 +8,7 @@ import com.wj44.echem.util.DataHelper;
 
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemElementDamageValueHelper;
+import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -182,7 +183,7 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
         this.itemScannerBurnTime = nbtTagCompound.getShort("BurnTime");
         this.cookTime = nbtTagCompound.getShort("CookTime");
         this.totalCookTime = nbtTagCompound.getShort("CookTimeTotal");
-        this.currentItemBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
+        this.currentItemBurnTime = ItemStackHelper.getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
@@ -265,7 +266,7 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
             {
                 if (!this.isBurning() && this.canSmelt())
                 {
-                    this.currentItemBurnTime = this.itemScannerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
+                    this.currentItemBurnTime = this.itemScannerBurnTime = ItemStackHelper.getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
                     if (this.isBurning())
                     {
@@ -336,66 +337,13 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
         {
             if (ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem()))
             {
+                inventory[INPUT_INVENTORY_INDEX].writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
+
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", DataHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }
         }
-    }
-
-    /**
-     * Returns the number of ticks that the supplied fuel item will keep the itemScanner burning, or 0 if the item isn't
-     * fuel
-     */
-    public static int getItemBurnTime(ItemStack itemStack)
-    {
-        if (itemStack == null)
-        {
-            return 0;
-        }
-        else
-        {
-            Item item = itemStack.getItem();
-
-            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-            {
-                Block block = Block.getBlockFromItem(item);
-
-                if (block == Blocks.wooden_slab)
-                {
-                    return 150;
-                }
-
-                if (block.getMaterial() == Material.wood)
-                {
-                    return 300;
-                }
-
-                if (block == Blocks.coal_block)
-                {
-                    return 16000;
-                }
-            }
-
-            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD")) return 200;
-            if (item == Items.stick) return 100;
-            if (item == Items.coal) return 1600;
-            if (item == Items.lava_bucket) return 20000;
-            if (item == Item.getItemFromBlock(Blocks.sapling)) return 100;
-            if (item == Items.blaze_rod) return 2400;
-            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(itemStack);
-        }
-    }
-
-    public static boolean isItemFuel(ItemStack p_145954_0_)
-    {
-        /**
-         * Returns the number of ticks that the supplied fuel item will keep the itemScanner burning, or 0 if the item isn't
-         * fuel
-         */
-        return getItemBurnTime(p_145954_0_) > 0;
     }
 
     /**
@@ -415,7 +363,7 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
      */
     public boolean isItemValidForSlot(int index, ItemStack stack)
     {
-        return index == OUTPUT_INVENTORY_INDEX ? false : (index == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        return index == OUTPUT_INVENTORY_INDEX ? false : (index == FUEL_INVENTORY_INDEX ? ItemStackHelper.isItemFuel(stack) : true);
     }
 
     public int[] getSlotsForFace(EnumFacing side)

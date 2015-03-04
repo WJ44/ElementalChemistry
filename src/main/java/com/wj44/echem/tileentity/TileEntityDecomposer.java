@@ -6,6 +6,7 @@ import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemElementDamageValueHelper;
+import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -32,10 +33,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public class TileEntityDecomposer extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
 {
-    public static final int INVENTORY_SIZE = 8;
+    public static final int INVENTORY_SIZE = 9;
     public static final int INPUT_INVENTORY_INDEX = 0;
     public static final int FUEL_INVENTORY_INDEX = 1;
-    public static final int OUTPUT_INVENTORY_INDEX1 = 2;
+    public static final int DATA_CARD_INVENTORY_INDEX = 2;
+    public static final int OUTPUT_INVENTORY_INDEX1 = 3;
     public static final int OUTPUT_INVENTORY_INDEX2 = OUTPUT_INVENTORY_INDEX1+1;
     public static final int OUTPUT_INVENTORY_INDEX3 = OUTPUT_INVENTORY_INDEX2+1;
     public static final int OUTPUT_INVENTORY_INDEX4 = OUTPUT_INVENTORY_INDEX3+1;
@@ -184,7 +186,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
         this.decomposerBurnTime = nbtTagCompound.getShort("BurnTime");
         this.cookTime = nbtTagCompound.getShort("CookTime");
         this.totalCookTime = nbtTagCompound.getShort("CookTimeTotal");
-        this.currentItemBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
+        this.currentItemBurnTime = ItemStackHelper.getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
@@ -267,7 +269,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
             {
                 if (!this.isBurning() && this.canSmelt())
                 {
-                    this.currentItemBurnTime = this.decomposerBurnTime = getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
+                    this.currentItemBurnTime = this.decomposerBurnTime = ItemStackHelper.getItemBurnTime(this.inventory[FUEL_INVENTORY_INDEX]);
 
                     if (this.isBurning())
                     {
@@ -321,7 +323,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
      */
     private boolean canSmelt()
     {
-        if (inventory[INPUT_INVENTORY_INDEX] == null)
+        if (inventory[INPUT_INVENTORY_INDEX] == null || inventory[DATA_CARD_INVENTORY_INDEX] == null)
         {
             return false;
         }
@@ -329,6 +331,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
         {
             if (!ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
             if (!ItemElementDamageValueHelper.damageValueHelper(inventory[INPUT_INVENTORY_INDEX])) return false;
+            if (!(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()).getItem() == inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
             if (new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).compareContainersWithElements(outputStacks)) return true;
             return false;
         }
@@ -400,61 +403,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     }
 
     /**
-     * Returns the number of ticks that the supplied fuel item will keep the decomposer burning, or 0 if the item isn't
-     * fuel
-     */
-    public static int getItemBurnTime(ItemStack itemStack)
-    {
-        if (itemStack == null)
-        {
-            return 0;
-        }
-        else
-        {
-            Item item = itemStack.getItem();
-
-            if (item instanceof ItemBlock && Block.getBlockFromItem(item) != Blocks.air)
-            {
-                Block block = Block.getBlockFromItem(item);
-
-                if (block == Blocks.wooden_slab)
-                {
-                    return 150;
-                }
-
-                if (block.getMaterial() == Material.wood)
-                {
-                    return 300;
-                }
-
-                if (block == Blocks.coal_block)
-                {
-                    return 16000;
-                }
-            }
-
-            if (item instanceof ItemTool && ((ItemTool)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemSword && ((ItemSword)item).getToolMaterialName().equals("WOOD")) return 200;
-            if (item instanceof ItemHoe && ((ItemHoe)item).getMaterialName().equals("WOOD")) return 200;
-            if (item == Items.stick) return 100;
-            if (item == Items.coal) return 1600;
-            if (item == Items.lava_bucket) return 20000;
-            if (item == Item.getItemFromBlock(Blocks.sapling)) return 100;
-            if (item == Items.blaze_rod) return 2400;
-            return net.minecraftforge.fml.common.registry.GameRegistry.getFuelValue(itemStack);
-        }
-    }
-
-    public static boolean isItemFuel(ItemStack p_145954_0_)
-    {
-        /**
-         * Returns the number of ticks that the supplied fuel item will keep the decomposer burning, or 0 if the item isn't
-         * fuel
-         */
-        return getItemBurnTime(p_145954_0_) > 0;
-    }
-
-    /**
      * Do not make give this method the name canInteractWith because it clashes with Container
      */
     public boolean isUseableByPlayer(EntityPlayer player)
@@ -471,7 +419,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
      */
     public boolean isItemValidForSlot(int index, ItemStack stack)
     {
-        return index == output[1] || index == output[2] || index == output[3] || index == output[4] || index == output[5] || index == output[6] ? false : (index == FUEL_INVENTORY_INDEX ? isItemFuel(stack) : true);
+        return index == output[1] || index == output[2] || index == output[3] || index == output[4] || index == output[5] || index == output[6] ? false : (index == FUEL_INVENTORY_INDEX ? ItemStackHelper.isItemFuel(stack) : true);
     }
 
     public int[] getSlotsForFace(EnumFacing side)

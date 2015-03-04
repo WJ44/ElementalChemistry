@@ -2,6 +2,7 @@ package com.wj44.echem.inventory;
 
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.tileentity.TileEntityItemScanner;
+import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
@@ -30,9 +31,19 @@ public class ContainerItemScanner extends ContainerEChem
         this.tileItemScanner = tileEntityItemScanner;
         this.addSlotToContainer(new Slot(tileEntityItemScanner, tileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new SlotMachineFuel(tileEntityItemScanner, tileEntityItemScanner.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityItemScanner, tileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35));
+        this.addSlotToContainer(new Slot(tileEntityItemScanner, tileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35)
+        {
+            @Override
+            public boolean isItemValid(ItemStack itemStack)
+            {
+                if (itemStack.getItem() == ModItems.dataCard)
+                {
+                    return !itemStack.getTagCompound().getBoolean("isScanned");
+                }
 
-
+                return false;
+            }
+        });
         addPlayerSlots(playerInventory, 8, 84);
     }
 
@@ -117,7 +128,7 @@ public class ContainerItemScanner extends ContainerEChem
                 /**
                  * if the item is a fuel, try to put it in either the input slot, or fuel slot, in reverse
                  */
-                if (TileEntityItemScanner.isItemFuel(slotStack))
+                if (ItemStackHelper.isItemFuel(slotStack))
                 {
                     if (!mergeItemStack(slotStack, TileEntityItemScanner.INPUT_INVENTORY_INDEX, TileEntityItemScanner.OUTPUT_INVENTORY_INDEX, true))
                     {

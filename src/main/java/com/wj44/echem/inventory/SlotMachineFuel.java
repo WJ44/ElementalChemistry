@@ -1,6 +1,7 @@
 package com.wj44.echem.inventory;
 
 import com.wj44.echem.tileentity.TileEntityDecomposer;
+import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -23,7 +24,7 @@ public class SlotMachineFuel extends Slot
 
     public boolean isItemValid(ItemStack stack)
     {
-        return TileEntityDecomposer.isItemFuel(stack);
-    } //TODO TileEntityMachine
+        return ItemStackHelper.isItemFuel(stack);
+    }
 
 }
