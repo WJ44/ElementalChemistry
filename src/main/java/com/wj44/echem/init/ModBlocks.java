@@ -21,6 +21,7 @@ public class ModBlocks
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
     public static final Block decomposer = new BlockDecomposer();
     public static final Block itemScanner = new BlockItemScanner();
+    public static final Block composer = new BlockComposer();
 
     public static void init()
     {
@@ -29,5 +30,6 @@ public class ModBlocks
         GameRegistry.registerBlock(silverOre, Names.Blocks.SILVER_ORE);
         GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);
         GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
+        GameRegistry.registerBlock(composer, Names.Blocks.COMPOSER);
     }
 }

@@ -9,6 +9,7 @@ tile.echem:platinumOre.name=Platinum Ore
 tile.echem:silverOre.name=Silver Ore
 tile.echem:decomposer.name=Thermal Decomposer
 tile.echem:itemScanner.name=Item Scanner
+tile.echem:composer.name=Composer
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry
@@ -17,6 +18,7 @@ itemGroup.elementContainers= Element Containers
 # Containers
 container.echem:decomposer=Thermal Decomposer
 container.echem:itemScanner=Item Scanner
+container.echem:composer=Composer
 
 # Element Containers
 item.echem:elementContainerHydrogen.name=Element Container (Hydrogen)

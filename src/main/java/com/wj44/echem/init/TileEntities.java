@@ -17,5 +17,7 @@ public class TileEntities
     public static void init()
     {
         GameRegistry.registerTileEntity(TileEntityDecomposer.class, Names.Blocks.DECOMPOSER);
+        GameRegistry.registerTileEntity(TileEntityDecomposer.class, Names.Blocks.ITEM_SCANNER);
+        GameRegistry.registerTileEntity(TileEntityDecomposer.class, Names.Blocks.COMPOSER);
     }
 }

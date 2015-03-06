@@ -15,6 +15,7 @@ public final class Names
         public static final String SILVER_ORE = "silverOre";
         public static final String DECOMPOSER = "decomposer";
         public static final String ITEM_SCANNER = "itemScanner";
+        public static final String COMPOSER = "composer";
     }
 
     public static final class Items
@@ -27,8 +28,11 @@ public final class Names
 
     public static final class Containers
     {
-        public static final String DECOMPOSER = "container.echem:" + Blocks.DECOMPOSER;
-        public static final String ITEM_SCANNER = "container.echem:" + Blocks.ITEM_SCANNER;
+        private static final String PREFIX = "container." + Textures.RESOURCE_PREFIX;
+        public static final String DECOMPOSER = PREFIX + Blocks.DECOMPOSER;
+        public static final String ITEM_SCANNER = PREFIX + Blocks.ITEM_SCANNER;
+        public static final String COMPOSER = PREFIX + Blocks.COMPOSER;
+
     }
 
     public static final class NBT

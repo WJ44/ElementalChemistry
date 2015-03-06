@@ -9,5 +9,5 @@ package com.wj44.echem.reference;
  */
 public enum GUIs
 {
-    DECOMPOSER, ITEM_SCANNER
+    DECOMPOSER, ITEM_SCANNER, COMPOSER
 }

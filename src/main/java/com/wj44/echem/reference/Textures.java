@@ -20,6 +20,7 @@ public class Textures
         private static final String GUI_SHEET_LOCATION = "textures/gui/";
         public static final ResourceLocation DECOMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "decomposer.png");
         public static final ResourceLocation ITEM_SCANNER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "itemScanner.png");
+        public static final ResourceLocation COMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "composer.png");
     }
 
     public static final class Item

@@ -5,7 +5,10 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Wesley "WJ44" Joosten on 22-2-2015.
@@ -44,6 +47,13 @@ public class ElementHelper
         return (Integer) elementList.get(element);
     }
 
+
+    /**
+     * Returns true if there is room in the inventory for the element containers
+     *
+     * @param itemStacks all output slots in the inventory
+     * @return
+     */
     public boolean compareContainersWithElements(ItemStack[] itemStacks)
     {
         int availableSlots = 0;
@@ -67,4 +77,38 @@ public class ElementHelper
         }
         return availableSlots >= getElements().size();
     }
+
+    /**
+     * Returns true if the input element containers are the elements required for the output
+     *
+     * @param itemStacks
+     * @return
+     */
+    public boolean compareElementsWithContainers(ItemStack[] itemStacks)
+    {
+        int matching = 0;
+        int[] elementCounter = new int[Elements.values().length];
+        for (Elements element : getElements())
+        {
+            for (ItemStack itemStack : itemStacks)
+            {
+                if (itemStack != null)
+                {
+                    if (itemStack.getItemDamage() == element.ordinal())
+                    {
+                        elementCounter[element.ordinal()] += itemStack.stackSize;
+                    }
+                }
+            }
+            if (elementCounter[element.ordinal()] >= getAmount(element))
+            {
+                matching++;
+            }
+        }
+        return matching == getElements().size();
+    }
+
 }
+
+
+
