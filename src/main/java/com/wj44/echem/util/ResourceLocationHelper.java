@@ -36,7 +36,7 @@ public class ResourceLocationHelper
         for (int i = 0; i < subtypes.length; i++)
         {
             //resourceLocations[i] = new ModelResourceLocation(Textures.RESOURCE_PREFIX + itemName + "/" + itemName + subtypes[i]);
-            resourceLocations[i] = new ModelResourceLocation(Textures.RESOURCE_PREFIX + itemName + subtypes[i]);
+            resourceLocations[i] = new ModelResourceLocation(Textures.RESOURCE_PREFIX + itemName + subtypes[i], "inventory");
         }
 
         return resourceLocations;
