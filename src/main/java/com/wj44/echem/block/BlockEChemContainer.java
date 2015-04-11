@@ -1,6 +1,5 @@
 package com.wj44.echem.block;
 
-import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -38,7 +37,6 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
     public BlockEChemContainer()
     {
         super(Material.rock);
-        this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
         this.isBlockContainer = true;
     }
 

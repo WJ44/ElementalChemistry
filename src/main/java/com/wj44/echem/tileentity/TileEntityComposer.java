@@ -1,7 +1,9 @@
 package com.wj44.echem.tileentity;
 
 import com.wj44.echem.block.BlockComposer;
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerComposer;
+import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemStackHelper;
@@ -337,8 +339,8 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
             if (!ElementHelper.itemElementsList.containsKey(itemstack.getItem())) return false;
             if (!new ElementHelper(itemstack.getItem()).compareElementsWithContainers(new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
             if (inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
-            if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack)) return false;
-            return true;
+            if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack) && inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize <= 64) return true;
+            return false;
         }
     }
 
@@ -349,62 +351,40 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
     {
         if (this.canSmelt())
         {
-//            for (Elements element : new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
-//            {
-//                int amount = new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
-//                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
-//                if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX1] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX1].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX1].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX1].stackSize += output.stackSize;
-//                }
-//                else if (inventory[OUTPUT_INVENTORY_INDEX2] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX2] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX2].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX2].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX2].stackSize += output.stackSize;
-//                }
-//                else if (inventory[OUTPUT_INVENTORY_INDEX3] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX3] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX3].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX3].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX3].stackSize += output.stackSize;
-//                }
-//                else if (inventory[OUTPUT_INVENTORY_INDEX4] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX4] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX4].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX4].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX4].stackSize += output.stackSize;
-//                }
-//                else if (inventory[OUTPUT_INVENTORY_INDEX5] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX5] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX5].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX5].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX5].stackSize += output.stackSize;
-//                }
-//                else if (inventory[OUTPUT_INVENTORY_INDEX6] == null)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX6] = output.copy();
-//                }
-//                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX6].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX6].stackSize <= 64)
-//                {
-//                    inventory[OUTPUT_INVENTORY_INDEX6].stackSize += output.stackSize;
-//                }
-//            }
+            for (Elements element : new ElementHelper(ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getItem()).getElements())
+            {
+                int amount = new ElementHelper(ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getItem()).getAmount(element);
+                ItemStack inputDecr = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
+                int decreased = 0;
 
-            //decrStackSize(INPUT_INVENTORY_INDEX, 1);
-            inventory[OUTPUT_INVENTORY_INDEX] = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
+                for (int index : input)
+                {
+                    if (inventory[index] != null && inventory[index].getItemDamage() == inputDecr.getItemDamage())
+                    {
+                        if (inventory[index].stackSize >= amount)
+                        {
+                            decrStackSize(index, amount);
+                        }
+                        else
+                        {
+                            while (inventory[index].stackSize > 0 && decreased < amount)
+                            {
+                                decrStackSize(index, 1);
+                                decreased++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (inventory[OUTPUT_INVENTORY_INDEX] != null)
+            {
+                inventory[OUTPUT_INVENTORY_INDEX].stackSize += ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).stackSize;
+            }
+            else
+            {
+                inventory[OUTPUT_INVENTORY_INDEX] = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
+            }
         }
     }
 
