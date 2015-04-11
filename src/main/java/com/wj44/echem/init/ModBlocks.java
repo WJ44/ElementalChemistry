@@ -1,6 +1,7 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.block.*;
+import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.reference.Textures;
@@ -23,11 +24,11 @@ public class ModBlocks
     public static final Block testBlock = new BlockEChem("testBlock"); //TODO Delete
     public static final Block platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
-    public static final Block decomposer = new BlockDecomposer(false);
+    public static final Block decomposer = new BlockDecomposer(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     public static final Block lit_decomposer = new BlockDecomposer(true);
-    public static final Block itemScanner = new BlockItemScanner(false);
+    public static final Block itemScanner = new BlockItemScanner(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     public static final Block lit_itemScanner = new BlockItemScanner(true);
-    public static final Block composer = new BlockComposer(false);
+    public static final Block composer = new BlockComposer(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     public static final Block lit_composer = new BlockComposer(true);
 
     public static void init()

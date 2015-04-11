@@ -1,7 +1,6 @@
 package com.wj44.echem.block;
 
 import com.wj44.echem.ElementalChemistry;
-import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.reference.Names;
@@ -30,10 +29,7 @@ public class BlockComposer extends BlockEChemContainer
     public BlockComposer(boolean isBurning)
     {
         setUnlocalizedName(Names.Blocks.COMPOSER);
-        if(!isBurning)
-        {
-            setCreativeTab(CreativeTabEChem.ECHEM_TAB);
-        }
+        setCreativeTab(null);
         this.isBurning = isBurning;
     }
 
