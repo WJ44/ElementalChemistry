@@ -1,30 +1,23 @@
 package com.wj44.echem.tileentity;
 
-import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerComposer;
-import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
-import com.wj44.echem.util.ItemElementDamageValueHelper;
 import com.wj44.echem.util.ItemStackHelper;
-import com.wj44.echem.util.LogHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.commons.logging.Log;
 
 /**
  * Created by Wesley "WJ44" Joosten on 6-3-2015.
@@ -410,7 +403,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
 //            }
 
             //decrStackSize(INPUT_INVENTORY_INDEX, 1);
-            inventory[OUTPUT_INVENTORY_INDEX] = new ItemStack(ModItems.logo, 50);
+            inventory[OUTPUT_INVENTORY_INDEX] = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
         }
     }
 

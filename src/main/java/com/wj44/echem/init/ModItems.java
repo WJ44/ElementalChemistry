@@ -7,7 +7,6 @@ import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.reference.Textures;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;

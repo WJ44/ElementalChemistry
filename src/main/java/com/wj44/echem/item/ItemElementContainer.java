@@ -23,14 +23,11 @@ import java.util.List;
  */
 public class ItemElementContainer extends ItemEChem
 {
-    @SideOnly(Side.CLIENT)
-
     public ItemElementContainer()
     {
-        super();
-        this.setCreativeTab(CreativeTabEChem.ELEMENT_CONTAINER_TAB);
-        this.setHasSubtypes(true);
-        this.setUnlocalizedName(Names.Items.ELEMENT_CONTAINER);
+        setCreativeTab(CreativeTabEChem.ELEMENT_CONTAINER_TAB);
+        setHasSubtypes(true);
+        setUnlocalizedName(Names.Items.ELEMENT_CONTAINER);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
         {
             if (!world.isRemote)
             {
-                    player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;
