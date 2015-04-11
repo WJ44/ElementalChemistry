@@ -22,8 +22,8 @@ public class ContainerItemScanner extends ContainerEChem
 {
     private final TileEntityItemScanner tileItemScanner;
     private int currentItemBurnTime;
-    private int field_178153_g;
-    private int itemScannerCookTime;
+    private int totalCookTime;
+    private int cookTime;
     private int itemScannerBurnTime;
 
     public ContainerItemScanner(InventoryPlayer playerInventory, TileEntityItemScanner tileEntityItemScanner)
@@ -66,7 +66,7 @@ public class ContainerItemScanner extends ContainerEChem
                 icrafting.sendProgressBarUpdate(this, 2, this.tileItemScanner.getField(2));
             }
 
-            if (this.itemScannerCookTime != this.tileItemScanner.getField(0))
+            if (this.cookTime != this.tileItemScanner.getField(0))
             {
                 icrafting.sendProgressBarUpdate(this, 0, this.tileItemScanner.getField(0));
             }
@@ -76,16 +76,16 @@ public class ContainerItemScanner extends ContainerEChem
                 icrafting.sendProgressBarUpdate(this, 1, this.tileItemScanner.getField(1));
             }
 
-            if (this.field_178153_g != this.tileItemScanner.getField(3))
+            if (this.totalCookTime != this.tileItemScanner.getField(3))
             {
                 icrafting.sendProgressBarUpdate(this, 3, this.tileItemScanner.getField(3));
             }
         }
 
         this.currentItemBurnTime = this.tileItemScanner.getField(2);
-        this.itemScannerCookTime = this.tileItemScanner.getField(0);
+        this.cookTime = this.tileItemScanner.getField(0);
         this.itemScannerBurnTime = this.tileItemScanner.getField(1);
-        this.field_178153_g = this.tileItemScanner.getField(3);
+        this.totalCookTime = this.tileItemScanner.getField(3);
     }
 
     @SideOnly(Side.CLIENT)
@@ -139,7 +139,7 @@ public class ContainerItemScanner extends ContainerEChem
                 /**
                  * if the item is a data card, try to put it in either the input slot, or fuel slot, in reverse
                  */
-                if (slotStack.getItem() == ModItems.dataCard && !slotStack.getTagCompound().getBoolean("isScanned"))
+                else if (slotStack.getItem() == ModItems.dataCard && !slotStack.getTagCompound().getBoolean("isScanned"))
                 {
                     if (!mergeItemStack(slotStack, TileEntityItemScanner.INPUT_INVENTORY_INDEX, TileEntityItemScanner.OUTPUT_INVENTORY_INDEX+1, true))
                     {
