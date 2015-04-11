@@ -1,5 +1,6 @@
 package com.wj44.echem.proxy;
 
+import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.item.ItemElementContainer;
 import net.minecraft.client.Minecraft;
@@ -30,6 +31,7 @@ public class ClientProxy extends CommonProxy
     public void postInit()
     {
         ModItems.registerRenders();
+        ModBlocks.registerRenders();
     }
 
     @Override

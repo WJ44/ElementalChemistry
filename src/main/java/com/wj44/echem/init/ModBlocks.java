@@ -3,7 +3,11 @@ package com.wj44.echem.init;
 import com.wj44.echem.block.*;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
+import com.wj44.echem.reference.Textures;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -19,7 +23,8 @@ public class ModBlocks
     public static final Block testBlock = new BlockEChem("testBlock"); //TODO Delete
     public static final Block platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
-    public static final Block decomposer = new BlockDecomposer();
+    public static final Block decomposer = new BlockDecomposer(false);
+    public static final Block lit_decomposer = new BlockDecomposer(true);
     public static final Block itemScanner = new BlockItemScanner();
     public static final Block composer = new BlockComposer();
 
@@ -29,7 +34,15 @@ public class ModBlocks
         GameRegistry.registerBlock(platinumOre, Names.Blocks.PLATINUM_ORE);
         GameRegistry.registerBlock(silverOre, Names.Blocks.SILVER_ORE);
         GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);
+        GameRegistry.registerBlock(lit_decomposer, "lit_" + Names.Blocks.DECOMPOSER);
         GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
         GameRegistry.registerBlock(composer, Names.Blocks.COMPOSER);
+    }
+
+    public static void registerRenders()
+    {
+        RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(platinumOre), 0, Textures.Block.PLATINUM_ORE);
     }
 }

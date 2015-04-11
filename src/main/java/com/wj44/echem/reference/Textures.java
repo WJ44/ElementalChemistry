@@ -29,4 +29,9 @@ public class Textures
         public static final ModelResourceLocation LOGO = ResourceLocationHelper.getModelResourceLocation(Names.Items.LOGO);
         public static final ModelResourceLocation[] ELEMENT_CONTAINERS = ResourceLocationHelper.getModelResourceLocations(Names.Items.ELEMENT_CONTAINER, Names.Items.ELEMENT_CONTAINER_SUBTYPES);
     }
+
+    public static final class Block
+    {
+        public static final ModelResourceLocation PLATINUM_ORE = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.PLATINUM_ORE);
+    }
 }

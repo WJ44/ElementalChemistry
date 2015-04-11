@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "EChem:decomposer" },
+		"facing=south": { "model": "EChem:decomposer", "y": 180 },
+		"facing=west": { "model": "EChem:decomposer", "y": 270 },
+		"facing=east": { "model": "EChem:decomposer", "y": 90 }
+	}
+}

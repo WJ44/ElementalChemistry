@@ -1,16 +1,19 @@
 package com.wj44.echem.block;
 
 import com.wj44.echem.ElementalChemistry;
+import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 20-2-2015.
@@ -19,11 +22,14 @@ import net.minecraft.world.World;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
+public class BlockDecomposer extends BlockEChemContainer
 {
-    public BlockDecomposer()
+    private final boolean isBurning;
+
+    public BlockDecomposer(boolean isBurning)
     {
         setUnlocalizedName(Names.Blocks.DECOMPOSER);
+        this.isBurning = isBurning;
     }
 
     @Override
@@ -43,10 +49,43 @@ public class BlockDecomposer extends BlockEChem implements ITileEntityProvider
         {
             if (!world.isRemote)
             {
-                player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                    player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;
         }
     }
+
+    public static void setState(boolean active, World worldIn, BlockPos pos)
+    {
+        IBlockState iblockstate = worldIn.getBlockState(pos);
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+        keepInventory = true;
+
+        if (active)
+        {
+            worldIn.setBlockState(pos, ModBlocks.lit_decomposer.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, ModBlocks.lit_decomposer.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+        }
+        else
+        {
+            worldIn.setBlockState(pos, ModBlocks.decomposer.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+            worldIn.setBlockState(pos, ModBlocks.decomposer.getDefaultState().withProperty(FACING, iblockstate.getValue(FACING)), 3);
+        }
+
+        keepInventory = false;
+
+        if (tileentity != null)
+        {
+            tileentity.validate();
+            worldIn.setTileEntity(pos, tileentity);
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public Item getItem(World worldIn, BlockPos pos)
+    {
+        return Item.getItemFromBlock(ModBlocks.decomposer);
+    }
+
 }
