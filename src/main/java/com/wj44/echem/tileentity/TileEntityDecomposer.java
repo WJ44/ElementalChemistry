@@ -1,5 +1,6 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.block.BlockDecomposer;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.reference.Elements;
@@ -306,7 +307,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
             if (burning != this.isBurning())
             {
                 sendUpdate = true;
-                //BlockDecomposer.setState(this.isBurning(), this.worldObj, this.pos); TODO
+                BlockDecomposer.setState(this.isBurning(), this.worldObj, this.pos);
             }
         }
 

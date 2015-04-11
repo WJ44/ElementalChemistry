@@ -1,5 +1,6 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.block.BlockComposer;
 import com.wj44.echem.inventory.ContainerComposer;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
@@ -311,7 +312,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
             if (burning != this.isBurning())
             {
                 sendUpdate = true;
-                //BlockComposer.setState(this.isBurning(), this.worldObj, this.pos); TODO
+                BlockComposer.setState(this.isBurning(), this.worldObj, this.pos);
             }
         }
 

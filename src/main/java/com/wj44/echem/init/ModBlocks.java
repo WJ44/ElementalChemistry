@@ -25,8 +25,10 @@ public class ModBlocks
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
     public static final Block decomposer = new BlockDecomposer(false);
     public static final Block lit_decomposer = new BlockDecomposer(true);
-    public static final Block itemScanner = new BlockItemScanner();
-    public static final Block composer = new BlockComposer();
+    public static final Block itemScanner = new BlockItemScanner(false);
+    public static final Block lit_itemScanner = new BlockItemScanner(true);
+    public static final Block composer = new BlockComposer(false);
+    public static final Block lit_composer = new BlockComposer(true);
 
     public static void init()
     {
@@ -36,7 +38,9 @@ public class ModBlocks
         GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);
         GameRegistry.registerBlock(lit_decomposer, "lit_" + Names.Blocks.DECOMPOSER);
         GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
+        GameRegistry.registerBlock(lit_itemScanner, "lit_" + Names.Blocks.ITEM_SCANNER);
         GameRegistry.registerBlock(composer, Names.Blocks.COMPOSER);
+        GameRegistry.registerBlock(lit_composer, "lit_" + Names.Blocks.COMPOSER);
     }
 
     public static void registerRenders()
@@ -44,5 +48,6 @@ public class ModBlocks
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(platinumOre), 0, Textures.Block.PLATINUM_ORE);
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(decomposer), 0, Textures.Block.DECOMPOSER);
     }
 }

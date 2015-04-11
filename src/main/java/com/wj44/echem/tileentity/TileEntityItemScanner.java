@@ -1,25 +1,17 @@
 package com.wj44.echem.tileentity;
 
-import com.wj44.echem.init.ModItems;
+import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.inventory.ContainerItemScanner;
-import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.DataHelper;
-
 import com.wj44.echem.util.ElementHelper;
-import com.wj44.echem.util.ItemElementDamageValueHelper;
 import com.wj44.echem.util.ItemStackHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
@@ -305,7 +297,7 @@ public class TileEntityItemScanner extends TileEntityLockable implements IUpdate
             if (burning != this.isBurning())
             {
                 sendUpdate = true;
-                //BlockItemScanner.setState(this.isBurning(), this.worldObj, this.pos); TODO
+                BlockItemScanner.setState(this.isBurning(), this.worldObj, this.pos);
             }
         }
 

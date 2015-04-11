@@ -33,5 +33,6 @@ public class Textures
     public static final class Block
     {
         public static final ModelResourceLocation PLATINUM_ORE = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.PLATINUM_ORE);
+        public static final ModelResourceLocation DECOMPOSER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DECOMPOSER);
     }
 }
