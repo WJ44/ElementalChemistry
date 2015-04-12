@@ -86,7 +86,7 @@ public class BlockItemScanner extends BlockEChemContainer
     @SideOnly(Side.CLIENT)
     public Item getItem(World worldIn, BlockPos pos)
     {
-        return Item.getItemFromBlock(ModBlocks.decomposer);
+        return Item.getItemFromBlock(ModBlocks.itemScanner);
     }
 
 }
