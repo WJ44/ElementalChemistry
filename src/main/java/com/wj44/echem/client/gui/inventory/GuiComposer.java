@@ -30,7 +30,7 @@ public class GuiComposer extends GuiEChem
     protected void drawGuiContainerBackgroundLayer(float var1, int var2, int var3)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(Textures.Gui.DECOMPOSER);
+        this.mc.getTextureManager().bindTexture(Textures.Gui.COMPOSER);
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
