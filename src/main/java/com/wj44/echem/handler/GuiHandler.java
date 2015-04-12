@@ -1,11 +1,10 @@
 package com.wj44.echem.handler;
 
 import com.wj44.echem.client.gui.inventory.GuiComposer;
+import com.wj44.echem.client.gui.inventory.GuiDataBank;
 import com.wj44.echem.client.gui.inventory.GuiDecomposer;
 import com.wj44.echem.client.gui.inventory.GuiItemScanner;
-import com.wj44.echem.inventory.ContainerComposer;
-import com.wj44.echem.inventory.ContainerDecomposer;
-import com.wj44.echem.inventory.ContainerItemScanner;
+import com.wj44.echem.inventory.*;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.tileentity.TileEntityComposer;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
@@ -40,6 +39,10 @@ public class GuiHandler implements IGuiHandler
         {
             return new ContainerComposer(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
         }
+        else if (ID == GUIs.DATA_BANK.ordinal())
+        {
+            return new ContainerDataBank(player, new InventoryDataBank(player.getHeldItem()));
+        }
         return null;
     }
 
@@ -58,6 +61,10 @@ public class GuiHandler implements IGuiHandler
         else if (ID == GUIs.COMPOSER.ordinal())
         {
             return new GuiComposer(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
+        }
+        else if (ID == GUIs.DATA_BANK.ordinal())
+        {
+            return  new GuiDataBank(player, new InventoryDataBank(player.getHeldItem()));
         }
         return null;
     }

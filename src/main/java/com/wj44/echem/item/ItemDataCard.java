@@ -1,6 +1,5 @@
 package com.wj44.echem.item;
 
-import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.reference.Names;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -22,7 +21,6 @@ public class ItemDataCard extends ItemEChem
     {
         super();
         setMaxStackSize(1);
-        this.setCreativeTab(CreativeTabEChem.ECHEM_TAB);
         this.setUnlocalizedName(Names.Items.DATA_CARD);
     }
 

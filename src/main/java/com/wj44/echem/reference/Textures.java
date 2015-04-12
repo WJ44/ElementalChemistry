@@ -21,6 +21,7 @@ public class Textures
         public static final ResourceLocation DECOMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "decomposer.png");
         public static final ResourceLocation ITEM_SCANNER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "itemScanner.png");
         public static final ResourceLocation COMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "composer.png");
+        public static final ResourceLocation DATA_BANK = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LOCATION + "decomposer.png");
     }
 
     public static final class Item
@@ -28,6 +29,7 @@ public class Textures
         public static final ModelResourceLocation DATA_CARD = ResourceLocationHelper.getModelResourceLocation(Names.Items.DATA_CARD);
         public static final ModelResourceLocation LOGO = ResourceLocationHelper.getModelResourceLocation(Names.Items.LOGO);
         public static final ModelResourceLocation[] ELEMENT_CONTAINERS = ResourceLocationHelper.getModelResourceLocations(Names.Items.ELEMENT_CONTAINER, Names.Items.ELEMENT_CONTAINER_SUBTYPES);
+        public static final ModelResourceLocation DATA_BANK = ResourceLocationHelper.getModelResourceLocation(Names.Items.DATA_BANK);
     }
 
     public static final class Block
