@@ -1,7 +1,7 @@
 package com.wj44.echem.handler;
 
 import com.wj44.echem.client.gui.inventory.GuiComposer;
-import com.wj44.echem.client.gui.inventory.GuiDataBank;
+import com.wj44.echem.client.gui.inventory.GuiDataBankItem;
 import com.wj44.echem.client.gui.inventory.GuiDecomposer;
 import com.wj44.echem.client.gui.inventory.GuiItemScanner;
 import com.wj44.echem.inventory.*;
@@ -41,7 +41,7 @@ public class GuiHandler implements IGuiHandler
         }
         else if (ID == GUIs.DATA_BANK.ordinal())
         {
-            return new ContainerDataBank(player, new InventoryDataBank(player.getHeldItem()));
+            return new ContainerDataBankItem(player, new InventoryDataBankItem(player.getHeldItem()));
         }
         return null;
     }
@@ -64,7 +64,7 @@ public class GuiHandler implements IGuiHandler
         }
         else if (ID == GUIs.DATA_BANK.ordinal())
         {
-            return  new GuiDataBank(player, new InventoryDataBank(player.getHeldItem()));
+            return  new GuiDataBankItem(player, new InventoryDataBankItem(player.getHeldItem()));
         }
         return null;
     }

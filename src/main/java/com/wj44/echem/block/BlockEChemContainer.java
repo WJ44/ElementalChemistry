@@ -1,6 +1,7 @@
 package com.wj44.echem.block;
 
 import com.wj44.echem.init.ModBlocks;
+import com.wj44.echem.tileentity.TileEntityDecomposer;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -9,10 +10,11 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -48,9 +50,17 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
 
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
+        TileEntity tileentity = worldIn.getTileEntity(pos);
+
+        if (tileentity instanceof IInventory)
+        {
+            InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
+            worldIn.updateComparatorOutputLevel(pos, this);
+        }
+
         super.breakBlock(worldIn, pos, state);
-        worldIn.removeTileEntity(pos);
     }
+
 
     /**
      * Called on both Client and Server when World#addBlockEvent is called
@@ -75,9 +85,9 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityFurnace)
+            if (tileentity instanceof TileEntityDecomposer) //TODO
             {
-                ((TileEntityFurnace)tileentity).setCustomInventoryName(stack.getDisplayName());
+                ((TileEntityDecomposer)tileentity).setCustomInventoryName(stack.getDisplayName());
             }
         }
     }

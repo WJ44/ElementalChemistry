@@ -12,12 +12,12 @@ import net.minecraft.util.IChatComponent;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class InventoryDataBank implements IInventory
+public class InventoryDataBankItem implements IInventory
 {
     public ItemStack parentItemStack;
     protected ItemStack[] inventory;
 
-    public  InventoryDataBank(ItemStack itemStack)
+    public InventoryDataBankItem(ItemStack itemStack)
     {
         parentItemStack = itemStack;
 
