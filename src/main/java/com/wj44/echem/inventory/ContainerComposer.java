@@ -29,12 +29,12 @@ public class ContainerComposer extends ContainerEChem
     public ContainerComposer(InventoryPlayer playerInventory, TileEntityComposer tileEntityComposer)
     {
         this.tileComposer = tileEntityComposer;
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX1, 5, 17));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX2, 23, 17));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX3, 5, 35));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX4, 23, 35));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX5, 5, 53));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX6, 23, 53));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX1, 8, 17));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX2, 26, 17));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX3, 8, 35));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX4, 26, 35));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX5, 8, 53));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX6, 26, 53));
         this.addSlotToContainer(new SlotMachineFuel(tileEntityComposer, tileEntityComposer.FUEL_INVENTORY_INDEX, 56, 53));
         this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.DATA_CARD_INVENTORY_INDEX, 56, 17)
         {
