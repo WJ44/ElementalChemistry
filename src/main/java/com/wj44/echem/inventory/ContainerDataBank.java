@@ -24,7 +24,6 @@ public class ContainerDataBank extends ContainerEChem
 
         this.numRows = tileEntityDataBank.getSizeInventory() / 9;
 
-        int i = (this.numRows - 4) * 18;
         int j;
         int k;
         for (j = 0; j < this.numRows; ++j)
@@ -35,7 +34,7 @@ public class ContainerDataBank extends ContainerEChem
             }
         }
 
-        addPlayerSlots(playerInventory, 8, 103 + i);
+        addPlayerSlots(playerInventory, 8, 84);
     }
 
     public boolean canInteractWith(EntityPlayer playerIn)

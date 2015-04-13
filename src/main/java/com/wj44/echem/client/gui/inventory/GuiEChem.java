@@ -1,11 +1,10 @@
 package com.wj44.echem.client.gui.inventory;
 
-import com.wj44.echem.reference.Reference;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 /**
  * Created by Wesley "WJ44" Joosten on 19-2-2015.
@@ -29,6 +28,7 @@ public class GuiEChem extends GuiContainer
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTick, int mouseX, int mouseY)
     {
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         mc.getTextureManager().bindTexture(guiTexture);
         drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
     }

@@ -1,12 +1,16 @@
 package com.wj44.echem.handler;
 
 import com.wj44.echem.client.gui.inventory.GuiComposer;
-import com.wj44.echem.client.gui.inventory.GuiDataBankItem;
+import com.wj44.echem.client.gui.inventory.GuiDataBank;
 import com.wj44.echem.client.gui.inventory.GuiDecomposer;
 import com.wj44.echem.client.gui.inventory.GuiItemScanner;
-import com.wj44.echem.inventory.*;
+import com.wj44.echem.inventory.ContainerComposer;
+import com.wj44.echem.inventory.ContainerDataBank;
+import com.wj44.echem.inventory.ContainerDecomposer;
+import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.tileentity.TileEntityComposer;
+import com.wj44.echem.tileentity.TileEntityDataBank;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
 import com.wj44.echem.tileentity.TileEntityItemScanner;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +45,7 @@ public class GuiHandler implements IGuiHandler
         }
         else if (ID == GUIs.DATA_BANK.ordinal())
         {
-            return new ContainerDataBankItem(player, new InventoryDataBankItem(player.getHeldItem()));
+            return new ContainerDataBank(player.inventory, (TileEntityDataBank) world.getTileEntity(pos));
         }
         return null;
     }
@@ -64,7 +68,7 @@ public class GuiHandler implements IGuiHandler
         }
         else if (ID == GUIs.DATA_BANK.ordinal())
         {
-            return  new GuiDataBankItem(player, new InventoryDataBankItem(player.getHeldItem()));
+            return new GuiDataBank(player.inventory, (TileEntityDataBank) world.getTileEntity(pos));
         }
         return null;
     }

@@ -2,6 +2,7 @@ package com.wj44.echem.init;
 
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityComposer;
+import com.wj44.echem.tileentity.TileEntityDataBank;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
 import com.wj44.echem.tileentity.TileEntityItemScanner;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -20,5 +21,6 @@ public class TileEntities
         GameRegistry.registerTileEntity(TileEntityDecomposer.class, Names.Blocks.DECOMPOSER);
         GameRegistry.registerTileEntity(TileEntityComposer.class, Names.Blocks.ITEM_SCANNER);
         GameRegistry.registerTileEntity(TileEntityItemScanner.class, Names.Blocks.COMPOSER);
+        GameRegistry.registerTileEntity(TileEntityDataBank.class, Names.Blocks.DATA_BANK);
     }
 }

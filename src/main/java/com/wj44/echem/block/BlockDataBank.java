@@ -43,7 +43,7 @@ public class BlockDataBank extends BlockEChemContainer
         {
             if (!world.isRemote)
             {
-                player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                player.openGui(ElementalChemistry.instance, GUIs.DATA_BANK.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
             }
 
             return true;

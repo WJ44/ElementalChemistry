@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class TileEntityDataBank extends TileEntityLockable implements IUpdatePlayerListBox, IInventory
 {
-    public static final int INVENTORY_SIZE = 9;
+    public static final int INVENTORY_SIZE = 27;
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
     private String customName;
 

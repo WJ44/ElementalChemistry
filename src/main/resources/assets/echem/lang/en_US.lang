@@ -11,6 +11,7 @@ tile.echem:silverOre.name=Silver Ore
 tile.echem:decomposer.name=Thermal Decomposer
 tile.echem:itemScanner.name=Item Scanner
 tile.echem:composer.name=Composer
+tile.echem:dataBank.name=Data Bank
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry

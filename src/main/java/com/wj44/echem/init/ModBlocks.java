@@ -30,6 +30,7 @@ public class ModBlocks
     public static final Block lit_itemScanner = new BlockItemScanner(true);
     public static final Block composer = new BlockComposer(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     public static final Block lit_composer = new BlockComposer(true);
+    public static final Block dataBank = new BlockDataBank();
 
     public static void init()
     {
@@ -42,6 +43,7 @@ public class ModBlocks
         GameRegistry.registerBlock(lit_itemScanner, "lit_" + Names.Blocks.ITEM_SCANNER);
         GameRegistry.registerBlock(composer, Names.Blocks.COMPOSER);
         GameRegistry.registerBlock(lit_composer, "lit_" + Names.Blocks.COMPOSER);
+        GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
     }
 
     public static void registerRenders()
