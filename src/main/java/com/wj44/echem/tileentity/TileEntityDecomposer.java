@@ -11,17 +11,11 @@ import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 20-2-2015.
@@ -30,7 +24,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDecomposer extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
+public class TileEntityDecomposer extends TileEntityEChem
 {
     public static final int INVENTORY_SIZE = 9;
     public static final int INPUT_INVENTORY_INDEX = 0;
@@ -52,7 +46,11 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
-    private String decomposerCustomName;
+
+    public String getCommandSenderName()
+    {
+        return this.hasCustomName() ? this.customName : Names.Containers.DECOMPOSER;
+    }
 
     /**
      * Returns the number of slots in the inventory.
@@ -143,26 +141,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
         }
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
-    public String getCommandSenderName()
-    {
-        return this.hasCustomName() ? this.decomposerCustomName : Names.Containers.DECOMPOSER;
-    }
-
-    /**
-     * Returns true if this thing is named
-     */
-    public boolean hasCustomName()
-    {
-        return this.decomposerCustomName != null && this.decomposerCustomName.length() > 0;
-    }
-
-    public void setCustomInventoryName(String name)
-    {
-        this.decomposerCustomName = name;
-    }
 
     public void readFromNBT(NBTTagCompound nbtTagCompound)
     {
@@ -189,7 +167,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
-            this.decomposerCustomName = nbtTagCompound.getString("CustomName");
+            this.customName = nbtTagCompound.getString("CustomName");
         }
     }
 
@@ -215,7 +193,7 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
 
         if (this.hasCustomName())
         {
-            nbtTagCompound.setString("CustomName", decomposerCustomName);
+            nbtTagCompound.setString("CustomName", customName);
         }
     }
 
@@ -234,12 +212,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     public boolean isBurning()
     {
         return this.decomposerBurnTime > 0;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static boolean isBurning(IInventory inventory)
-    {
-        return inventory.getField(0) > 0;
     }
 
     /**
@@ -402,18 +374,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     }
 
     /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-    }
-
-    public void openInventory(EntityPlayer player) {}
-
-    public void closeInventory(EntityPlayer player) {}
-
-    /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
      */
     public boolean isItemValidForSlot(int index, ItemStack stack)
@@ -424,15 +384,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     public int[] getSlotsForFace(EnumFacing side)
     {
         return side == EnumFacing.DOWN ? new int[]{FUEL_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]} : new int[]{INPUT_INVENTORY_INDEX, output[1], output[2], output[3], output[4], output[5], output[6]};
-    }
-
-    /**
-     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
-     * side
-     */
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
-    {
-        return this.isItemValidForSlot(index, itemStackIn);
     }
 
     /**
@@ -447,12 +398,6 @@ public class TileEntityDecomposer extends TileEntityLockable implements IUpdateP
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
     {
         return new ContainerDecomposer(playerInventory, this);
-    }
-
-    @Override
-    public String getGuiID()
-    {
-        return null;
     }
 
     public int getField(int id)

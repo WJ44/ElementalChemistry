@@ -1,7 +1,7 @@
 package com.wj44.echem.block;
 
 import com.wj44.echem.init.ModBlocks;
-import com.wj44.echem.tileentity.TileEntityDecomposer;
+import com.wj44.echem.tileentity.TileEntityEChem;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -85,9 +85,9 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
         {
             TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityDecomposer) //TODO
+            if (tileentity instanceof TileEntityEChem)
             {
-                ((TileEntityDecomposer)tileentity).setCustomInventoryName(stack.getDisplayName());
+                ((TileEntityEChem)tileentity).setCustomInventoryName(stack.getDisplayName());
             }
         }
     }

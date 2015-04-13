@@ -10,17 +10,11 @@ import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Created by Wesley "WJ44" Joosten on 6-3-2015.
@@ -29,7 +23,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityComposer extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
+public class TileEntityComposer extends TileEntityEChem
 {
     public static final int INVENTORY_SIZE = 9;
     public static final int INPUT_INVENTORY_INDEX1 = 0;
@@ -56,7 +50,11 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
-    private String composerCustomName;
+
+    public String getCommandSenderName()
+    {
+        return this.hasCustomName() ? this.customName : Names.Containers.COMPOSER;
+    }
 
     /**
      * Returns the number of slots in the inventory.
@@ -147,26 +145,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
         }
     }
 
-    /**
-     * Gets the name of this command sender (usually username, but possibly "Rcon")
-     */
-    public String getCommandSenderName()
-    {
-        return this.hasCustomName() ? this.composerCustomName : Names.Containers.COMPOSER;
-    }
 
-    /**
-     * Returns true if this thing is named
-     */
-    public boolean hasCustomName()
-    {
-        return this.composerCustomName != null && this.composerCustomName.length() > 0;
-    }
-
-    public void setCustomInventoryName(String name)
-    {
-        this.composerCustomName = name;
-    }
 
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound)
@@ -194,7 +173,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
 
         if (nbtTagCompound.hasKey("CustomName", 8))
         {
-            this.composerCustomName = nbtTagCompound.getString("CustomName");
+            this.customName = nbtTagCompound.getString("CustomName");
         }
     }
 
@@ -221,7 +200,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
 
         if (this.hasCustomName())
         {
-            nbtTagCompound.setString("CustomName", composerCustomName);
+            nbtTagCompound.setString("CustomName", customName);
         }
     }
 
@@ -242,11 +221,6 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
         return this.composerBurnTime > 0;
     }
 
-    @SideOnly(Side.CLIENT)
-    public static boolean isBurning(IInventory inventory)
-    {
-        return inventory.getField(0) > 0;
-    }
 
     /**
      * Updates the JList with a new model.
@@ -388,21 +362,7 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
         }
     }
 
-    /**
-     * Do not make give this method the name canInteractWith because it clashes with Container
-     */
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
-    }
 
-    public void openInventory(EntityPlayer player)
-    {
-    }
-
-    public void closeInventory(EntityPlayer player)
-    {
-    }
 
     /**
      * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
@@ -418,15 +378,6 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
     }
 
     /**
-     * Returns true if automation can insert the given item in the given slot from the given side. Args: slot, item,
-     * side
-     */
-    public boolean canInsertItem(int index, ItemStack itemStackIn, EnumFacing direction)
-    {
-        return this.isItemValidForSlot(index, itemStackIn);
-    }
-
-    /**
      * Returns true if automation can extract the given item in the given slot from the given side. Args: slot, item,
      * side
      */
@@ -438,12 +389,6 @@ public class TileEntityComposer extends TileEntityLockable implements IUpdatePla
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
     {
         return new ContainerComposer(playerInventory, this);
-    }
-
-    @Override
-    public String getGuiID()
-    {
-        return null;
     }
 
     public int getField(int id)

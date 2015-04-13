@@ -21,6 +21,7 @@ itemGroup.elementContainers= Element Containers
 container.echem:decomposer=Thermal Decomposer
 container.echem:itemScanner=Item Scanner
 container.echem:composer=Composer
+container.echem:dataBank=Data Bank
 
 # Element Containers
 item.echem:elementContainerHydrogen.name=Element Container (Hydrogen)

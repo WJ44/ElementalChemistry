@@ -12,9 +12,8 @@ import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.gui.IUpdatePlayerListBox;
-import net.minecraft.tileentity.TileEntityLockable;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumFacing;
 
 import java.util.Iterator;
 import java.util.List;
@@ -26,16 +25,20 @@ import java.util.List;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDataBank extends TileEntityLockable implements IUpdatePlayerListBox, IInventory
+public class TileEntityDataBank extends TileEntityEChem
 {
     public static final int INVENTORY_SIZE = 27;
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
-    private String customName;
 
     /** The number of players currently using this chest */
     public int numPlayersUsing;
     /** Server sync counter (once per 20 ticks) */
     private int ticksSinceSync;
+
+    public String getCommandSenderName()
+    {
+        return this.hasCustomName() ? this.customName : Names.Containers.DATA_BANK;
+    }
 
     public int getSizeInventory()
     {
@@ -103,20 +106,6 @@ public class TileEntityDataBank extends TileEntityLockable implements IUpdatePla
         this.markDirty();
     }
 
-    public String getCommandSenderName()
-    {
-        return this.hasCustomName() ? this.customName : Names.Containers.DECOMPOSER;
-    }
-
-    public boolean hasCustomName()
-    {
-        return this.customName != null && this.customName.length() > 0;
-    }
-
-    public void setCustomName(String name)
-    {
-        this.customName = name;
-    }
 
     public void readFromNBT(NBTTagCompound compound)
     {
@@ -170,10 +159,6 @@ public class TileEntityDataBank extends TileEntityLockable implements IUpdatePla
         return 1;
     }
 
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-    }
 
     public void update()
     {
@@ -248,12 +233,6 @@ public class TileEntityDataBank extends TileEntityLockable implements IUpdatePla
         return new ContainerDataBank(playerInventory, this);
     }
 
-    @Override
-    public String getGuiID()
-    {
-        return null;
-    }
-
     public int getField(int id)
     {
         return 0;
@@ -272,5 +251,17 @@ public class TileEntityDataBank extends TileEntityLockable implements IUpdatePla
         {
             this.inventory[i] = null;
         }
+    }
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing side)
+    {
+        return new int[0];
+    }
+
+    @Override
+    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
+    {
+        return false;
     }
 }

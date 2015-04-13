@@ -34,6 +34,7 @@ public final class Names
         public static final String DECOMPOSER = PREFIX + Blocks.DECOMPOSER;
         public static final String ITEM_SCANNER = PREFIX + Blocks.ITEM_SCANNER;
         public static final String COMPOSER = PREFIX + Blocks.COMPOSER;
+        public static final String DATA_BANK = PREFIX + Blocks.DATA_BANK;
 
     }
 
