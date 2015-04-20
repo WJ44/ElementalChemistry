@@ -264,4 +264,9 @@ public class TileEntityDataBank extends TileEntityEChem
     {
         return false;
     }
+
+    public ItemStack getSelected()
+    {
+        return inventory[0];
+    }
 }

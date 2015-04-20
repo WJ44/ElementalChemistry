@@ -31,6 +31,7 @@ public class ModBlocks
     public static final Block composer = new BlockComposer(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
     public static final Block lit_composer = new BlockComposer(true);
     public static final Block dataBank = new BlockDataBank();
+    public static final Block dataCable = new BlockDataCable();
 
     public static void init()
     {
@@ -44,6 +45,7 @@ public class ModBlocks
         GameRegistry.registerBlock(composer, Names.Blocks.COMPOSER);
         GameRegistry.registerBlock(lit_composer, "lit_" + Names.Blocks.COMPOSER);
         GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
+        GameRegistry.registerBlock(dataCable, Names.Blocks.DATA_CABLE);
     }
 
     public static void registerRenders()

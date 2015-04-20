@@ -1,14 +1,10 @@
 package com.wj44.echem.init;
 
-import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.util.ElementHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.ItemBlock;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -39,11 +35,11 @@ public class ItemElements
         goldIngotList.put(Elements.GOLD, 1);
         ElementHelper.addItemToItemElementList(Items.gold_ingot, goldIngotList);
 
-        Map sugarIngotList = new LinkedHashMap();
-        sugarIngotList.put(Elements.CARBON, 12);
-        sugarIngotList.put(Elements.HYDROGEN, 22);
-        sugarIngotList.put(Elements.OXYGEN, 11);
-        ElementHelper.addItemToItemElementList(Items.sugar, sugarIngotList);
+        Map sugarList = new LinkedHashMap();
+        sugarList.put(Elements.CARBON, 12);
+        sugarList.put(Elements.HYDROGEN, 22);
+        sugarList.put(Elements.OXYGEN, 11);
+        ElementHelper.addItemToItemElementList(Items.sugar, sugarList);
 
         Map goldNuggetList = new LinkedHashMap();
         goldNuggetList.put(Elements.GOLD, 1);

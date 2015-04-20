@@ -3,7 +3,7 @@ package com.wj44.echem.tileentity;
 import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.Names;
-import com.wj44.echem.util.DataHelper;
+import com.wj44.echem.util.TextHelper;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -303,7 +303,7 @@ public class TileEntityItemScanner extends TileEntityEChem
             {
                 inventory[INPUT_INVENTORY_INDEX].writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
 
-                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", DataHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", TextHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }

@@ -12,6 +12,7 @@ tile.echem:decomposer.name=Thermal Decomposer
 tile.echem:itemScanner.name=Item Scanner
 tile.echem:composer.name=Composer
 tile.echem:dataBank.name=Data Bank
+tile.echem:dataCable.name=Data Cable
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry

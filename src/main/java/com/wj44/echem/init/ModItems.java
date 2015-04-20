@@ -33,7 +33,7 @@ public class ModItems
         GameRegistry.registerItem(logo, Names.Items.LOGO);
         GameRegistry.registerItem(elementContainer, Names.Items.ELEMENT_CONTAINER);
         GameRegistry.registerItem(dataCard, Names.Items.DATA_CARD);
-        //GameRegistry.registerItem(dataBank, Names.Items.DATA_BANK); Will probably not be added
+        //GameRegistry.registerItem(connectedDataBank, Names.Items.DATA_BANK); Will probably not be added
     }
 
     public static void registerRenders()

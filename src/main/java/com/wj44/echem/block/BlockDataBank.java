@@ -4,8 +4,12 @@ import com.wj44.echem.ElementalChemistry;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityDataBank;
+import com.wj44.echem.tileentity.TileEntityEChem;
+import com.wj44.echem.util.DataHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -49,4 +53,33 @@ public class BlockDataBank extends BlockEChemContainer
             return true;
         }
     }
+
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+        if (!worldIn.isRemote)
+        {
+            DataHelper.updateData(worldIn, pos, this);
+        }
+        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
+
+    @Override
+    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
+    {
+        DataHelper.updateData(worldIn, pos, this);
+
+        if (!keepInventory)
+        {
+            TileEntity tileentity = worldIn.getTileEntity(pos);
+
+            if (tileentity instanceof TileEntityEChem)
+            {
+                InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityEChem) tileentity);
+            }
+        }
+
+        super.breakBlock(worldIn, pos, state);
+    }
+
 }

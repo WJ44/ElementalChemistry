@@ -51,6 +51,10 @@ public class TileEntityComposer extends TileEntityEChem
     private int cookTime;
     private int totalCookTime;
 
+    public boolean dataBankConnected;
+    public boolean dataBankBroken;
+    public TileEntityDataBank connectedDataBank;
+
     public String getCommandSenderName()
     {
         return this.hasCustomName() ? this.customName : Names.Containers.COMPOSER;
@@ -145,8 +149,6 @@ public class TileEntityComposer extends TileEntityEChem
         }
     }
 
-
-
     @Override
     public void readFromNBT(NBTTagCompound nbtTagCompound)
     {
@@ -228,6 +230,16 @@ public class TileEntityComposer extends TileEntityEChem
     @Override
     public void update()
     {
+        if (dataBankConnected)
+        {
+            inventory[DATA_CARD_INVENTORY_INDEX] = connectedDataBank.getSelected();
+        }
+        else if (dataBankBroken)
+        {
+            inventory[DATA_CARD_INVENTORY_INDEX] = null;
+            dataBankBroken = false;
+        }
+
         boolean burning = this.isBurning();
         boolean sendUpdate = false;
 

@@ -5,7 +5,9 @@ import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityComposer;
+import com.wj44.echem.util.DataHelper;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
@@ -89,4 +91,14 @@ public class BlockComposer extends BlockEChemContainer
         return Item.getItemFromBlock(ModBlocks.composer);
     }
 
+
+    @Override
+    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    {
+        if (!worldIn.isRemote)
+        {
+            DataHelper.updateData(worldIn, pos, this);
+        }
+        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+    }
 }

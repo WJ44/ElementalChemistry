@@ -26,7 +26,7 @@ public class ContainerComposer extends ContainerEChem
     private int cookTime;
     private int composerBurnTime;
 
-    public ContainerComposer(InventoryPlayer playerInventory, TileEntityComposer tileEntityComposer)
+    public ContainerComposer(InventoryPlayer playerInventory, final TileEntityComposer tileEntityComposer)
     {
         this.tileComposer = tileEntityComposer;
         this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX1, 8, 17));
@@ -41,12 +41,26 @@ public class ContainerComposer extends ContainerEChem
             @Override
             public boolean isItemValid(ItemStack itemStack)
             {
+                if (tileEntityComposer.dataBankConnected)
+                {
+                    return false;
+                }
                 if (itemStack.getItem() == ModItems.dataCard)
                 {
                     return itemStack.getTagCompound().getBoolean("isScanned");
                 }
 
                 return false;
+            }
+
+            @Override
+            public boolean canTakeStack(EntityPlayer player)
+            {
+                if (tileEntityComposer.dataBankConnected)
+                {
+                    return false;
+                }
+                return true;
             }
         });
         this.addSlotToContainer(new SlotMachineOutput(tileEntityComposer, tileEntityComposer.OUTPUT_INVENTORY_INDEX, 116, 35));

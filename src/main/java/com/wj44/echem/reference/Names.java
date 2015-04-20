@@ -17,6 +17,7 @@ public final class Names
         public static final String ITEM_SCANNER = "itemScanner";
         public static final String COMPOSER = "composer";
         public static final String DATA_BANK = "dataBank";
+        public static final String DATA_CABLE = "dataCable";
     }
 
     public static final class Items
