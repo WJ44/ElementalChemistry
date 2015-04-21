@@ -1,7 +1,7 @@
 package com.wj44.echem.dataCables;
 
-import com.wj44.echem.tileentity.TileEntityComposer;
 import com.wj44.echem.tileentity.TileEntityDataBank;
+import com.wj44.echem.tileentity.TileEntityElementMachine;
 import com.wj44.echem.util.BlockPosHelper;
 import com.wj44.echem.util.LogHelper;
 import net.minecraft.client.Minecraft;
@@ -23,7 +23,7 @@ import java.util.Random;
 public class DataCable
 {
     public List<DataCable> connectedCables;
-    public List<TileEntityComposer> connectedTileEntities;
+    public List<TileEntityElementMachine> connectedTileEntities;
     public BlockPos[] neighboringPositions;
     public TileEntityDataBank connectedDataBank;
     public boolean connectedToDataBank;
@@ -39,7 +39,7 @@ public class DataCable
         connectedToDataBank = false;
         neighboringPositions = BlockPosHelper.getNeighboringPositions(pos);
         connectedCables = new ArrayList<DataCable>();
-        connectedTileEntities = new ArrayList<TileEntityComposer>();
+        connectedTileEntities = new ArrayList<TileEntityElementMachine>();
         random = new Random();
         world = Minecraft.getMinecraft().theWorld;
 
@@ -77,9 +77,9 @@ public class DataCable
         for (BlockPos blockPos : neighboringPositions)
         {
             TileEntity tileEntity = world.getTileEntity(blockPos);
-            if (tileEntity instanceof TileEntityComposer)
+            if (tileEntity instanceof TileEntityElementMachine)
             {
-                connectedTileEntities.add((TileEntityComposer) tileEntity);
+                connectedTileEntities.add((TileEntityElementMachine) tileEntity);
                 LogHelper.info("found " + tileEntity + " at " + blockPos);
             }
             else if (tileEntity instanceof TileEntityDataBank)
@@ -95,7 +95,7 @@ public class DataCable
             connectedDataBank = null;
             connectedToDataBank = false;
 
-            for (TileEntityComposer tileEntity : connectedTileEntities)
+            for (TileEntityElementMachine tileEntity : connectedTileEntities)
             {
                 tileEntity.connectedDataBank = null;
                 tileEntity.dataBankConnected = false;
@@ -112,7 +112,7 @@ public class DataCable
             cable.passInformation(pos, connectedDataBank, this, pathCode);
         }
 
-        for (TileEntityComposer tileEntity : connectedTileEntities)
+        for (TileEntityElementMachine tileEntity : connectedTileEntities)
         {
             tileEntity.connectedDataBank = connectedDataBank;
             tileEntity.dataBankConnected = true;
@@ -131,7 +131,7 @@ public class DataCable
             }
         }
 
-        for (TileEntityComposer tileEntity : connectedTileEntities)
+        for (TileEntityElementMachine tileEntity : connectedTileEntities)
         {
             tileEntity.connectedDataBank = dataBank;
             tileEntity.dataBankConnected = true;
@@ -151,7 +151,7 @@ public class DataCable
             }
         }
 
-        for (TileEntityComposer tileEntity : connectedTileEntities)
+        for (TileEntityElementMachine tileEntity : connectedTileEntities)
         {
             tileEntity.connectedDataBank = null;
             tileEntity.dataBankConnected = false;
@@ -173,7 +173,7 @@ public class DataCable
             originCable.passInformation();
         }
 
-        for (TileEntityComposer tileEntity : connectedTileEntities)
+        for (TileEntityElementMachine tileEntity : connectedTileEntities)
         {
             tileEntity.connectedDataBank = null;
             tileEntity.dataBankConnected = false;

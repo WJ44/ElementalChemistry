@@ -32,7 +32,7 @@ public class ContainerDecomposer extends ContainerEChem
         this.tileDecomposer = tileEntityDecomposer;
         this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new SlotMachineFuel(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, 17, 35)
+        this.addSlotToContainer(new SlotDataCard(tileEntityDecomposer, tileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, 17, 35)
         {
             @Override
             public boolean isItemValid(ItemStack itemStack)

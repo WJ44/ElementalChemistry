@@ -48,11 +48,11 @@ public class BlockDataCable extends BlockEChem
 
             cable.checkConnected();
 
-            if((sourceBlock == ModBlocks.dataBank || sourceBlock == ModBlocks.dataCable || sourceBlock == ModBlocks.composer) && cable.connectedToDataBank)
+            if((sourceBlock == ModBlocks.dataBank || sourceBlock == ModBlocks.dataCable || sourceBlock instanceof BlockElementMachine) && cable.connectedToDataBank)
             {
                 cable.passInformation();
             }
-            else if ((sourceBlock == ModBlocks.dataBank || sourceBlock == ModBlocks.composer || sourceBlock == ModBlocks.dataCable) &! cable.connectedToDataBank && cable.originCable != null)
+            else if ((sourceBlock == ModBlocks.dataBank || sourceBlock instanceof BlockElementMachine || sourceBlock == ModBlocks.dataCable) &! cable.connectedToDataBank && cable.originCable != null)
             {
                 cable.originCable.passInformation();
             }

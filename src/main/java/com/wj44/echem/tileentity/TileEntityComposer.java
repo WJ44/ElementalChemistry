@@ -23,7 +23,7 @@ import net.minecraft.util.MathHelper;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityComposer extends TileEntityEChem
+public class TileEntityComposer extends TileEntityElementMachine
 {
     public static final int INVENTORY_SIZE = 9;
     public static final int INPUT_INVENTORY_INDEX1 = 0;
@@ -50,10 +50,6 @@ public class TileEntityComposer extends TileEntityEChem
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
-
-    public boolean dataBankConnected;
-    public boolean dataBankBroken;
-    public TileEntityDataBank connectedDataBank;
 
     public String getCommandSenderName()
     {
@@ -230,15 +226,7 @@ public class TileEntityComposer extends TileEntityEChem
     @Override
     public void update()
     {
-        if (dataBankConnected)
-        {
-            inventory[DATA_CARD_INVENTORY_INDEX] = connectedDataBank.getSelected();
-        }
-        else if (dataBankBroken)
-        {
-            inventory[DATA_CARD_INVENTORY_INDEX] = null;
-            dataBankBroken = false;
-        }
+        checkDataBank();
 
         boolean burning = this.isBurning();
         boolean sendUpdate = false;
@@ -448,6 +436,19 @@ public class TileEntityComposer extends TileEntityEChem
         for (int i = 0; i < this.inventory.length; ++i)
         {
             this.inventory[i] = null;
+        }
+    }
+
+    public void checkDataBank()
+    {
+        if (dataBankConnected)
+        {
+            inventory[DATA_CARD_INVENTORY_INDEX] = connectedDataBank.getSelected();
+        }
+        else if (dataBankBroken)
+        {
+            inventory[DATA_CARD_INVENTORY_INDEX] = null;
+            dataBankBroken = false;
         }
     }
 }

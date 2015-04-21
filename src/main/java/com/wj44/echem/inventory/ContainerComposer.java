@@ -36,33 +36,7 @@ public class ContainerComposer extends ContainerEChem
         this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX5, 8, 53));
         this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX6, 26, 53));
         this.addSlotToContainer(new SlotMachineFuel(tileEntityComposer, tileEntityComposer.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.DATA_CARD_INVENTORY_INDEX, 56, 17)
-        {
-            @Override
-            public boolean isItemValid(ItemStack itemStack)
-            {
-                if (tileEntityComposer.dataBankConnected)
-                {
-                    return false;
-                }
-                if (itemStack.getItem() == ModItems.dataCard)
-                {
-                    return itemStack.getTagCompound().getBoolean("isScanned");
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean canTakeStack(EntityPlayer player)
-            {
-                if (tileEntityComposer.dataBankConnected)
-                {
-                    return false;
-                }
-                return true;
-            }
-        });
+        this.addSlotToContainer(new SlotDataCard(tileEntityComposer, tileEntityComposer.DATA_CARD_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new SlotMachineOutput(tileEntityComposer, tileEntityComposer.OUTPUT_INVENTORY_INDEX, 116, 35));
         addPlayerSlots(playerInventory, 8, 84);
     }
