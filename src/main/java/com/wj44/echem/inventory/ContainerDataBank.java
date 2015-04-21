@@ -1,5 +1,6 @@
 package com.wj44.echem.inventory;
 
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.tileentity.TileEntityDataBank;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -30,7 +31,19 @@ public class ContainerDataBank extends ContainerEChem
         {
             for (k = 0; k < 9; ++k)
             {
-                this.addSlotToContainer(new Slot(tileEntityDataBank, k + j * 9, 8 + k * 18, 18 + j * 18));
+                this.addSlotToContainer(new Slot(tileEntityDataBank, k + j * 9, 8 + k * 18, 18 + j * 18)
+                {
+                    @Override
+                    public boolean isItemValid(ItemStack itemStack)
+                    {
+                        if (itemStack.getItem() == ModItems.dataCard)
+                        {
+                            return itemStack.getTagCompound().getBoolean("isScanned");
+                        }
+
+                        return false;
+                    }
+                });
             }
         }
 
@@ -52,25 +65,32 @@ public class ContainerDataBank extends ContainerEChem
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (index < this.numRows * 9)
+            if (itemstack.getItem() == ModItems.dataCard)
             {
-                if (!this.mergeItemStack(itemstack1, this.numRows * 9, this.inventorySlots.size(), true))
+                if (index < this.numRows * 9)
+                {
+                    if (!this.mergeItemStack(itemstack1, this.numRows * 9, this.inventorySlots.size(), true))
+                    {
+                        return null;
+                    }
+                }
+                else if (!this.mergeItemStack(itemstack1, 0, this.numRows * 9, false))
                 {
                     return null;
                 }
-            }
-            else if (!this.mergeItemStack(itemstack1, 0, this.numRows * 9, false))
-            {
-                return null;
-            }
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
+                if (itemstack1.stackSize == 0)
+                {
+                    slot.putStack((ItemStack) null);
+                }
+                else
+                {
+                    slot.onSlotChanged();
+                }
             }
             else
             {
-                slot.onSlotChanged();
+                return null;
             }
         }
 

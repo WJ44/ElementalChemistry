@@ -16,10 +16,12 @@ import net.minecraft.item.ItemStack;
 public class SlotDataCard extends Slot
 {
     TileEntityElementMachine tileEntity;
+    boolean machine;
     public SlotDataCard(TileEntityElementMachine inventoryIn, int index, int xPosition, int yPosition)
     {
         super(inventoryIn, index, xPosition, yPosition);
         tileEntity = inventoryIn;
+        this.machine = machine;
     }
 
     @Override

@@ -72,4 +72,5 @@ public class GuiComposer extends GuiEChem
 
         return this.tileEntityComposer.getField(0) * scale / j;
     }
+
 }
