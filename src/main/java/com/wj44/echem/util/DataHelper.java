@@ -2,6 +2,7 @@ package com.wj44.echem.util;
 
 import com.wj44.echem.block.BlockDataCable;
 import com.wj44.echem.dataCables.DataCable;
+import com.wj44.echem.dataCables.DataCables;
 import com.wj44.echem.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
@@ -32,7 +33,7 @@ public class DataHelper
 
     public static void removeDataCable(BlockPos pos, World world)
     {
-        DataCable cable = (DataCable) world.getTileEntity(pos);
+        DataCable cable = DataCables.getCableAt(pos);
 
         if (cable.connectedToDataBank)
         {

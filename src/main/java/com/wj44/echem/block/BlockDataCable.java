@@ -7,10 +7,8 @@ import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.DataHelper;
 import com.wj44.echem.util.LogHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -22,7 +20,7 @@ import net.minecraft.world.World;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class BlockDataCable extends BlockEChem implements ITileEntityProvider
+public class BlockDataCable extends BlockEChem
 {
     public BlockDataCable()
     {
@@ -70,11 +68,5 @@ public class BlockDataCable extends BlockEChem implements ITileEntityProvider
             DataCables.removeDataCable(pos);
         }
         super.breakBlock(worldIn, pos, state);
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(World worldIn, int meta)
-    {
-        return new DataCable();
     }
 }

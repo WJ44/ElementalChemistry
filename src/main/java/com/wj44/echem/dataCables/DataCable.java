@@ -4,8 +4,10 @@ import com.wj44.echem.tileentity.TileEntityComposer;
 import com.wj44.echem.tileentity.TileEntityDataBank;
 import com.wj44.echem.util.BlockPosHelper;
 import com.wj44.echem.util.LogHelper;
+import net.minecraft.client.Minecraft;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.Random;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class DataCable extends TileEntity
+public class DataCable
 {
     public List<DataCable> connectedCables;
     public List<TileEntityComposer> connectedTileEntities;
@@ -28,30 +30,18 @@ public class DataCable extends TileEntity
     public DataCable originCable;
     public int pathCode;
     private Random random;
+    public BlockPos pos;
+    private World world;
 
     public DataCable(BlockPos position)
     {
+        pos = position;
         connectedToDataBank = false;
         neighboringPositions = BlockPosHelper.getNeighboringPositions(pos);
         connectedCables = new ArrayList<DataCable>();
         connectedTileEntities = new ArrayList<TileEntityComposer>();
         random = new Random();
-
-        checkConnected();
-
-        if (connectedToDataBank)
-        {
-            passInformation();
-        }
-    }
-
-    public DataCable()
-    {
-        connectedToDataBank = false;
-        neighboringPositions = BlockPosHelper.getNeighboringPositions(pos);
-        connectedCables = new ArrayList<DataCable>();
-        connectedTileEntities = new ArrayList<TileEntityComposer>();
-        random = new Random();
+        world = Minecraft.getMinecraft().theWorld;
 
         checkConnected();
 
@@ -86,7 +76,7 @@ public class DataCable extends TileEntity
         connectedTileEntities.clear();
         for (BlockPos blockPos : neighboringPositions)
         {
-            TileEntity tileEntity = worldObj.getTileEntity(blockPos);
+            TileEntity tileEntity = world.getTileEntity(blockPos);
             if (tileEntity instanceof TileEntityComposer)
             {
                 connectedTileEntities.add((TileEntityComposer) tileEntity);
@@ -100,7 +90,7 @@ public class DataCable extends TileEntity
             }
         }
 
-        if (connectedDataBank != null && worldObj.getTileEntity(connectedDataBank.getPos()) == null)
+        if (connectedDataBank != null && world.getTileEntity(connectedDataBank.getPos()) == null)
         {
             connectedDataBank = null;
             connectedToDataBank = false;

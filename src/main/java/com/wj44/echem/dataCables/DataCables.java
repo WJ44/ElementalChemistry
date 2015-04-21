@@ -26,7 +26,7 @@ public class DataCables
     {
         for (DataCable dataCable : dataCables)
         {
-            if (dataCable.getPos().equals(pos))
+            if (dataCable.pos.equals(pos))
             {
                 return dataCable;
             }
