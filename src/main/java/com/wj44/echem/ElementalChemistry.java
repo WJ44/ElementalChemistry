@@ -1,5 +1,6 @@
 package com.wj44.echem;
 
+import com.wj44.echem.handler.EventHandler;
 import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.*;
 import com.wj44.echem.network.DescriptionHandler;
@@ -7,6 +8,7 @@ import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.world.gen.WorldGeneratorEChem;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -40,17 +42,17 @@ public class ElementalChemistry
         ModBlocks.init();
 
         GameRegistry.registerWorldGenerator(new WorldGeneratorEChem(), 0);
-
         NetworkHandler.init();
-
         DescriptionHandler.init();
 
-        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+        MinecraftForge.EVENT_BUS.register(new EventHandler());
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
         TileEntities.init();
 
         ItemElements.init();
