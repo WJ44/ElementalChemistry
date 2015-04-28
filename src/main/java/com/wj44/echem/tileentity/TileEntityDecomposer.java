@@ -219,8 +219,6 @@ public class TileEntityDecomposer extends TileEntityElementMachine
      */
     public void update()
     {
-        checkDataBank();
-
         boolean burning = this.isBurning();
         boolean sendUpdate = false;
 
@@ -450,16 +448,9 @@ public class TileEntityDecomposer extends TileEntityElementMachine
         }
     }
 
-    public void checkDataBank()
+    @Override
+    public int getDataCardIndex()
     {
-        if (dataBankConnected)
-        {
-            inventory[DATA_CARD_INVENTORY_INDEX] = connectedDataBank.getSelected();
-        }
-        else if (dataBankBroken)
-        {
-            inventory[DATA_CARD_INVENTORY_INDEX] = null;
-            dataBankBroken = false;
-        }
+        return DATA_CARD_INVENTORY_INDEX;
     }
 }

@@ -1,16 +1,9 @@
 package com.wj44.echem.block;
 
-import com.wj44.echem.dataCables.DataCable;
-import com.wj44.echem.dataCables.DataCables;
-import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.reference.Names;
-import com.wj44.echem.util.DataHelper;
-import com.wj44.echem.util.LogHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
+import com.wj44.echem.tileentity.TileEntityDataCable;
+import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 /**
@@ -20,7 +13,7 @@ import net.minecraft.world.World;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class BlockDataCable extends BlockEChem
+public class BlockDataCable extends BlockEChem implements ITileEntityProvider
 {
     public BlockDataCable()
     {
@@ -28,45 +21,8 @@ public class BlockDataCable extends BlockEChem
     }
 
     @Override
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
+    public TileEntity createNewTileEntity(World worldIn, int meta)
     {
-        if (!worldIn.isRemote)
-        {
-            DataCables.createDataCable(pos);
-            DataHelper.updateData(worldIn, pos, this);
-        }
-
-        return this.getDefaultState();
-    }
-
-    public void onDataChange(World world, BlockPos pos, BlockPos neighborPos, Block sourceBlock)
-    {
-        if (!world.isRemote)
-        {
-            LogHelper.info(pos + " from " + neighborPos);
-            DataCable cable = DataCables.getCableAt(pos);
-
-            cable.checkConnected();
-
-            if((sourceBlock == ModBlocks.dataBank || sourceBlock == ModBlocks.dataCable || sourceBlock instanceof BlockElementMachine) && cable.connectedToDataBank)
-            {
-                cable.passInformation();
-            }
-            else if ((sourceBlock == ModBlocks.dataBank || sourceBlock instanceof BlockElementMachine || sourceBlock == ModBlocks.dataCable) &! cable.connectedToDataBank && cable.originCable != null)
-            {
-                cable.originCable.passInformation();
-            }
-        }
-    }
-
-    @Override
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
-    {
-        if (!worldIn.isRemote)
-        {
-            DataHelper.updateData(worldIn, pos, this);
-            DataCables.removeDataCable(pos);
-        }
-        super.breakBlock(worldIn, pos, state);
+        return new TileEntityDataCable();
     }
 }

@@ -13,16 +13,16 @@ import org.lwjgl.opengl.GL11;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class GuiComposer extends GuiEChem
+public class GuiComposer extends GuiElementMachine
 {
-    private final TileEntityComposer tileEntityComposer;
+    private final TileEntityComposer tileEntity;
 
     InventoryPlayer inventoryPlayer;
 
-    public GuiComposer(InventoryPlayer playerInventory, TileEntityComposer tileEntityComposer)
+    public GuiComposer(InventoryPlayer playerInventory, TileEntityComposer tileEntity)
     {
-        super(new ContainerComposer(playerInventory, tileEntityComposer), Textures.Gui.COMPOSER, tileEntityComposer);
-        this.tileEntityComposer = tileEntityComposer;
+        super(new ContainerComposer(playerInventory, tileEntity), Textures.Gui.COMPOSER, tileEntity);
+        this.tileEntity = tileEntity;
         this.inventoryPlayer = playerInventory;
     }
 
@@ -36,7 +36,7 @@ public class GuiComposer extends GuiEChem
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
         int i1;
-        if (this.tileEntityComposer.isBurning())
+        if (this.tileEntity.isBurning())
         {
             i1 = getBurnTimeRemainingScaled(13);
             this.drawTexturedModalRect(k + 56, l + 36 + 12 - i1, 176, 12 - i1, 14, i1 + 1);
@@ -49,28 +49,28 @@ public class GuiComposer extends GuiEChem
     @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
-        String s = this.tileEntityComposer.getDisplayName().getUnformattedText();
+        String s = this.tileEntity.getDisplayName().getUnformattedText();
         this.fontRendererObj.drawString(s, this.xSize / 2 - this.fontRendererObj.getStringWidth(s) / 2, 6, 4210752);
         this.fontRendererObj.drawString(this.inventoryPlayer.getDisplayName().getUnformattedText(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     private int getCookProgressScaled(int scale)
     {
-        int j = this.tileEntityComposer.getField(2);
-        int k = this.tileEntityComposer.getField(3);
+        int j = this.tileEntity.getField(2);
+        int k = this.tileEntity.getField(3);
         return k != 0 && j != 0 ? j * scale / k : 0;
     }
 
     private int getBurnTimeRemainingScaled(int scale)
     {
-        int j = this.tileEntityComposer.getField(1);
+        int j = this.tileEntity.getField(1);
 
         if (j == 0)
         {
             j = 200;
         }
 
-        return this.tileEntityComposer.getField(0) * scale / j;
+        return this.tileEntity.getField(0) * scale / j;
     }
 
 }

@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class BlockComposer extends BlockElementMachine
+public class BlockComposer extends BlockEChemContainer
 {
     private final boolean isBurning;
 

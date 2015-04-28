@@ -10,6 +10,8 @@ package com.wj44.echem.tileentity;
 public abstract class TileEntityElementMachine extends TileEntityEChem
 {
     public boolean dataBankConnected;
-    public boolean dataBankBroken;
-    public TileEntityDataBank connectedDataBank;
+
+    public abstract int getDataCardIndex();
+
+    public abstract boolean isBurning();
 }
