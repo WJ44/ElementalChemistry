@@ -44,5 +44,5 @@ public abstract class ContainerEChem extends Container
         return true;
     }
 
-    //When using mergeItemStack, the first int is the first slot it tries to use, the second when the last + 1, the boolean is whether to do it in reverse or not
+    //When using mergeItemStack, the first int is the first slot it tries to use, the second the last + 1, the boolean is whether to do it in reverse or not
 }

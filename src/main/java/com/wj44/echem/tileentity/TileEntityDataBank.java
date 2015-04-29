@@ -27,7 +27,8 @@ import java.util.List;
  */
 public class TileEntityDataBank extends TileEntityEChem
 {
-    public static final int INVENTORY_SIZE = 27;
+    public static final int DATA_CARD_INVENTORY_INDEX = 0;
+    public static final int INVENTORY_SIZE = 28;
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
 
     /** The number of players currently using this chest */
@@ -267,6 +268,6 @@ public class TileEntityDataBank extends TileEntityEChem
 
     public ItemStack getSelected()
     {
-        return inventory[0];
+        return inventory[DATA_CARD_INVENTORY_INDEX];
     }
 }

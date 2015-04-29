@@ -58,8 +58,8 @@ public class TileEntityDataCable extends TileEntity implements IUpdatePlayerList
         for (EnumFacing f : EnumFacing.values())
         {
             TileEntity tileEntity = worldObj.getTileEntity(pos.offset(f));
-            if (tileEntity instanceof TileEntityElementMachine && (lastSelected != getSelected() || ((TileEntityElementMachine) tileEntity).dataBankConnected == false)
-                    && ((TileEntityElementMachine) tileEntity).getStackInSlot(((TileEntityElementMachine) tileEntity).getDataCardIndex()) == null)
+            if (tileEntity instanceof TileEntityElementMachine && ((lastSelected != getSelected() && ((TileEntityElementMachine) tileEntity).dataBankConnected == true)
+                    || (((TileEntityElementMachine) tileEntity).dataBankConnected == false && ((TileEntityElementMachine) tileEntity).getStackInSlot(((TileEntityElementMachine) tileEntity).getDataCardIndex()) == null)))
             {
                 ((TileEntityElementMachine) tileEntity).dataBankConnected = true;
                 ((TileEntityElementMachine) tileEntity).setInventorySlotContents(((TileEntityElementMachine) tileEntity).getDataCardIndex(), getSelected());
