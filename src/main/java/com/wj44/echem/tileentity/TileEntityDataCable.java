@@ -158,4 +158,16 @@ public class TileEntityDataCable extends TileEntity implements IUpdatePlayerList
         }
         return null;
     }
+
+    public TileEntityDataBank getDataBank()
+    {
+        if (isMaster)
+        {
+            return connectedDataBank;
+        }
+        else
+        {
+            return getMaster().connectedDataBank;
+        }
+    }
 }

@@ -4,10 +4,7 @@ import com.wj44.echem.client.gui.inventory.GuiComposer;
 import com.wj44.echem.client.gui.inventory.GuiDataBank;
 import com.wj44.echem.client.gui.inventory.GuiDecomposer;
 import com.wj44.echem.client.gui.inventory.GuiItemScanner;
-import com.wj44.echem.inventory.ContainerComposer;
-import com.wj44.echem.inventory.ContainerDataBank;
-import com.wj44.echem.inventory.ContainerDecomposer;
-import com.wj44.echem.inventory.ContainerItemScanner;
+import com.wj44.echem.inventory.*;
 import com.wj44.echem.reference.GUIs;
 import com.wj44.echem.tileentity.TileEntityComposer;
 import com.wj44.echem.tileentity.TileEntityDataBank;
@@ -35,6 +32,10 @@ public class GuiHandler implements IGuiHandler
         {
             return new ContainerDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
         }
+        else if (ID == GUIs.DECOMPOSER_CONNECTED.ordinal())
+        {
+            return new ContainerDecomposerConnected(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
+        }
         else if (ID == GUIs.ITEM_SCANNER.ordinal())
         {
             return new ContainerItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(pos));
@@ -55,6 +56,10 @@ public class GuiHandler implements IGuiHandler
     {
         BlockPos pos = new BlockPos(x, y, z);
         if (ID == GUIs.DECOMPOSER.ordinal())
+        {
+            return new GuiDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
+        }
+        else if (ID == GUIs.DECOMPOSER_CONNECTED.ordinal())
         {
             return new GuiDecomposer(player.inventory, (TileEntityDecomposer) world.getTileEntity(pos));
         }

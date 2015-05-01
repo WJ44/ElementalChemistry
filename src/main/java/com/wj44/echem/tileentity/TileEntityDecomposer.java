@@ -3,6 +3,7 @@ package com.wj44.echem.tileentity;
 import com.wj44.echem.block.BlockDecomposer;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerDecomposer;
+import com.wj44.echem.inventory.ContainerDecomposerConnected;
 import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
@@ -397,7 +398,14 @@ public class TileEntityDecomposer extends TileEntityElementMachine
 
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
     {
-        return new ContainerDecomposer(playerInventory, this);
+        if (dataBankConnected)
+        {
+            return new ContainerDecomposerConnected(playerInventory, this);
+        }
+        else
+        {
+            return new ContainerDecomposer(playerInventory, this);
+        }
     }
 
     public int getField(int id)

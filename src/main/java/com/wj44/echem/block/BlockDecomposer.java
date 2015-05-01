@@ -50,7 +50,15 @@ public class BlockDecomposer extends BlockEChemContainer
         {
             if (!world.isRemote)
             {
+                TileEntityDecomposer tileEntity = (TileEntityDecomposer) world.getTileEntity(pos);
+                if (tileEntity.dataBankConnected)
+                {
+                    player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER_CONNECTED.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                }
+                else
+                {
                     player.openGui(ElementalChemistry.instance, GUIs.DECOMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                }
             }
 
             return true;

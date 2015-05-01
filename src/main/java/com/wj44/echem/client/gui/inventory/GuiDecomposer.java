@@ -1,6 +1,7 @@
 package com.wj44.echem.client.gui.inventory;
 
 import com.wj44.echem.inventory.ContainerDecomposer;
+import com.wj44.echem.inventory.ContainerDecomposerConnected;
 import com.wj44.echem.reference.Textures;
 import com.wj44.echem.tileentity.TileEntityDecomposer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -19,7 +20,7 @@ public class GuiDecomposer extends GuiElementMachine
 
     public GuiDecomposer(InventoryPlayer playerInventory, TileEntityDecomposer tileEntity)
     {
-        super(new ContainerDecomposer(playerInventory, tileEntity), Textures.Gui.DECOMPOSER, tileEntity);
+        super(tileEntity.dataBankConnected ? new ContainerDecomposerConnected(playerInventory, tileEntity) : new ContainerDecomposer(playerInventory, tileEntity), Textures.Gui.DECOMPOSER, tileEntity);
         this.tileEntity = tileEntity;
         this.inventoryPlayer = playerInventory;
     }
@@ -33,6 +34,10 @@ public class GuiDecomposer extends GuiElementMachine
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
+        if(tileEntity.dataBankConnected)
+        {
+            drawTexturedModalRect(k - 125, l, 0, 166, 129, 82);
+        }
         int i1;
         if (this.tileEntity.isBurning())
         {
