@@ -22,7 +22,8 @@ group= "com.wj44.echem" // http://maven.apache.org/guides/mini/guide-naming-conv
 archivesBaseName = "ElementalChemistry"
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    version = "1.8-11.14.1.1334"
+    mappings = 'snapshot_20150502'
 }
 
 dependencies {
