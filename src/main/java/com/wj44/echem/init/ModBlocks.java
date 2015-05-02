@@ -21,7 +21,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModBlocks
 {
-    public static final Block testBlock = new BlockEChem("testBlock"); //TODO Delete
     public static final Block platinumOre = new BlockEChemOre(Names.Blocks.PLATINUM_ORE, 3.0F, 2);
     public static final Block silverOre = new BlockEChemOre(Names.Blocks.SILVER_ORE, 3.0F, 2);
     public static final Block decomposer = new BlockDecomposer(false).setCreativeTab(CreativeTabEChem.ECHEM_TAB);
@@ -35,7 +34,6 @@ public class ModBlocks
 
     public static void init()
     {
-        GameRegistry.registerBlock(testBlock, "testBlock"); //TODO Delete
         GameRegistry.registerBlock(platinumOre, Names.Blocks.PLATINUM_ORE);
         GameRegistry.registerBlock(silverOre, Names.Blocks.SILVER_ORE);
         GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);

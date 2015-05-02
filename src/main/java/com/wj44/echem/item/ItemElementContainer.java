@@ -1,8 +1,8 @@
 package com.wj44.echem.item;
 
+import com.wj44.echem.api.Element;
 import com.wj44.echem.creativetab.CreativeTabEChem;
 import com.wj44.echem.init.ModItems;
-import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Textures;
 import net.minecraft.client.resources.model.ModelBakery;
@@ -40,7 +40,7 @@ public class ItemElementContainer extends ItemEChem
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs creativeTab, List list)
     {
-        for (int meta = 0; meta < Elements.values().length; ++meta)
+        for (int meta = 0; meta < Element.elements.values().size(); ++meta)
         {
             list.add(new ItemStack(this, 1, meta));
         }

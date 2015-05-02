@@ -1,9 +1,10 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.api.Element;
+import com.wj44.echem.api.ElementalChemistryAPI;
 import com.wj44.echem.block.BlockComposer;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerComposer;
-import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
 import com.wj44.echem.util.ItemStackHelper;
@@ -308,8 +309,8 @@ public class TileEntityComposer extends TileEntityElementMachine
         else
         {
             ItemStack itemstack = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
-            if (!ElementHelper.itemElementsList.containsKey(itemstack.getItem())) return false;
-            if (!new ElementHelper(itemstack.getItem()).compareElementsWithContainers(new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
+            if (!ElementalChemistryAPI.hasElements(itemstack)) return false;
+            if (ElementHelper.compareElementsWithInventory(itemstack, new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
             if (inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
             if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack) && inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize <= 64) return true;
             return false;
@@ -323,10 +324,10 @@ public class TileEntityComposer extends TileEntityElementMachine
     {
         if (this.canSmelt())
         {
-            for (Elements element : new ElementHelper(ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getItem()).getElements())
+            for (Element element : ElementalChemistryAPI.itemElements.get(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getElements())
             {
-                int amount = new ElementHelper(ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getItem()).getAmount(element);
-                ItemStack inputDecr = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
+                int amount = ElementalChemistryAPI.itemElements.get(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getAmount(element);
+                ItemStack inputDecr = new ItemStack(ModItems.elementContainer, amount, element.number);
                 int decreased = 0;
 
                 for (int index : input)

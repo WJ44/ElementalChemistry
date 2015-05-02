@@ -1,13 +1,13 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.api.Element;
+import com.wj44.echem.api.ElementalChemistryAPI;
 import com.wj44.echem.block.BlockDecomposer;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.inventory.ContainerDecomposerConnected;
-import com.wj44.echem.reference.Elements;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.util.ElementHelper;
-import com.wj44.echem.util.ItemElementDamageValueHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -301,10 +301,9 @@ public class TileEntityDecomposer extends TileEntityElementMachine
         }
         else
         {
-            if (!ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
-            if (!ItemElementDamageValueHelper.damageValueHelper(inventory[INPUT_INVENTORY_INDEX])) return false;
+            if (!ElementalChemistryAPI.hasElements(inventory[INPUT_INVENTORY_INDEX])) return false;
             if (!(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()).getItem() == inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
-            if (new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).compareContainersWithElements(outputStacks)) return true;
+            if (ElementHelper.compareInventoryWithElements(inventory[INPUT_INVENTORY_INDEX], outputStacks)) return true;
             return false;
         }
     }
@@ -316,10 +315,10 @@ public class TileEntityDecomposer extends TileEntityElementMachine
     {
         if (this.canSmelt())
         {
-            for (Elements element : new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
+            for (Element element : ElementalChemistryAPI.itemElements.get(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
             {
-                int amount = new ElementHelper(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
-                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.ordinal());
+                int amount = ElementalChemistryAPI.itemElements.get(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
+                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.number);
                 if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
                 {
                     inventory[OUTPUT_INVENTORY_INDEX1] = output.copy();

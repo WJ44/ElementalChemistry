@@ -1,17 +1,14 @@
 package com.wj44.echem.util;
 
-import com.wj44.echem.reference.Elements;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import com.wj44.echem.api.Element;
+import com.wj44.echem.api.ElementList;
+import com.wj44.echem.api.ElementalChemistryAPI;
 import net.minecraft.item.ItemStack;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.Arrays;
 
 /**
- * Created by Wesley "WJ44" Joosten on 22-2-2015.
+ * Created by Wesley "WJ44" Joosten on 2-5-2015.
  * <p/>
  * Part of the ElementalChemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
@@ -19,46 +16,23 @@ import java.util.Set;
  */
 public class ElementHelper
 {
-    public static Map itemElementsList = new HashMap();
-    private Map elementList;
-
-    public ElementHelper(Item item)
+    public static ElementList getElementList(ItemStack itemStack)
     {
-        elementList = new LinkedHashMap((LinkedHashMap) itemElementsList.get(item));
+        return ElementalChemistryAPI.hasElements(itemStack) ? ElementalChemistryAPI.itemElements.get(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage())) : null;
     }
-
-    public static void addItemToItemElementList(Item item, Map elementList)
-    {
-        itemElementsList.put(item, elementList);
-    }
-
-    public static void addItemToItemElementList(Block block, Map elementList)
-    {
-        itemElementsList.put(Item.getItemFromBlock(block), elementList);
-    }
-
-    public Set<Elements> getElements()
-    {
-        return elementList.keySet();
-    }
-
-    public int getAmount(Elements element)
-    {
-        return (Integer) elementList.get(element);
-    }
-
 
     /**
      * Returns true if there is room in the inventory for the element containers
      *
-     * @param itemStacks all output slots in the inventory
+     * @param item the item that is to be decomposed
+     * @param inventory all output slots in the inventory
      * @return
      */
-    public boolean compareContainersWithElements(ItemStack[] itemStacks)
+    public static boolean compareInventoryWithElements(ItemStack item, ItemStack[] inventory) //TODO Improve(stack up to 64) (also in te)
     {
         int availableSlots = 0;
 
-        for (ItemStack itemStack : itemStacks)
+        for (ItemStack itemStack : inventory)
         {
             if (itemStack == null)
             {
@@ -66,49 +40,46 @@ public class ElementHelper
             }
             else
             {
-                for (Elements element : getElements())
+                for (Element element : getElementList(item).getElements())
                 {
-                    if (itemStack.getItemDamage() == element.ordinal() && itemStack.stackSize + getAmount(element) <= 64)
+                    if (itemStack.getItemDamage() == element.number && itemStack.stackSize + getElementList(item).getAmount(element) <= 64)
                     {
                         availableSlots++;
                     }
                 }
             }
         }
-        return availableSlots >= getElements().size();
+        return availableSlots >= getElementList(item).getElements().length;
     }
 
     /**
      * Returns true if the input element containers are the elements required for the output
      *
-     * @param itemStacks
+     * @param item the item that is to be composed
+     * @param inventory all input slots in the inventory
      * @return
      */
-    public boolean compareElementsWithContainers(ItemStack[] itemStacks)
+    public static boolean compareElementsWithInventory(ItemStack item, ItemStack[] inventory) //TODO Improve(stack up to 64) (also in te)
     {
         int matching = 0;
-        int[] elementCounter = new int[Elements.values().length];
-        for (Elements element : getElements())
+        int[] elementCounter = new int[Element.elements.values().size()];
+        for (Element element : getElementList(item).getElements())
         {
-            for (ItemStack itemStack : itemStacks)
+            for (ItemStack itemStack : inventory)
             {
                 if (itemStack != null)
                 {
-                    if (itemStack.getItemDamage() == element.ordinal())
+                    if (itemStack.getItemDamage() == element.number)
                     {
-                        elementCounter[element.ordinal()] += itemStack.stackSize;
+                        elementCounter[element.number] += itemStack.stackSize;
                     }
                 }
             }
-            if (elementCounter[element.ordinal()] >= getAmount(element))
+            if (elementCounter[element.number] >= getElementList(item).getAmount(element))
             {
                 matching++;
             }
         }
-        return matching == getElements().size();
+        return matching == getElementList(item).getElements().length;
     }
-
 }
-
-
-

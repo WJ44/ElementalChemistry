@@ -1,10 +1,10 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.api.ElementalChemistryAPI;
 import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.Names;
-import com.wj44.echem.util.TextHelper;
-import com.wj44.echem.util.ElementHelper;
+import com.wj44.echem.util.FormulaHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -299,11 +299,11 @@ public class TileEntityItemScanner extends TileEntityEChem
     {
         if (this.canSmelt())
         {
-            if (ElementHelper.itemElementsList.containsKey(inventory[INPUT_INVENTORY_INDEX].getItem()))
+            if (ElementalChemistryAPI.hasElements(inventory[INPUT_INVENTORY_INDEX]))
             {
                 inventory[INPUT_INVENTORY_INDEX].writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
 
-                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", TextHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", FormulaHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }

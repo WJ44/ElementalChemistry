@@ -1,12 +1,10 @@
 package com.wj44.echem.init;
 
-import com.wj44.echem.reference.Elements;
-import com.wj44.echem.util.ElementHelper;
+import com.wj44.echem.api.Element;
+import com.wj44.echem.api.ElementList;
+import com.wj44.echem.api.ElementalChemistryAPI;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * Created by Wesley "WJ44" Joosten on 22-2-2015.
@@ -19,75 +17,21 @@ public class ItemElements
 {
     public static void init()
     {
-        Map coalList = new LinkedHashMap();
-        coalList.put(Elements.CARBON, 1);
-        ElementHelper.addItemToItemElementList(Items.coal, coalList);
-
-        Map diamondList = new LinkedHashMap();
-        diamondList.put(Elements.CARBON, 1);
-        ElementHelper.addItemToItemElementList(Items.diamond, diamondList);
-
-        Map ironIngotList = new LinkedHashMap();
-        ironIngotList.put(Elements.IRON, 1);
-        ElementHelper.addItemToItemElementList(Items.iron_ingot, ironIngotList);
-
-        Map goldIngotList = new LinkedHashMap();
-        goldIngotList.put(Elements.GOLD, 1);
-        ElementHelper.addItemToItemElementList(Items.gold_ingot, goldIngotList);
-
-        Map sugarList = new LinkedHashMap();
-        sugarList.put(Elements.CARBON, 12);
-        sugarList.put(Elements.HYDROGEN, 22);
-        sugarList.put(Elements.OXYGEN, 11);
-        ElementHelper.addItemToItemElementList(Items.sugar, sugarList);
-
-        Map goldNuggetList = new LinkedHashMap();
-        goldNuggetList.put(Elements.GOLD, 1);
-        ElementHelper.addItemToItemElementList(Items.gold_nugget, goldNuggetList);
-
-        Map emeraldList = new LinkedHashMap();
-        emeraldList.put(Elements.BERYLLIUM, 3);
-        emeraldList.put(Elements.ALUMINIUM, 2);
-        emeraldList.put(Elements.SILICON, 6);
-        emeraldList.put(Elements.OXYGEN, 18);
-        ElementHelper.addItemToItemElementList(Items.emerald, emeraldList);
-
-        Map quartzList = new LinkedHashMap();
-        quartzList.put(Elements.SILICON, 1);
-        quartzList.put(Elements.OXYGEN, 2);
-        ElementHelper.addItemToItemElementList(Items.quartz, quartzList);
-
-        Map ironBlockList = new LinkedHashMap();
-        ironBlockList.put(Elements.IRON, 1);
-        ElementHelper.addItemToItemElementList(Blocks.iron_block, ironBlockList);
-
-        Map goldBlockList = new LinkedHashMap();
-        goldBlockList.put(Elements.GOLD, 1);
-        ElementHelper.addItemToItemElementList(Blocks.gold_block, goldBlockList);
-
-        Map obsidianList = new LinkedHashMap();
-        obsidianList.put(Elements.SILICON, 1);
-        obsidianList.put(Elements.OXYGEN, 2);
-        ElementHelper.addItemToItemElementList(Blocks.obsidian, obsidianList);
-
-        Map diamondBlockList = new LinkedHashMap();
-        diamondBlockList.put(Elements.CARBON, 1);
-        ElementHelper.addItemToItemElementList(Blocks.diamond_block, diamondBlockList);
-
-        Map emeraldBlockList = new LinkedHashMap();
-        emeraldBlockList.put(Elements.BERYLLIUM, 3);
-        emeraldBlockList.put(Elements.ALUMINIUM, 2);
-        emeraldBlockList.put(Elements.SILICON, 6);
-        emeraldBlockList.put(Elements.OXYGEN, 18);
-        ElementHelper.addItemToItemElementList(Blocks.emerald_block, emeraldBlockList);
-
-        Map quartzBlockList = new LinkedHashMap();
-        quartzBlockList.put(Elements.SILICON, 1);
-        quartzBlockList.put(Elements.OXYGEN, 2);
-        ElementHelper.addItemToItemElementList(Blocks.quartz_block, quartzBlockList);
-
-        Map coalBlockList = new LinkedHashMap();
-        coalBlockList.put(Elements.CARBON, 1);
-        ElementHelper.addItemToItemElementList(Blocks.coal_block, coalBlockList);
+        //Items
+        ElementalChemistryAPI.registerItemElements(Items.coal, new ElementList().add(Element.CARBON, 1));
+        ElementalChemistryAPI.registerItemElements(Items.diamond, new ElementList().add(Element.CARBON, 1));
+        ElementalChemistryAPI.registerItemElements(Items.iron_ingot, new ElementList().add(Element.IRON, 1));
+        ElementalChemistryAPI.registerItemElements(Items.gold_ingot, new ElementList().add(Element.GOLD, 1));
+        ElementalChemistryAPI.registerItemElements(Items.sugar, new ElementList().add(Element.CARBON, 12).add(Element.HYDROGEN, 22).add(Element.OXYGEN, 11));
+        ElementalChemistryAPI.registerItemElements(Items.gold_nugget, new ElementList().add(Element.GOLD, 1));
+        ElementalChemistryAPI.registerItemElements(Items.emerald, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));
+        ElementalChemistryAPI.registerItemElements(Items.quartz, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        //Blocks
+        ElementalChemistryAPI.registerItemElements(Blocks.iron_block, new ElementList().add(Element.GOLD, 1));
+        ElementalChemistryAPI.registerItemElements(Blocks.obsidian, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        ElementalChemistryAPI.registerItemElements(Blocks.diamond_block, new ElementList().add(Element.CARBON, 1));
+        ElementalChemistryAPI.registerItemElements(Blocks.emerald_block, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));
+        ElementalChemistryAPI.registerItemElements(Blocks.quartz_block, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        ElementalChemistryAPI.registerItemElements(Blocks.coal_block, new ElementList().add(Element.CARBON, 1));
     }
 }

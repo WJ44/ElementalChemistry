@@ -5,7 +5,6 @@ item.echem:dataCard.name=Data Card
 item.echem:dataBank.name=Data Bank
 
 # Blocks
-tile.echem:testBlock.name=Test Block
 tile.echem:platinumOre.name=Platinum Ore
 tile.echem:silverOre.name=Silver Ore
 tile.echem:decomposer.name=Thermal Decomposer
