@@ -4,6 +4,7 @@ import com.wj44.echem.api.ElementalChemistryAPI;
 import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.util.APIHelper;
 import com.wj44.echem.util.FormulaHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -305,6 +306,12 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
                 inventory[INPUT_INVENTORY_INDEX].writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", FormulaHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
+
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Density", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.DENSITY));
+
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Volume", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.VOLUME));
+
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Mass", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.MASS));
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }

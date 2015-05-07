@@ -1,10 +1,13 @@
 package com.wj44.echem.item;
 
+import com.wj44.echem.api.Element;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.util.APIHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
@@ -44,7 +47,36 @@ public class ItemDataCard extends ItemEChem
         {
             list.remove("Empty");
             list.add("Item: " + ItemStack.loadItemStackFromNBT(itemStack.getTagCompound()).getDisplayName());
-            list.add("Formula: " + itemStack.getTagCompound().getString("Formula"));
+
+            String contains = "Contains: ";
+            for (Element element : APIHelper.getElementList(ItemStack.loadItemStackFromNBT(itemStack.getTagCompound())).getElements())
+            {
+                int amount = APIHelper.getElementAmount(ItemStack.loadItemStackFromNBT(itemStack.getTagCompound()), element);
+                contains += amount + " " + element.symbol + ", ";
+            }
+            contains = contains.replace(contains.substring(contains.length() - 2), "");
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+            {
+                list.add(contains);
+            }
+            else
+            {
+                list.remove(contains);
+            }
+            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
+            {
+                list.add("Formula: " + itemStack.getTagCompound().getString("Formula"));
+                list.add("Density: " + itemStack.getTagCompound().getInteger("Density") + " kg/m³");
+                list.add("Mass: " + itemStack.getTagCompound().getInteger("Mass") + " g");
+                list.add("Volume: " + itemStack.getTagCompound().getInteger("Volume")+ " m³");
+            }
+            else
+            {
+                list.remove("Formula: " + itemStack.getTagCompound().getString("Formula"));
+                list.remove("Density: " + itemStack.getTagCompound().getInteger("Density") + " kg/m³");
+                list.remove("Mass: " + itemStack.getTagCompound().getInteger("Mass") + " g");
+                list.remove("Volume: " + itemStack.getTagCompound().getInteger("Volume")+ " m³");
+            }
         }
         else
         {

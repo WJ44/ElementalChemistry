@@ -7,8 +7,11 @@ import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Textures;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -54,5 +57,32 @@ public class ItemElementContainer extends ItemEChem
             variantNames[i] = Textures.RESOURCE_PREFIX + Names.Items.ELEMENT_CONTAINER + Names.Items.ELEMENT_CONTAINER_SUBTYPES[i];
         }
         ModelBakery.addVariantName(ModItems.elementContainer, variantNames);
+    }
+
+    @Override
+    public void onCreated(ItemStack itemStack, World world, EntityPlayer player)
+    {
+        itemStack.setTagCompound(new NBTTagCompound());
+        itemStack.getTagCompound().setInteger("Amount", 0);
+    }
+
+    @Override
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean b)
+    {
+        if (!itemStack.hasTagCompound())
+        {
+            itemStack.setTagCompound(new NBTTagCompound());
+            itemStack.getTagCompound().setInteger("Amount", 0);
+        }
+
+        if (itemStack.getTagCompound().getInteger("Amount") != 0)
+        {
+            list.remove("Empty");
+            list.add("Amount: " + itemStack.getTagCompound().getInteger("Amount"));
+        }
+        else
+        {
+            list.add("Empty");
+        }
     }
 }

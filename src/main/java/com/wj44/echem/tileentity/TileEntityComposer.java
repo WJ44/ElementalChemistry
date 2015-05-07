@@ -7,7 +7,7 @@ import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerComposer;
 import com.wj44.echem.inventory.ContainerComposerConnected;
 import com.wj44.echem.reference.Names;
-import com.wj44.echem.util.ElementHelper;
+import com.wj44.echem.util.APIHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -312,7 +312,7 @@ public class TileEntityComposer extends TileEntityElementMachine implements ISid
         {
             ItemStack itemstack = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
             if (!ElementalChemistryAPI.hasElements(itemstack)) return false;
-            if (!ElementHelper.compareElementsWithInventory(itemstack, new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
+            if (!APIHelper.compareElementsWithInventory(itemstack, new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
             if (inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
             if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack) && inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize <= 64) return true;
             return false;
@@ -326,9 +326,9 @@ public class TileEntityComposer extends TileEntityElementMachine implements ISid
     {
         if (this.canSmelt())
         {
-            for (Element element : ElementHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getElements())
+            for (Element element : APIHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getElements())
             {
-                int amount = ElementHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getAmount(element);
+                int amount = APIHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getAmount(element);
                 ItemStack inputDecr = new ItemStack(ModItems.elementContainer, amount, element.number);
                 int decreased = 0;
 

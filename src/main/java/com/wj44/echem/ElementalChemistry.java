@@ -56,6 +56,7 @@ public class ElementalChemistry
         TileEntities.init();
 
         ItemElements.init();
+        ItemProperties.init();
 
         proxy.init();
 

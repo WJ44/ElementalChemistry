@@ -3,6 +3,8 @@ package com.wj44.echem.util;
 import com.wj44.echem.api.Element;
 import com.wj44.echem.api.ElementList;
 import com.wj44.echem.api.ElementalChemistryAPI;
+import com.wj44.echem.api.PropertyList;
+import com.wj44.echem.reference.Names;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -14,11 +16,16 @@ import java.util.Arrays;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class ElementHelper
+public class APIHelper
 {
     public static ElementList getElementList(ItemStack itemStack)
     {
         return ElementalChemistryAPI.hasElements(itemStack) ? ElementalChemistryAPI.itemElements.get(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage())) : null;
+    }
+
+    public static PropertyList getPropertyList(ItemStack itemStack)
+    {
+        return ElementalChemistryAPI.hasProperties(itemStack) ? ElementalChemistryAPI.itemProperties.get(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage())) : null;
     }
 
     /**
@@ -81,5 +88,19 @@ public class ElementHelper
             }
         }
         return matching == getElementList(item).getElements().length;
+    }
+
+    public static int getElementAmount(ItemStack itemStack, Element element)
+    {
+        ElementList elementList = getElementList(itemStack);
+        int totalElements = 0;
+        for (Element e : elementList.getElements())
+        {
+            totalElements += elementList.getAmount(e);
+        }
+        float elementProportion = totalElements / elementList.getAmount(element);
+        int itemMass = (Integer) getPropertyList(itemStack).getValue(Names.Properties.MASS);
+        int amount = (int) (itemMass / (0.166053892F * element.mass));
+        return (int) (amount * elementProportion) / 10;
     }
 }

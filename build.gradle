@@ -17,7 +17,7 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 group= "com.wj44.echem" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ElementalChemistry"
 

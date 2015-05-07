@@ -27,7 +27,7 @@ public class FormulaHelper
         }
         else
         {
-            ElementList elementList = ElementHelper.getElementList(itemStack);
+            ElementList elementList = APIHelper.getElementList(itemStack);
             for (Element element : elementList.getElements())
             {
                 formula += element.symbol + elementList.getAmount(element);

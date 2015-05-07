@@ -43,4 +43,11 @@ public final class Names
     {
         public static final String ITEMS = "Items";
     }
+
+    public static final class Properties
+    {
+        public static final String DENSITY = "Density";
+        public static final String MASS = "Mass";
+        public static final String VOLUME = "Volume";
+    }
 }

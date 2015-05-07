@@ -7,7 +7,7 @@ import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerDecomposer;
 import com.wj44.echem.inventory.ContainerDecomposerConnected;
 import com.wj44.echem.reference.Names;
-import com.wj44.echem.util.ElementHelper;
+import com.wj44.echem.util.APIHelper;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -304,7 +304,7 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
         {
             if (!ElementalChemistryAPI.hasElements(inventory[INPUT_INVENTORY_INDEX])) return false;
             if (!(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()).getItem() == inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
-            if (ElementHelper.compareInventoryWithElements(inventory[INPUT_INVENTORY_INDEX], outputStacks)) return true;
+            if (APIHelper.compareInventoryWithElements(inventory[INPUT_INVENTORY_INDEX], outputStacks)) return true;
             return false;
         }
     }
@@ -316,17 +316,19 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
     {
         if (this.canSmelt())
         {
-            for (Element element : ElementHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getElements())
+            for (Element element : APIHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getElements())
             {
-                int amount = ElementHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getAmount(element);
-                ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.number);
+                int amount = APIHelper.getElementAmount(inventory[INPUT_INVENTORY_INDEX], element);
+                ItemStack output = new ItemStack(ModItems.elementContainer, 1, element.number);
+                output.setTagCompound(new NBTTagCompound());
+                output.getTagCompound().setInteger("Amount", amount);
                 if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
                 {
                     inventory[OUTPUT_INVENTORY_INDEX1] = output.copy();
                 }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX1].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX1].stackSize <= 64)
+                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX1].getItemDamage())
                 {
-                    inventory[OUTPUT_INVENTORY_INDEX1].stackSize += output.stackSize;
+                    inventory[OUTPUT_INVENTORY_INDEX1].getTagCompound().setInteger("Amount", inventory[OUTPUT_INVENTORY_INDEX1].getTagCompound().getInteger("Amount") + amount);
                 }
                 else if (inventory[OUTPUT_INVENTORY_INDEX2] == null)
                 {

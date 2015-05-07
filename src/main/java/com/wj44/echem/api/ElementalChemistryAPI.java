@@ -18,7 +18,9 @@ import java.util.List;
 public class ElementalChemistryAPI
 {
     public static HashMap<List, ElementList> itemElements = new HashMap<List, ElementList>();
+    public static HashMap<List, PropertyList> itemProperties = new HashMap<List, PropertyList>();
 
+    //======================================ELEMENTS======================================
     /**
      * Used to add elements to an item/block (respects metadata)
      * example: ElementalChemistryAPI.registerItemElements(new ItemStack(Items.dye, 0, 0), new ElementList().add(Element.CALCIUM, 1));
@@ -60,6 +62,28 @@ public class ElementalChemistryAPI
     public static boolean hasElements(ItemStack itemStack)
     {
         if (itemElements.containsKey(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage()))) return true;
+        return false;
+    }
+
+    //======================================PROPERTIES======================================
+    public static void registerItemProperties(ItemStack itemStack, PropertyList propertyList)
+    {
+        itemProperties.put(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage()), propertyList);
+    }
+
+    public static void registerItemProperties(Item item, PropertyList propertyList)
+    {
+        registerItemProperties(new ItemStack(item), propertyList);
+    }
+
+    public static void registerItemProperties(Block block, PropertyList propertyList)
+    {
+        registerItemProperties(new ItemStack(block), propertyList);
+    }
+
+    public static boolean hasProperties(ItemStack itemStack)
+    {
+        if (itemProperties.containsKey(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage()))) return true;
         return false;
     }
 }
