@@ -1,6 +1,5 @@
 package com.wj44.echem.init;
 
-import com.wj44.echem.item.ItemDataBank;
 import com.wj44.echem.item.ItemDataCard;
 import com.wj44.echem.item.ItemEChem;
 import com.wj44.echem.item.ItemElementContainer;
@@ -26,14 +25,12 @@ public class ModItems
     public static final Item logo = new ItemEChem(Names.Items.LOGO);
     public static final Item elementContainer = new ItemElementContainer();
     public static final Item dataCard = new ItemDataCard();
-    public static final Item dataBank = new ItemDataBank();
 
     public static void init()
     {
         GameRegistry.registerItem(logo, Names.Items.LOGO);
         GameRegistry.registerItem(elementContainer, Names.Items.ELEMENT_CONTAINER);
         GameRegistry.registerItem(dataCard, Names.Items.DATA_CARD);
-        //GameRegistry.registerItem(connectedDataBank, Names.Items.DATA_BANK); Will probably not be added
     }
 
     public static void registerRenders()
@@ -42,7 +39,6 @@ public class ModItems
 
         renderItem.getItemModelMesher().register(dataCard, 0, Textures.Item.DATA_CARD);
         renderItem.getItemModelMesher().register(logo, 0, Textures.Item.LOGO);
-        renderItem.getItemModelMesher().register(dataBank, 0, Textures.Item.DATA_BANK);
 
         registerHasSubtypes(elementContainer, Textures.Item.ELEMENT_CONTAINERS, renderItem);
     }

@@ -1,0 +1,8 @@
+{
+	"parent": "block/orientable",
+	"textures": {
+		"top": "EChem:blocks/itemScanner_top",
+		"front": "EChem:blocks/itemScanner_front_off",
+		"side": "EChem:blocks/itemScanner_side"
+	}
+}

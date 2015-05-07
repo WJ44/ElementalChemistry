@@ -22,7 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class BlockComposer extends BlockEChemContainer
+public class BlockComposer extends BlockElementMachine
 {
     private final boolean isBurning;
 
@@ -50,7 +50,15 @@ public class BlockComposer extends BlockEChemContainer
         {
             if (!world.isRemote)
             {
-                player.openGui(ElementalChemistry.instance, GUIs.COMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                TileEntityComposer tileEntity = (TileEntityComposer) world.getTileEntity(pos);
+                if (tileEntity.dataBankConnected)
+                {
+                    player.openGui(ElementalChemistry.instance, GUIs.COMPOSER_CONNECTED.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                }
+                else
+                {
+                    player.openGui(ElementalChemistry.instance, GUIs.COMPOSER.ordinal(), world, pos.getX(), pos.getY(), pos.getZ());
+                }
             }
 
             return true;

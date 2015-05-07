@@ -2,7 +2,7 @@
 	"parent": "block/orientable",
 	"textures": {
 		"top": "EChem:blocks/composer_top",
-		"front": "EChem:blocks/composer_front_on",
+		"front": "EChem:blocks/composer_front_off",
 		"side": "EChem:blocks/composer_side"
 	}
 }

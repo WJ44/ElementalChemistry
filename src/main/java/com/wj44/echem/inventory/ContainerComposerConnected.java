@@ -1,8 +1,7 @@
 package com.wj44.echem.inventory;
 
-
 import com.wj44.echem.init.ModItems;
-import com.wj44.echem.tileentity.TileEntityDecomposer;
+import com.wj44.echem.tileentity.TileEntityComposer;
 import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,34 +12,33 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
- * Created by Wesley "WJ44" Joosten on 20-2-2015.
+ * Created by Wesley "WJ44" Joosten on 6-3-2015.
  * <p/>
  * Part of the ElementalChemistry Mod, distributed under a
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class ContainerDecomposerConnected extends ContainerDataBankConnected
+public class ContainerComposerConnected extends ContainerDataBankConnected
 {
     private int currentItemBurnTime;
     private int totalCookTime;
     private int cookTime;
-    private int decomposerBurnTime;
+    private int composerBurnTime;
 
-    public ContainerDecomposerConnected(InventoryPlayer playerInventory, TileEntityDecomposer tileEntityDecomposer)
+    public ContainerComposerConnected(InventoryPlayer playerInventory, final TileEntityComposer tileEntityComposer)
     {
-        this.tileEntity = tileEntityDecomposer;
-        this.tileEntityDataBank = tileEntityDecomposer.getDataBank();
-        this.addSlotToContainer(new Slot(tileEntityDecomposer, tileEntityDecomposer.INPUT_INVENTORY_INDEX, 56, 17));
-        this.addSlotToContainer(new SlotMachineFuel(tileEntityDecomposer, tileEntityDecomposer.FUEL_INVENTORY_INDEX, 56, 53));
-        this.addSlotToContainer(new SlotDataCard(tileEntityDecomposer, tileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, 17, 35));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, 116, 17));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX2, 134, 17));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX3, 116, 35));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX4, 134, 35));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX5, 116, 53));
-        this.addSlotToContainer(new SlotMachineOutput(tileEntityDecomposer, tileEntityDecomposer.OUTPUT_INVENTORY_INDEX6, 134, 53));
+        this.tileEntity = tileEntityComposer;
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX1, 8, 17));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX2, 26, 17));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX3, 8, 35));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX4, 26, 35));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX5, 8, 53));
+        this.addSlotToContainer(new Slot(tileEntityComposer, tileEntityComposer.INPUT_INVENTORY_INDEX6, 26, 53));
+        this.addSlotToContainer(new SlotMachineFuel(tileEntityComposer, tileEntityComposer.FUEL_INVENTORY_INDEX, 56, 53));
+        this.addSlotToContainer(new SlotDataCard(tileEntityComposer, tileEntityComposer.DATA_CARD_INVENTORY_INDEX, 56, 17));
+        this.addSlotToContainer(new SlotMachineOutput(tileEntityComposer, tileEntityComposer.OUTPUT_INVENTORY_INDEX, 116, 35));
 
-        addDataBankSlots(tileEntityDecomposer.getDataBank(), 1, -121, 17);
+        addDataBankSlots(tileEntityComposer.getDataBank(), 1, -121, 17);
         addPlayerSlots(playerInventory, 8, 84);
     }
 
@@ -68,7 +66,7 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
                 icrafting.sendProgressBarUpdate(this, 0, this.tileEntity.getField(0));
             }
 
-            if (this.decomposerBurnTime != this.tileEntity.getField(1))
+            if (this.composerBurnTime != this.tileEntity.getField(1))
             {
                 icrafting.sendProgressBarUpdate(this, 1, this.tileEntity.getField(1));
             }
@@ -81,7 +79,7 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
 
         this.currentItemBurnTime = this.tileEntity.getField(2);
         this.cookTime = this.tileEntity.getField(0);
-        this.decomposerBurnTime = this.tileEntity.getField(1);
+        this.composerBurnTime = this.tileEntity.getField(1);
         this.totalCookTime = this.tileEntity.getField(3);
     }
 
@@ -97,7 +95,7 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex) //TODO
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex)
     {
         ItemStack itemstack = null;
         Slot slot = (Slot) inventorySlots.get(slotIndex);
@@ -108,17 +106,17 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
             itemstack = slotStack.copy();
 
             /**
-             * Shift clicking out of the decomposer, into the inventory
+             * Shift clicking out of the composer, into the inventory
              */
-            if (slotIndex < TileEntityDecomposer.INVENTORY_SIZE)
+            if (slotIndex < TileEntityComposer.INVENTORY_SIZE)
             {
-                if (!mergeItemStack(slotStack, TileEntityDecomposer.INVENTORY_SIZE, inventorySlots.size(), false))
+                if (!mergeItemStack(slotStack, TileEntityComposer.INVENTORY_SIZE, inventorySlots.size(), false))
                 {
                     return null;
                 }
             }
             /**
-             * Shift clicking out of the inventory into the decomposer
+             * Shift clicking out of the inventory into the composer
              */
             else
             {
@@ -127,7 +125,7 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
                  */
                 if (ItemStackHelper.isItemFuel(slotStack))
                 {
-                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, true))
+                    if (!mergeItemStack(slotStack, TileEntityComposer.INPUT_INVENTORY_INDEX1, TileEntityComposer.DATA_CARD_INVENTORY_INDEX, true))
                     {
                         return null;
                     }
@@ -135,17 +133,17 @@ public class ContainerDecomposerConnected extends ContainerDataBankConnected
 
                 else if (slotStack.getItem() == ModItems.dataCard && slotStack.getTagCompound().getBoolean("isScanned"))
                 {
-                        if (!mergeItemStack(slotStack, TileEntityDecomposer.DATA_CARD_INVENTORY_INDEX, TileEntityDecomposer.OUTPUT_INVENTORY_INDEX1, false))
-                        {
-                            return null;
-                        }
+                    if (!mergeItemStack(slotStack, TileEntityComposer.DATA_CARD_INVENTORY_INDEX, TileEntityComposer.OUTPUT_INVENTORY_INDEX, false))
+                    {
+                        return null;
+                    }
                 }
                 /**
                  * try to put it in the input slot
                  */
                 else
                 {
-                    if (!mergeItemStack(slotStack, TileEntityDecomposer.INPUT_INVENTORY_INDEX, TileEntityDecomposer.FUEL_INVENTORY_INDEX, false))
+                    if (!mergeItemStack(slotStack, TileEntityComposer.INPUT_INVENTORY_INDEX1, TileEntityComposer.FUEL_INVENTORY_INDEX, false))
                     {
                         return null;
                     }

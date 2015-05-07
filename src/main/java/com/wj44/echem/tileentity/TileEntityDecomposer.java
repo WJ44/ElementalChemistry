@@ -315,9 +315,9 @@ public class TileEntityDecomposer extends TileEntityElementMachine
     {
         if (this.canSmelt())
         {
-            for (Element element : ElementalChemistryAPI.itemElements.get(inventory[INPUT_INVENTORY_INDEX].getItem()).getElements())
+            for (Element element : ElementHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getElements())
             {
-                int amount = ElementalChemistryAPI.itemElements.get(inventory[INPUT_INVENTORY_INDEX].getItem()).getAmount(element);
+                int amount = ElementHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getAmount(element);
                 ItemStack output = new ItemStack(ModItems.elementContainer, amount, element.number);
                 if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
                 {

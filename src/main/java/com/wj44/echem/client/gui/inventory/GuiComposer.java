@@ -1,6 +1,7 @@
 package com.wj44.echem.client.gui.inventory;
 
 import com.wj44.echem.inventory.ContainerComposer;
+import com.wj44.echem.inventory.ContainerComposerConnected;
 import com.wj44.echem.reference.Textures;
 import com.wj44.echem.tileentity.TileEntityComposer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -15,13 +16,11 @@ import org.lwjgl.opengl.GL11;
  */
 public class GuiComposer extends GuiElementMachine
 {
-    private final TileEntityComposer tileEntity;
-
     InventoryPlayer inventoryPlayer;
 
     public GuiComposer(InventoryPlayer playerInventory, TileEntityComposer tileEntity)
     {
-        super(new ContainerComposer(playerInventory, tileEntity), Textures.Gui.COMPOSER, tileEntity);
+        super(tileEntity.dataBankConnected ? new ContainerComposerConnected(playerInventory, tileEntity) : new ContainerComposer(playerInventory, tileEntity), Textures.Gui.COMPOSER, tileEntity);
         this.tileEntity = tileEntity;
         this.inventoryPlayer = playerInventory;
     }
@@ -35,6 +34,10 @@ public class GuiComposer extends GuiElementMachine
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 
+        if(tileEntity.dataBankConnected)
+        {
+            drawTexturedModalRect(k - 125, l, 0, 166, 129, 82);
+        }
         int i1;
         if (this.tileEntity.isBurning())
         {

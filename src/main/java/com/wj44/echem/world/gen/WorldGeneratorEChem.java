@@ -1,6 +1,5 @@
 package com.wj44.echem.world.gen;
 
-import com.wj44.echem.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -41,8 +40,7 @@ public class WorldGeneratorEChem implements IWorldGenerator
     //Generation for the overworld
     private void generateSurface(World world, int x, int z, Random random)
     {;
-        oreGen(ModBlocks.platinumOre, 0, 64, 8, 10, world, x, z, random);
-        oreGen(ModBlocks.silverOre, 0, 64, 8, 10, world, x, z, random);
+
     }
 
     //Generation for the nether

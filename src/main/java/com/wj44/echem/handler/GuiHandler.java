@@ -44,6 +44,10 @@ public class GuiHandler implements IGuiHandler
         {
             return new ContainerComposer(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
         }
+        else if (ID == GUIs.COMPOSER_CONNECTED.ordinal())
+        {
+            return new ContainerComposerConnected(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
+        }
         else if (ID == GUIs.DATA_BANK.ordinal())
         {
             return new ContainerDataBank(player.inventory, (TileEntityDataBank) world.getTileEntity(pos));
@@ -68,6 +72,10 @@ public class GuiHandler implements IGuiHandler
             return new GuiItemScanner(player.inventory, (TileEntityItemScanner) world.getTileEntity(pos));
         }
         else if (ID == GUIs.COMPOSER.ordinal())
+        {
+            return new GuiComposer(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
+        }
+        else if (ID == GUIs.COMPOSER_CONNECTED.ordinal())
         {
             return new GuiComposer(player.inventory, (TileEntityComposer) world.getTileEntity(pos));
         }
