@@ -1,5 +1,6 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.inventory.ContainerDataBank;
 import com.wj44.echem.reference.Names;
 import net.minecraft.block.BlockChest;
@@ -13,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.EnumFacing;
 
 import java.util.Iterator;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDataBank extends TileEntityEChem
+public class TileEntityDataBank extends TileEntityEChem implements IInventory
 {
     public static final int DATA_CARD_INVENTORY_INDEX = 0;
     public static final int INVENTORY_SIZE = 22;
@@ -226,7 +226,7 @@ public class TileEntityDataBank extends TileEntityEChem
 
     public boolean isItemValidForSlot(int index, ItemStack stack)
     {
-        return true;
+        return stack.getItem() == ModItems.dataCard;
     }
 
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
@@ -252,18 +252,6 @@ public class TileEntityDataBank extends TileEntityEChem
         {
             this.inventory[i] = null;
         }
-    }
-
-    @Override
-    public int[] getSlotsForFace(EnumFacing side)
-    {
-        return new int[0];
-    }
-
-    @Override
-    public boolean canExtractItem(int index, ItemStack stack, EnumFacing direction)
-    {
-        return false;
     }
 
     public ItemStack getSelected()

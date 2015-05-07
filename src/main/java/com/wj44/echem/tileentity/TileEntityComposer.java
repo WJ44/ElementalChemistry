@@ -12,6 +12,7 @@ import com.wj44.echem.util.ItemStackHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -25,7 +26,7 @@ import net.minecraft.util.MathHelper;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityComposer extends TileEntityElementMachine
+public class TileEntityComposer extends TileEntityElementMachine implements ISidedInventory
 {
     public static final int INVENTORY_SIZE = 9;
     public static final int INPUT_INVENTORY_INDEX1 = 0;

@@ -1,7 +1,6 @@
 package com.wj44.echem.tileentity;
 
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntityLockable;
@@ -14,7 +13,7 @@ import net.minecraft.util.EnumFacing;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public abstract class TileEntityEChem extends TileEntityLockable implements IUpdatePlayerListBox, ISidedInventory
+public abstract class TileEntityEChem extends TileEntityLockable implements IUpdatePlayerListBox
 {
     protected String customName;
 
