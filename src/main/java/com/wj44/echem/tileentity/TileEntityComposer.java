@@ -1,6 +1,7 @@
 package com.wj44.echem.tileentity;
 
 import com.wj44.echem.api.Element;
+import com.wj44.echem.api.ElementList;
 import com.wj44.echem.api.ElementalChemistryAPI;
 import com.wj44.echem.block.BlockComposer;
 import com.wj44.echem.init.ModItems;
@@ -36,8 +37,8 @@ public class TileEntityComposer extends TileEntityElementMachine implements ISid
     public static final int INPUT_INVENTORY_INDEX5 = INPUT_INVENTORY_INDEX4 + 1;
     public static final int INPUT_INVENTORY_INDEX6 = INPUT_INVENTORY_INDEX5 + 1;
     public static final int FUEL_INVENTORY_INDEX = INPUT_INVENTORY_INDEX6 + 1;
-    public static final int DATA_CARD_INVENTORY_INDEX = FUEL_INVENTORY_INDEX +1;
-    public static final int OUTPUT_INVENTORY_INDEX = DATA_CARD_INVENTORY_INDEX +1;
+    public static final int DATA_CARD_INVENTORY_INDEX = FUEL_INVENTORY_INDEX + 1;
+    public static final int OUTPUT_INVENTORY_INDEX = DATA_CARD_INVENTORY_INDEX + 1;
     public static final int input[] = {INPUT_INVENTORY_INDEX1, INPUT_INVENTORY_INDEX2, INPUT_INVENTORY_INDEX3, INPUT_INVENTORY_INDEX4, INPUT_INVENTORY_INDEX5, INPUT_INVENTORY_INDEX6};
     /**
      * The ItemStacks that hold the items currently being used in the composer
@@ -312,11 +313,39 @@ public class TileEntityComposer extends TileEntityElementMachine implements ISid
         {
             ItemStack itemstack = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
             if (!ElementalChemistryAPI.hasElements(itemstack)) return false;
-            if (!APIHelper.compareElementsWithInventory(itemstack, new ItemStack[]{inventory[INPUT_INVENTORY_INDEX1], inventory[INPUT_INVENTORY_INDEX2], inventory[INPUT_INVENTORY_INDEX3], inventory[INPUT_INVENTORY_INDEX4], inventory[INPUT_INVENTORY_INDEX5], inventory[INPUT_INVENTORY_INDEX6]})) return false;
+            if (!checkInput(itemstack)) return false;
             if (inventory[OUTPUT_INVENTORY_INDEX] == null) return true;
-            if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack) && inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize <= 64) return true;
+            if (inventory[OUTPUT_INVENTORY_INDEX].isItemEqual(itemstack) && inventory[OUTPUT_INVENTORY_INDEX].stackSize + itemstack.stackSize <= 64)
+                return true;
             return false;
         }
+    }
+
+    public boolean checkInput(ItemStack itemStack)
+    {
+        ElementList elementList = APIHelper.getElementList(itemStack);
+        int matching = 0;
+        for (Element element : elementList.getElements())
+        {
+            int requiredAmount = APIHelper.getElementAmount(itemStack, element);
+            int amount = 0;
+            for (int index : input)
+            {
+                if (inventory[index] != null && inventory[index].getItem() == ModItems.elementContainer && inventory[index].getItemDamage() == element.number)
+                {
+                    amount += inventory[index].getTagCompound().getInteger("Amount");
+                }
+            }
+            if (amount < requiredAmount)
+            {
+                return false;
+            }
+            else
+            {
+                matching++;
+            }
+        }
+        return matching == elementList.getElements().length;
     }
 
     /**
@@ -326,43 +355,47 @@ public class TileEntityComposer extends TileEntityElementMachine implements ISid
     {
         if (this.canSmelt())
         {
-            for (Element element : APIHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getElements())
+            ItemStack itemStack = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
+            ElementList elementList = APIHelper.getElementList(itemStack);
+            int matching = 0;
+            for (Element element : elementList.getElements())
             {
-                int amount = APIHelper.getElementList(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).getAmount(element);
-                ItemStack inputDecr = new ItemStack(ModItems.elementContainer, amount, element.number);
-                int decreased = 0;
-
+                int requiredAmount = APIHelper.getElementAmount(itemStack, element);
                 for (int index : input)
                 {
-                    if (inventory[index] != null && inventory[index].getItemDamage() == inputDecr.getItemDamage())
+                    int amount;
+                    if (inventory[index] != null && inventory[index].getItem() == ModItems.elementContainer && inventory[index].getItemDamage() == element.number)
                     {
-                        if (inventory[index].stackSize >= amount)
+                        amount = inventory[index].getTagCompound().getInteger("Amount");
+                        if (amount >= requiredAmount)
                         {
-                            decrStackSize(index, amount);
+                            inventory[index].getTagCompound().setInteger("Amount", inventory[index].getTagCompound().getInteger("Amount") - requiredAmount);
+                            requiredAmount = 0;
                         }
                         else
                         {
-                            while (inventory[index].stackSize > 0 && decreased < amount)
-                            {
-                                decrStackSize(index, 1);
-                                decreased++;
-                            }
+                            inventory[index].getTagCompound().setInteger("Amount", 0);
+                            requiredAmount -= amount;
+                        }
+                        if (requiredAmount == 0)
+                        {
+                            break;
                         }
                     }
                 }
-            }
 
-            if (inventory[OUTPUT_INVENTORY_INDEX] != null)
-            {
-                inventory[OUTPUT_INVENTORY_INDEX].stackSize += ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).stackSize;
-            }
-            else
-            {
-                inventory[OUTPUT_INVENTORY_INDEX] = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
             }
         }
-    }
 
+        if (inventory[OUTPUT_INVENTORY_INDEX] != null)
+        {
+            inventory[OUTPUT_INVENTORY_INDEX].stackSize += ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound())).stackSize;
+        }
+        else
+        {
+            inventory[OUTPUT_INVENTORY_INDEX] = ItemStack.loadItemStackFromNBT((inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()));
+        }
+    }
 
 
     /**

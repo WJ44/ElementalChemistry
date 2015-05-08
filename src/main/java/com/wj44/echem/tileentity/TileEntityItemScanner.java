@@ -303,7 +303,9 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
         {
             if (ElementalChemistryAPI.hasElements(inventory[INPUT_INVENTORY_INDEX]))
             {
-                inventory[INPUT_INVENTORY_INDEX].writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
+                ItemStack itemStack = inventory[INPUT_INVENTORY_INDEX];
+                itemStack.stackSize = 1;
+                itemStack.writeToNBT(inventory[OUTPUT_INVENTORY_INDEX].getTagCompound());
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", FormulaHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
