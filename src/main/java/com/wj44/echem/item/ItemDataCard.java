@@ -68,14 +68,14 @@ public class ItemDataCard extends ItemEChem
                 list.add("Formula: " + itemStack.getTagCompound().getString("Formula"));
                 list.add("Density: " + itemStack.getTagCompound().getInteger("Density") + " kg/m³");
                 list.add("Mass: " + itemStack.getTagCompound().getInteger("Mass") + " g");
-                list.add("Volume: " + itemStack.getTagCompound().getInteger("Volume")+ " m³");
+                list.add("Volume: " + itemStack.getTagCompound().getFloat("Volume")+ " m³");
             }
             else
             {
                 list.remove("Formula: " + itemStack.getTagCompound().getString("Formula"));
                 list.remove("Density: " + itemStack.getTagCompound().getInteger("Density") + " kg/m³");
                 list.remove("Mass: " + itemStack.getTagCompound().getInteger("Mass") + " g");
-                list.remove("Volume: " + itemStack.getTagCompound().getInteger("Volume")+ " m³");
+                list.remove("Volume: " + itemStack.getTagCompound().getFloat("Volume")+ " m³");
             }
         }
         else

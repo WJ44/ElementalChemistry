@@ -1,5 +1,6 @@
 package com.wj44.echem.init;
 
+import com.wj44.echem.item.crafting.RecipeElementContainerCombining;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -18,5 +19,6 @@ public class Recipes
     {
         // TODO proper recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.logo), "ppp", "pbp", "ppp", 'p', new ItemStack(Items.paper), 'b', "dyeBlack"));
+        GameRegistry.addRecipe(new RecipeElementContainerCombining());
     }
 }

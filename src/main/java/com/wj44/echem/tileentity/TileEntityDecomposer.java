@@ -33,18 +33,24 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
     public static final int FUEL_INVENTORY_INDEX = 1;
     public static final int DATA_CARD_INVENTORY_INDEX = 2;
     public static final int OUTPUT_INVENTORY_INDEX1 = 3;
-    public static final int OUTPUT_INVENTORY_INDEX2 = OUTPUT_INVENTORY_INDEX1+1;
-    public static final int OUTPUT_INVENTORY_INDEX3 = OUTPUT_INVENTORY_INDEX2+1;
-    public static final int OUTPUT_INVENTORY_INDEX4 = OUTPUT_INVENTORY_INDEX3+1;
-    public static final int OUTPUT_INVENTORY_INDEX5 = OUTPUT_INVENTORY_INDEX4+1;
-    public static final int OUTPUT_INVENTORY_INDEX6 = OUTPUT_INVENTORY_INDEX5+1;
+    public static final int OUTPUT_INVENTORY_INDEX2 = 4;
+    public static final int OUTPUT_INVENTORY_INDEX3 = 5;
+    public static final int OUTPUT_INVENTORY_INDEX4 = 6;
+    public static final int OUTPUT_INVENTORY_INDEX5 = 7;
+    public static final int OUTPUT_INVENTORY_INDEX6 = 8;
     public static final int output[] = {OUTPUT_INVENTORY_INDEX1, OUTPUT_INVENTORY_INDEX2, OUTPUT_INVENTORY_INDEX3, OUTPUT_INVENTORY_INDEX4, OUTPUT_INVENTORY_INDEX5, OUTPUT_INVENTORY_INDEX6};
-    /** The ItemStacks that hold the items currently being used in the decomposer */
+    /**
+     * The ItemStacks that hold the items currently being used in the decomposer
+     */
     private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
     public final ItemStack[] outputStacks = {inventory[OUTPUT_INVENTORY_INDEX1], inventory[OUTPUT_INVENTORY_INDEX2], inventory[OUTPUT_INVENTORY_INDEX3], inventory[OUTPUT_INVENTORY_INDEX4], inventory[OUTPUT_INVENTORY_INDEX5], inventory[OUTPUT_INVENTORY_INDEX6]};
-    /** The number of ticks that the decomposer will keep burning */
+    /**
+     * The number of ticks that the decomposer will keep burning
+     */
     private int decomposerBurnTime;
-    /** The number of ticks that a fresh copy of the currently-burning item would keep the decomposer burning for */
+    /**
+     * The number of ticks that a fresh copy of the currently-burning item would keep the decomposer burning for
+     */
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
@@ -304,9 +310,41 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
         {
             if (!ElementalChemistryAPI.hasElements(inventory[INPUT_INVENTORY_INDEX])) return false;
             if (!(ItemStack.loadItemStackFromNBT(inventory[DATA_CARD_INVENTORY_INDEX].getTagCompound()).getItem() == inventory[INPUT_INVENTORY_INDEX].getItem())) return false;
-            if (APIHelper.compareInventoryWithElements(inventory[INPUT_INVENTORY_INDEX], outputStacks)) return true;
+            if (checkOutputSlots()) return true;
             return false;
         }
+    }
+
+    private boolean checkOutputSlots()
+    {
+        int emptyStacks = 0;
+        int requiredEmpty = 0;
+        for (Element element : APIHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getElements())
+        {
+            boolean foundMatch = false;
+            for (int index : output)
+            {
+                if (inventory[index] != null && inventory[index].getItem() == ModItems.elementContainer && inventory[index].getItemDamage() == element.number)
+                {
+                    foundMatch = true;
+                    break;
+                }
+            }
+            if (!foundMatch)
+            {
+                requiredEmpty++;
+            }
+        }
+        for (int index : output)
+        {
+            if (inventory[index] != null && inventory[index].getItem() == ModItems.elementContainer && inventory[index].getItemDamage() == 0)
+            {
+                emptyStacks++;
+            }
+        }
+
+        if (requiredEmpty <= emptyStacks) return true;
+        return false;
     }
 
     /**
@@ -319,57 +357,34 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
             for (Element element : APIHelper.getElementList(inventory[INPUT_INVENTORY_INDEX]).getElements())
             {
                 int amount = APIHelper.getElementAmount(inventory[INPUT_INVENTORY_INDEX], element);
-                ItemStack output = new ItemStack(ModItems.elementContainer, 1, element.number);
-                output.setTagCompound(new NBTTagCompound());
-                output.getTagCompound().setInteger("Amount", amount);
-                if (inventory[OUTPUT_INVENTORY_INDEX1] == null)
+                boolean doSecondLoop = true;
+                for (int index : output)
                 {
-                    inventory[OUTPUT_INVENTORY_INDEX1] = output.copy();
+                    ItemStack itemStack = inventory[index];
+                    if (itemStack != null && itemStack.getItem() == ModItems.elementContainer && itemStack.getItemDamage() == element.number)
+                    {
+                        if (itemStack.getItemDamage() == element.number)
+                        {
+                            itemStack.getTagCompound().setInteger("Amount", itemStack.getTagCompound().getInteger("Amount") + amount);
+                            doSecondLoop = false;
+                            break;
+                        }
+                    }
                 }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX1].getItemDamage())
+                if (doSecondLoop)
                 {
-                    inventory[OUTPUT_INVENTORY_INDEX1].getTagCompound().setInteger("Amount", inventory[OUTPUT_INVENTORY_INDEX1].getTagCompound().getInteger("Amount") + amount);
+                    for (int index : output)
+                    {
+                        ItemStack itemStack = inventory[index];
+                        if (itemStack.getItemDamage() == 0)
+                        {
+                            itemStack.setItemDamage(element.number);
+                            itemStack.getTagCompound().setInteger("Amount", itemStack.getTagCompound().getInteger("Amount") + amount);
+                            break;
+                        }
+                    }
                 }
-                else if (inventory[OUTPUT_INVENTORY_INDEX2] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX2] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX2].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX2].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX2].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX3] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX3] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX3].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX3].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX3].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX4] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX4] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX4].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX4].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX4].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX5] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX5] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX5].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX5].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX5].stackSize += output.stackSize;
-                }
-                else if (inventory[OUTPUT_INVENTORY_INDEX6] == null)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX6] = output.copy();
-                }
-                else if (output.getItemDamage() == inventory[OUTPUT_INVENTORY_INDEX6].getItemDamage() && output.stackSize + inventory[OUTPUT_INVENTORY_INDEX6].stackSize <= 64)
-                {
-                    inventory[OUTPUT_INVENTORY_INDEX6].stackSize += output.stackSize;
-                }
+
             }
 
             decrStackSize(INPUT_INVENTORY_INDEX, 1);

@@ -62,8 +62,11 @@ public class ItemElementContainer extends ItemEChem
     @Override
     public void onCreated(ItemStack itemStack, World world, EntityPlayer player)
     {
-        itemStack.setTagCompound(new NBTTagCompound());
-        itemStack.getTagCompound().setInteger("Amount", 0);
+        if (itemStack.getTagCompound() == null)
+        {
+            itemStack.setTagCompound(new NBTTagCompound());
+            itemStack.getTagCompound().setInteger("Amount", 0);
+        }
     }
 
     @Override

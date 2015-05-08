@@ -13,7 +13,7 @@ import net.minecraft.init.Items;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class ItemElements
+public class Elements
 {
     public static void init()
     {

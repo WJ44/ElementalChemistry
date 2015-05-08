@@ -3,8 +3,7 @@ package com.wj44.echem.util;
 import com.wj44.echem.api.Element;
 import com.wj44.echem.api.ElementList;
 import com.wj44.echem.api.ElementalChemistryAPI;
-import com.wj44.echem.api.PropertyList;
-import com.wj44.echem.reference.Names;
+import com.wj44.echem.api.ItemProperties;
 import net.minecraft.item.ItemStack;
 
 import java.util.Arrays;
@@ -23,7 +22,7 @@ public class APIHelper
         return ElementalChemistryAPI.hasElements(itemStack) ? ElementalChemistryAPI.itemElements.get(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage())) : null;
     }
 
-    public static PropertyList getPropertyList(ItemStack itemStack)
+    public static ItemProperties getProperties(ItemStack itemStack)
     {
         return ElementalChemistryAPI.hasProperties(itemStack) ? ElementalChemistryAPI.itemProperties.get(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage())) : null;
     }
@@ -99,7 +98,7 @@ public class APIHelper
             totalElements += elementList.getAmount(e);
         }
         float elementProportion = totalElements / elementList.getAmount(element);
-        int itemMass = (Integer) getPropertyList(itemStack).getValue(Names.Properties.MASS);
+        int itemMass = getProperties(itemStack).mass;
         int amount = (int) (itemMass / (0.166053892F * element.mass));
         return (int) (amount * elementProportion) / 10;
     }

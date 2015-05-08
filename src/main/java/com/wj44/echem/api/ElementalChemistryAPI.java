@@ -18,7 +18,7 @@ import java.util.List;
 public class ElementalChemistryAPI
 {
     public static HashMap<List, ElementList> itemElements = new HashMap<List, ElementList>();
-    public static HashMap<List, PropertyList> itemProperties = new HashMap<List, PropertyList>();
+    public static HashMap<List, ItemProperties> itemProperties = new HashMap<List, ItemProperties>();
 
     //======================================ELEMENTS======================================
     /**
@@ -66,17 +66,17 @@ public class ElementalChemistryAPI
     }
 
     //======================================PROPERTIES======================================
-    public static void registerItemProperties(ItemStack itemStack, PropertyList propertyList)
+    public static void registerItemProperties(ItemStack itemStack, ItemProperties propertyList)
     {
         itemProperties.put(Arrays.asList(itemStack.getItem(), itemStack.getItemDamage()), propertyList);
     }
 
-    public static void registerItemProperties(Item item, PropertyList propertyList)
+    public static void registerItemProperties(Item item, ItemProperties propertyList)
     {
         registerItemProperties(new ItemStack(item), propertyList);
     }
 
-    public static void registerItemProperties(Block block, PropertyList propertyList)
+    public static void registerItemProperties(Block block, ItemProperties propertyList)
     {
         registerItemProperties(new ItemStack(block), propertyList);
     }

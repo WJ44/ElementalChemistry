@@ -1,6 +1,8 @@
 package com.wj44.echem.inventory;
 
 
+import com.wj44.echem.init.ModItems;
+import com.wj44.echem.tileentity.TileEntityDecomposer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -32,6 +34,10 @@ public class SlotMachineOutput extends Slot
     @Override
     public boolean isItemValid(ItemStack itemStack)
     {
+        if (inventory instanceof TileEntityDecomposer)
+        {
+            return itemStack.getItem() == ModItems.elementContainer;
+        }
         return false;
     }
 }

@@ -307,11 +307,11 @@ public class TileEntityItemScanner extends TileEntityEChem implements ISidedInve
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setString("Formula", FormulaHelper.getFormulaFromItemStack(inventory[INPUT_INVENTORY_INDEX]));
 
-                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Density", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.DENSITY));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Density", APIHelper.getProperties(inventory[INPUT_INVENTORY_INDEX]).density);
 
-                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Volume", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.VOLUME));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setFloat("Volume", APIHelper.getProperties(inventory[INPUT_INVENTORY_INDEX]).volume);
 
-                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Mass", (Integer) APIHelper.getPropertyList(inventory[INPUT_INVENTORY_INDEX]).getValue(Names.Properties.MASS));
+                inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setInteger("Mass", APIHelper.getProperties(inventory[INPUT_INVENTORY_INDEX]).mass);
 
                 inventory[OUTPUT_INVENTORY_INDEX].getTagCompound().setBoolean("isScanned", true);
             }
