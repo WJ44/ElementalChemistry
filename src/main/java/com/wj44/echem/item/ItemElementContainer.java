@@ -31,6 +31,7 @@ public class ItemElementContainer extends ItemEChem
         setCreativeTab(CreativeTabEChem.ELEMENT_CONTAINER_TAB);
         setHasSubtypes(true);
         setUnlocalizedName(Names.Items.ELEMENT_CONTAINER);
+        setMaxStackSize(1);
     }
 
     @Override

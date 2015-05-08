@@ -102,10 +102,9 @@ public class RecipeElementContainerCombining implements IRecipe
         }
         ItemStack[] itemStacks = new ItemStack[inv.getSizeInventory()];
 
-        for (int i = 0; i < stacks-1; i++)
-        {
-            itemStacks[i] = new ItemStack(ModItems.elementContainer);
-        }
+        itemStacks[0] = new ItemStack(ModItems.elementContainer, stacks-1, 0);
+        itemStacks[0].setTagCompound(new NBTTagCompound());
+        itemStacks[0].getTagCompound().setInteger("Amount", 0);
         return itemStacks;
     }
 }

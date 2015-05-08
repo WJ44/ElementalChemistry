@@ -20,5 +20,6 @@ public class Recipes
         // TODO proper recipe
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.logo), "ppp", "pbp", "ppp", 'p', new ItemStack(Items.paper), 'b', "dyeBlack"));
         GameRegistry.addRecipe(new RecipeElementContainerCombining());
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(ModItems.elementContainer), "rrr", "rrr", "r r", 'r', new ItemStack(Items.iron_ingot)));
     }
 }
