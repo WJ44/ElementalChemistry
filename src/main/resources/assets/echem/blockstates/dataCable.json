@@ -1,0 +1,11 @@
+{
+	"variants": {
+        "down=true,east=false,north=false,south=false,up=true,west=true": { "model": "EChem:dataCableNSE", "x": 90, "y": 180 },
+        "down=false,east=false,north=false,south=false,up=true,west=false": { "model": "EChem:dataCableN", "x": 270 },
+        "down=false,east=true,north=true,south=true,up=false,west=true": { "model": "EChem:dataCableNSEW" },
+        "down=true,east=false,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNED", "y": 270 },
+        "down=false,east=true,north=true,south=false,up=true,west=true": { "model": "EChem:dataCableNSED", "x" : 180, "y": 270 },
+        "down=true,east=true,north=true,south=false,up=true,west=false": { "model": "EChem:dataCableNSED", "x" : 270 },
+        "down=true,east=true,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNSED", "y": 270 }
+	}
+}
