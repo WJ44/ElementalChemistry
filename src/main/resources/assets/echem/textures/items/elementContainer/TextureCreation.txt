@@ -1,5 +1,4 @@
-Calibri, 18
+Calibri, 16
 Second colour on palette(grey)
 
-no middle vertically? -> go up
-no middle horizontally? -> go right
+T > click > type > Ctrl + A > S x 4 > click > crop > Ctrl + Shift + R > type 64 > Tab > type 64 > Enter > Ctrl + Shift + S > type > Enter > Enter

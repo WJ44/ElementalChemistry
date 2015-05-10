@@ -1,7 +1,8 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "EChem:items/elementContainer/elementContainerBoron"
+		"layer0": "EChem:items/elementContainer/elementContainerEmpty",
+		"layer1": "EChem:items/elementContainer/overlayB"
 	},
 	"display": {
 		"thirdperson": {

@@ -54,7 +54,7 @@ public class ItemDataCard extends ItemEChem
                 int amount = APIHelper.getElementAmount(ItemStack.loadItemStackFromNBT(itemStack.getTagCompound()), element);
                 contains += amount + " " + element.symbol + ", ";
             }
-            contains = contains.replace(contains.substring(contains.length() - 2), "");
+            contains = contains.substring(0, contains.length()-2);
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 list.add(contains);

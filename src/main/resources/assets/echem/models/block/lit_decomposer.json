@@ -1,8 +1,8 @@
 {
 	"parent": "block/orientable",
 	"textures": {
-		"top": "EChem:blocks/composer_top",
-		"front": "EChem:blocks/composer_front_on",
-		"side": "EChem:blocks/composer_side"
+		"top": "EChem:blocks/decomposer_top",
+		"front": "EChem:blocks/decomposer_front_on",
+		"side": "EChem:blocks/decomposer_side"
 	}
 }

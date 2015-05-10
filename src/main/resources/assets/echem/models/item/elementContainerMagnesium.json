@@ -1,7 +1,8 @@
 {
 	"parent": "builtin/generated",
 	"textures": {
-		"layer0": "EChem:items/elementContainer/elementContainerMagnesium"
+		"layer0": "EChem:items/elementContainer/elementContainerEmpty",
+		"layer1": "EChem:items/elementContainer/overlayMg"
 	},
 	"display": {
 		"thirdperson": {
