@@ -27,7 +27,8 @@ public class Elements
         ElementalChemistryAPI.registerItemElements(Items.emerald, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));
         ElementalChemistryAPI.registerItemElements(Items.quartz, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
         //Blocks
-        ElementalChemistryAPI.registerItemElements(Blocks.iron_block, new ElementList().add(Element.GOLD, 1));
+        ElementalChemistryAPI.registerItemElements(Blocks.gold_block, new ElementList().add(Element.GOLD, 1));
+        ElementalChemistryAPI.registerItemElements(Blocks.iron_block, new ElementList().add(Element.IRON, 1));
         ElementalChemistryAPI.registerItemElements(Blocks.obsidian, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
         ElementalChemistryAPI.registerItemElements(Blocks.diamond_block, new ElementList().add(Element.CARBON, 1));
         ElementalChemistryAPI.registerItemElements(Blocks.emerald_block, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));

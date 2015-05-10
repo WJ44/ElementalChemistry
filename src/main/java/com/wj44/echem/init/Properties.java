@@ -17,20 +17,21 @@ public class Properties
     public static void init()
     {
         //Items
-//    ElementalChemistryAPI.registerItemElements(Items.coal, new ElementList().add(Element.CARBON, 1));
+        ElementalChemistryAPI.registerItemProperties(Items.coal, new ItemProperties(1250, (float) 1/9));
         ElementalChemistryAPI.registerItemProperties(Items.diamond, new ItemProperties(3500, (float) 1/9));
-//    ElementalChemistryAPI.registerItemElements(Items.iron_ingot, new ElementList().add(Element.IRON, 1));
-//    ElementalChemistryAPI.registerItemElements(Items.gold_ingot, new ElementList().add(Element.GOLD, 1));
-//    ElementalChemistryAPI.registerItemElements(Items.sugar, new ElementList().add(Element.CARBON, 12).add(Element.HYDROGEN, 22).add(Element.OXYGEN, 11));
-//    ElementalChemistryAPI.registerItemElements(Items.gold_nugget, new ElementList().add(Element.GOLD, 1));
-//    ElementalChemistryAPI.registerItemElements(Items.emerald, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));
-//    ElementalChemistryAPI.registerItemElements(Items.quartz, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        ElementalChemistryAPI.registerItemProperties(Items.iron_ingot, new ItemProperties(7870, (float) 1/9));
+        ElementalChemistryAPI.registerItemProperties(Items.gold_ingot, new ItemProperties(19320, (float) 1/9));
+        ElementalChemistryAPI.registerItemProperties(Items.sugar, new ItemProperties(1590, (float) 1/9));
+        ElementalChemistryAPI.registerItemProperties(Items.gold_nugget, new ItemProperties(19320, (float) 1/9/9));
+        ElementalChemistryAPI.registerItemProperties(Items.emerald, new ItemProperties(2710, (float) 1 / 9));
+        ElementalChemistryAPI.registerItemProperties(Items.quartz, new ItemProperties(2650, (float) 1/4));
         //Blocks
-//    ElementalChemistryAPI.registerItemElements(Blocks.iron_block, new ElementList().add(Element.GOLD, 1));
-//    ElementalChemistryAPI.registerItemElements(Blocks.obsidian, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        ElementalChemistryAPI.registerItemProperties(Blocks.iron_block, new ItemProperties(7870, 1));
+        ElementalChemistryAPI.registerItemProperties(Blocks.gold_block, new ItemProperties(19320, 1));
+        ElementalChemistryAPI.registerItemProperties(Blocks.obsidian,  new ItemProperties(2350, 1));
         ElementalChemistryAPI.registerItemProperties(Blocks.diamond_block, new ItemProperties(3500, 1));
-//    ElementalChemistryAPI.registerItemElements(Blocks.emerald_block, new ElementList().add(Element.BERYLLIUM, 3).add(Element.ALUMINIUM, 2).add(Element.SILICON, 6).add(Element.OXYGEN, 18));
-//    ElementalChemistryAPI.registerItemElements(Blocks.quartz_block, new ElementList().add(Element.SILICON, 1).add(Element.OXYGEN, 2));
+        ElementalChemistryAPI.registerItemProperties(Blocks.emerald_block, new ItemProperties(2710, 1));
+        ElementalChemistryAPI.registerItemProperties(Blocks.quartz_block, new ItemProperties(2650, 1));
         ElementalChemistryAPI.registerItemProperties(Blocks.coal_block, new ItemProperties(1250, 1));
     }
 }
