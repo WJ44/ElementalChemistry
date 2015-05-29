@@ -110,17 +110,41 @@ public class BlockDataCable extends BlockEChem implements ITileEntityProvider
         boolean east = canConnectTo(worldIn, pos.east());
         boolean south = canConnectTo(worldIn, pos.south());
         boolean west  = canConnectTo(worldIn, pos.west());
+        boolean up = canConnectTo(worldIn, pos.up());
+        boolean down = canConnectTo(worldIn, pos.down());
 
         float minX = 0.25F;
+        float minY = 0.25F;
         float minZ = 0.25F;
         float maxX = 0.75F;
+        float maxY = 0.75F;
         float maxZ = 0.75F;
 
         if (north)
         {
             minZ = 0;
         }
-        this.setBlockBounds(minX, 0.25F, minZ, maxX, 0.75F, maxZ);
+        if (east)
+        {
+            maxX = 1;
+        }
+        if (south)
+        {
+            maxZ = 1;
+        }
+        if (west)
+        {
+            minX = 0;
+        }
+        if (up)
+        {
+            maxY = 1;
+        }
+        if (down)
+        {
+            maxY = 1;
+        }
+        this.setBlockBounds(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
     public boolean isOpaqueCube()

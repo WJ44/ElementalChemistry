@@ -2,6 +2,7 @@ package com.wj44.echem.handler;
 
 import com.wj44.echem.init.ModItems;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -18,7 +19,7 @@ public class EventHandler
     @SubscribeEvent
     public void onPlayerDropsEvent(PlayerDropsEvent playerDropsEvent)
     {
-        if (playerDropsEvent.entityPlayer.getCommandSenderName().equals("wesleyj44"))
+        if (playerDropsEvent.entityPlayer.getCommandSenderName().equals("wesleyj44") && playerDropsEvent.source.getEntity() instanceof EntityPlayer)
         {
             playerDropsEvent.drops.add(new EntityItem(playerDropsEvent.entityPlayer.worldObj,
                     playerDropsEvent.entityPlayer.posX, playerDropsEvent.entityPlayer.posY, playerDropsEvent.entityPlayer.posZ, new ItemStack(ModItems.logo)));
