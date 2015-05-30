@@ -1,6 +1,7 @@
 {
     "textures": {
-		"texture": "EChem:blocks/dataCable",
+		"texture":  "EChem:blocks/dataCable",
+		"texture2": "EChem:blocks/dataCable2",
 		"particle": "EChem:blocks/dataCable"
     },
     "elements": [
