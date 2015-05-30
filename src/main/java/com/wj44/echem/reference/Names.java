@@ -11,8 +11,6 @@ public final class Names
 {
     public static final class Blocks
     {
-        public static final String PLATINUM_ORE = "platinumOre";
-        public static final String SILVER_ORE = "silverOre";
         public static final String DECOMPOSER = "decomposer";
         public static final String ITEM_SCANNER = "itemScanner";
         public static final String COMPOSER = "composer";

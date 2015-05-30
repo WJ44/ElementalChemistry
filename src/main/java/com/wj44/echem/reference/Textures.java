@@ -36,5 +36,6 @@ public class Textures
         public static final ModelResourceLocation ITEM_SCANNER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.ITEM_SCANNER);
         public static final ModelResourceLocation DECOMPOSER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DECOMPOSER);
         public static final ModelResourceLocation COMPOSER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.COMPOSER);
+        public static final ModelResourceLocation DATA_CABLE = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DATA_CABLE);
     }
 }

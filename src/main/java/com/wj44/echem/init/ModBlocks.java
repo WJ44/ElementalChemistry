@@ -50,5 +50,6 @@ public class ModBlocks
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(decomposer), 0, Textures.Block.DECOMPOSER);
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(itemScanner), 0, Textures.Block.ITEM_SCANNER);
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(composer), 0, Textures.Block.COMPOSER);
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(dataCable), 0, Textures.Block.DATA_CABLE);
     }
 }
