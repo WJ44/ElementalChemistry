@@ -39,6 +39,7 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
     public static final int OUTPUT_INVENTORY_INDEX5 = 7;
     public static final int OUTPUT_INVENTORY_INDEX6 = 8;
     public static final int output[] = {OUTPUT_INVENTORY_INDEX1, OUTPUT_INVENTORY_INDEX2, OUTPUT_INVENTORY_INDEX3, OUTPUT_INVENTORY_INDEX4, OUTPUT_INVENTORY_INDEX5, OUTPUT_INVENTORY_INDEX6};
+
     /**
      * The ItemStacks that hold the items currently being used in the decomposer
      */
@@ -227,6 +228,11 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
      */
     public void update()
     {
+        if (!initialized)
+        {
+            initialize();
+            initialized = true;
+        }
         boolean burning = this.isBurning();
         boolean sendUpdate = false;
 

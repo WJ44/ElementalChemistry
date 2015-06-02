@@ -30,6 +30,7 @@ public class ModBlocks
     public static final Block lit_composer = new BlockComposer(true);
     public static final Block dataBank = new BlockDataBank();
     public static final Block dataCable = new BlockDataCable();
+    public static final Block machineBlock = new BlockMachineBlock();
 
     public static void init()
     {
@@ -41,6 +42,7 @@ public class ModBlocks
         GameRegistry.registerBlock(lit_composer, "lit_" + Names.Blocks.COMPOSER);
         GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
         GameRegistry.registerBlock(dataCable, Names.Blocks.DATA_CABLE);
+        GameRegistry.registerBlock(machineBlock, Names.Blocks.MACHINE_BLOCK);
     }
 
     public static void registerRenders()

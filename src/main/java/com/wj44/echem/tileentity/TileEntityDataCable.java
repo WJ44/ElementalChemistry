@@ -53,6 +53,7 @@ public class TileEntityDataCable extends TileEntity implements IUpdatePlayerList
         if (!initialized)
         {
             initializeIfNecessary();
+            initialized = true;
         }
 
         for (EnumFacing f : EnumFacing.values())

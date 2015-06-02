@@ -16,6 +16,7 @@ public final class Names
         public static final String COMPOSER = "composer";
         public static final String DATA_BANK = "dataBank";
         public static final String DATA_CABLE = "dataCable";
+        public static final String MACHINE_BLOCK = "machineBlock";
     }
 
     public static final class Items
