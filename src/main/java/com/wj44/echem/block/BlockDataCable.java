@@ -165,7 +165,7 @@ public class BlockDataCable extends BlockEChem implements ITileEntityProvider
     public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos)
     {
         Block block = worldIn.getBlockState(pos).getBlock();
-        return (block instanceof BlockDataCable || block instanceof BlockDataBank);
+        return (block instanceof BlockDataCable || block instanceof BlockDataBank || block instanceof BlockElementMachine);
     }
 
     @SideOnly(Side.CLIENT)

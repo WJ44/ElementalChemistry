@@ -31,6 +31,7 @@ public class ModBlocks
     public static final Block dataBank = new BlockDataBank();
     public static final Block dataCable = new BlockDataCable();
     public static final Block machineBlock = new BlockMachineBlock();
+    public static final Block tank = new BlockTank();
 
     public static void init()
     {
@@ -43,6 +44,7 @@ public class ModBlocks
         GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
         GameRegistry.registerBlock(dataCable, Names.Blocks.DATA_CABLE);
         GameRegistry.registerBlock(machineBlock, Names.Blocks.MACHINE_BLOCK);
+        GameRegistry.registerBlock(tank, Names.Blocks.TANK);
     }
 
     public static void registerRenders()

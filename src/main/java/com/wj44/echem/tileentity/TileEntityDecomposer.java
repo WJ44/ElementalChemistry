@@ -56,6 +56,24 @@ public class TileEntityDecomposer extends TileEntityElementMachine implements IS
     private int cookTime;
     private int totalCookTime;
 
+    private int slots;
+
+    public int getSlotsAmount()
+    {
+        int slotCount = 0;
+        if (machineParts != null)
+        {
+            for (TileEntityMachinePart machinePart : machineParts)
+            {
+                if (machinePart.getType().equals("tank"))
+                {
+                    slotCount++;
+                }
+            }
+        }
+        return slotCount;
+    }
+
     public String getCommandSenderName()
     {
         return this.hasCustomName() ? this.customName : Names.Containers.DECOMPOSER;

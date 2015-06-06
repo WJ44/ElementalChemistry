@@ -1,5 +1,6 @@
 package com.wj44.echem.tileentity;
 
+import com.wj44.echem.util.LogHelper;
 import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -17,6 +18,12 @@ import java.util.Stack;
  */
 public class TileEntityMachinePart extends TileEntity implements IUpdatePlayerListBox
 {
+    private String type;
+    public TileEntityMachinePart(String type)
+    {
+        super();
+        this.type = type;
+    }
     public boolean initialized = false;
     private TileEntityElementMachine master;
 
@@ -24,6 +31,19 @@ public class TileEntityMachinePart extends TileEntity implements IUpdatePlayerLi
     {
         initializeIfNecessary();
         return master;
+    }
+
+    public String getType()
+    {
+        if (type.equals("machineBlock") || type.equals("tank"))
+        {
+            return type;
+        }
+        else
+        {
+            LogHelper.error("Illegal type in " + this);
+        }
+        return null;
     }
 
     @Override
@@ -89,6 +109,10 @@ public class TileEntityMachinePart extends TileEntity implements IUpdatePlayerLi
     public void invalidate()
     {
         super.invalidate();
+        if (master != null)
+        {
+            master.machineParts.remove(this);
+        }
         for (EnumFacing f : EnumFacing.values())
         {
             TileEntity tileEntity = worldObj.getTileEntity(pos.offset(f));
@@ -99,5 +123,6 @@ public class TileEntityMachinePart extends TileEntity implements IUpdatePlayerLi
             }
         }
     }
-
 }
+
+
