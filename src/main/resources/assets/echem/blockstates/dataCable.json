@@ -1,0 +1,95 @@
+{
+	"variants": {
+        "down=false,east=false,north=false,south=false,up=false,west=false": { "model": "EChem:dataCable" },
+
+        "down=true,east=false,north=false,south=false,up=false,west=false": { "model": "EChem:dataCableN", "x": 90 },
+        "down=false,east=true,north=false,south=false,up=false,west=false": { "model": "EChem:dataCableN", "y": 90 },
+        "down=false,east=false,north=true,south=false,up=false,west=false": { "model": "EChem:dataCableN" },
+        "down=false,east=false,north=false,south=true,up=false,west=false": { "model": "EChem:dataCableN", "y": 180 },
+        "down=false,east=false,north=false,south=false,up=true,west=false": { "model": "EChem:dataCableN", "x": 270 },
+        "down=false,east=false,north=false,south=false,up=false,west=true": { "model": "EChem:dataCableN", "y": 270 },
+
+
+        "down=true,east=true,north=false,south=false,up=false,west=false": { "model": "EChem:dataCableNE", "x": 90 },
+        "down=true,east=false,north=true,south=false,up=false,west=false": { "model": "EChem:dataCableNE", "x": 90, "y": 270 },
+        "down=true,east=false,north=false,south=true,up=false,west=false": { "model": "EChem:dataCableNE", "x": 90, "y": 90 },
+        "down=true,east=false,north=false,south=false,up=false,west=true": { "model": "EChem:dataCableNE", "x": 90, "y": 180 },
+
+        "down=false,east=true,north=false,south=false,up=true,west=false": { "model": "EChem:dataCableNE", "x": 270 },
+        "down=false,east=false,north=true,south=false,up=true,west=false": { "model": "EChem:dataCableNE", "x": 270, "y": 270 },
+        "down=false,east=false,north=false,south=true,up=true,west=false": { "model": "EChem:dataCableNE", "x": 270, "y": 90 },
+        "down=false,east=false,north=false,south=false,up=true,west=true": { "model": "EChem:dataCableNE", "x": 270, "y": 180 },
+
+        "down=false,east=true,north=true,south=false,up=false,west=false": { "model": "EChem:dataCableNE" },
+        "down=false,east=true,north=false,south=true,up=false,west=false": { "model": "EChem:dataCableNE", "y": 90 },
+        "down=false,east=false,north=false,south=true,up=false,west=true": { "model": "EChem:dataCableNE", "y": 180 },
+        "down=false,east=false,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNE", "y": 270 },
+
+
+        "down=true,east=true,north=true,south=false,up=false,west=false": { "model": "EChem:dataCableNED" },
+        "down=true,east=true,north=false,south=true,up=false,west=false": { "model": "EChem:dataCableNED", "y": 90 },
+        "down=true,east=false,north=false,south=true,up=false,west=true": { "model": "EChem:dataCableNED", "y": 180 },
+        "down=true,east=false,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNED", "y": 270 },
+
+        "down=false,east=true,north=false,south=true,up=true,west=false": { "model": "EChem:dataCableNED", "x": 180},
+        "down=false,east=false,north=false,south=true,up=true,west=true": { "model": "EChem:dataCableNED", "x": 180, "y": 90 },
+        "down=false,east=false,north=true,south=false,up=true,west=true": { "model": "EChem:dataCableNED", "x": 180, "y": 180 },
+        "down=false,east=true,north=true,south=false,up=true,west=false": { "model": "EChem:dataCableNED", "x": 180, "y": 270 },
+
+
+        "down=false,east=false,north=true,south=true,up=false,west=false": { "model": "EChem:dataCableNS" },
+        "down=false,east=true,north=false,south=false,up=false,west=true": { "model": "EChem:dataCableNS", "y": 90 },
+        "down=true,east=false,north=false,south=false,up=true,west=false": { "model": "EChem:dataCableNS", "x": 90 },
+
+
+        "down=false,east=true,north=true,south=true,up=false,west=false": { "model": "EChem:dataCableNSE" },
+        "down=false,east=true,north=false,south=true,up=false,west=true": { "model": "EChem:dataCableNSE", "y": 90 },
+        "down=false,east=false,north=true,south=true,up=false,west=true": { "model": "EChem:dataCableNSE", "y": 180 },
+        "down=false,east=true,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNSE", "y": 270 },
+
+        "down=true,east=true,north=false,south=false,up=true,west=false": { "model": "EChem:dataCableNSE", "x": 90 },
+        "down=true,east=false,north=false,south=true,up=true,west=false": { "model": "EChem:dataCableNSE", "x": 90, "y": 90 },
+        "down=true,east=false,north=false,south=false,up=true,west=true": { "model": "EChem:dataCableNSE", "x": 90, "y": 180 },
+        "down=true,east=false,north=true,south=false,up=true,west=false": { "model": "EChem:dataCableNSE", "x": 90, "y": 270 },
+
+
+        "down=true,east=false,north=true,south=true,up=false,west=false": { "model": "EChem:dataCableNSD" },
+        "down=true,east=true,north=false,south=false,up=false,west=true": { "model": "EChem:dataCableNSD", "y": 90 },
+
+        "down=false,east=false,north=true,south=true,up=true,west=false": { "model": "EChem:dataCableNSD", "x": 180 },
+        "down=false,east=true,north=false,south=false,up=true,west=true": { "model": "EChem:dataCableNSD", "x": 180, "y": 90 },
+
+
+        "down=true,east=true,north=true,south=true,up=false,west=false": { "model": "EChem:dataCableNSED" },
+        "down=true,east=true,north=false,south=true,up=false,west=true": { "model": "EChem:dataCableNSED", "y": 90 },
+        "down=true,east=false,north=true,south=true,up=false,west=true": { "model": "EChem:dataCableNSED", "y": 180 },
+        "down=true,east=true,north=true,south=false,up=false,west=true": { "model": "EChem:dataCableNSED", "y": 270 },
+
+        "down=false,east=true,north=true,south=true,up=true,west=false": { "model": "EChem:dataCableNSED", "x": 180 },
+        "down=false,east=true,north=false,south=true,up=true,west=true": { "model": "EChem:dataCableNSED", "x": 180, "y": 90 },
+        "down=false,east=false,north=true,south=true,up=true,west=true": { "model": "EChem:dataCableNSED", "x": 180, "y": 180 },
+        "down=false,east=true,north=true,south=false,up=true,west=true": { "model": "EChem:dataCableNSED", "x": 180, "y": 270 },
+
+        "down=true,east=true,north=false,south=true,up=true,west=false": { "model": "EChem:dataCableNSED", "x": 90 },
+        "down=true,east=false,north=false,south=true,up=true,west=true": { "model": "EChem:dataCableNSED", "x": 90, "y": 90 },
+        "down=true,east=false,north=true,south=false,up=true,west=true": { "model": "EChem:dataCableNSED", "x": 90, "y": 180},
+        "down=true,east=true,north=true,south=false,up=true,west=false": { "model": "EChem:dataCableNSED", "x": 90, "y": 270 },
+
+
+        "down=false,east=true,north=true,south=true,up=false,west=true": { "model": "EChem:dataCableNSEW" },
+        "down=true,east=true,north=false,south=false,up=true,west=true": { "model": "EChem:dataCableNSEW", "x": 90 },
+        "down=true,east=false,north=true,south=true,up=true,west=false": { "model": "EChem:dataCableNSEW", "x": 90, "y": 90 },
+
+
+        "down=true,east=true,north=true,south=true,up=false,west=true": { "model": "EChem:dataCableNSEWD" },
+        "down=false,east=true,north=true,south=true,up=true,west=true": { "model": "EChem:dataCableNSEWD", "x": 180 },
+
+        "down=true,east=true,north=false,south=true,up=true,west=true": { "model": "EChem:dataCableNSEWD", "x": 90, "y": 0 },
+        "down=true,east=false,north=true,south=true,up=true,west=true": { "model": "EChem:dataCableNSEWD", "x": 90, "y": 90 },
+        "down=true,east=true,north=true,south=false,up=true,west=true": { "model": "EChem:dataCableNSEWD", "x": 90, "y": 180 },
+        "down=true,east=true,north=true,south=true,up=true,west=false": { "model": "EChem:dataCableNSEWD", "x": 90, "y": 270 },
+
+
+        "down=true,east=true,north=true,south=true,up=true,west=true": { "model": "EChem:dataCableNSEWDU" }
+	}
+}

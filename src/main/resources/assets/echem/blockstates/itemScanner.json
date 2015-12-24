@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "EChem:itemScanner" },
+		"facing=south": { "model": "EChem:itemScanner", "y": 180 },
+		"facing=west": { "model": "EChem:itemScanner", "y": 270 },
+		"facing=east": { "model": "EChem:itemScanner", "y": 90 }
+	}
+}
