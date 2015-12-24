@@ -1,0 +1,22 @@
+[
+{
+  "modid": "EChem",
+  "name": "ElementalChemistry",
+  "description": "All kinds of chemistry and physics!",
+  "version": "$version",
+  "mcversion": "$mcversion",
+  "url": "http://www.wj44.nl/projects/elementalchemistry",
+  "updateUrl": "",
+  "authorList": [
+    "WJ44"
+  ],
+  "credits": "Pahimar, MineMaarten, all the people on IRC",
+  "logoFile": "assets/echem/textures/items/logo.png",
+  "screenshots": [
+  ],
+  "parent":"",
+  "requiredMods": [ "ElementsCore" ],
+  "dependencies": [ "ElementsCore" ],
+  "useDependencyInformation": true
+}
+]
