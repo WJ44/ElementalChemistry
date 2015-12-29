@@ -10,6 +10,7 @@ package com.wj44.echem.reference;
 public class Reference
 {
     public static final String MOD_ID = "EChem";
+    public static final String LOWERCASE_MOD_ID = MOD_ID.toLowerCase();
     public static final String MOD_NAME = "ElementalChemistry";
     public static final String VERSION = "@VERSION@";
     public static final String CLIENT_PROXY_CLASS = "com.wj44.echem.proxy.ClientProxy";

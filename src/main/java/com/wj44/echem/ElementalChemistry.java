@@ -1,5 +1,7 @@
 package com.wj44.echem;
 
+import com.wj44.echem.init.ModBlocks;
+import com.wj44.echem.init.ModItems;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
 import net.minecraftforge.fml.common.Mod;
@@ -26,18 +28,21 @@ public class ElementalChemistry
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
+        proxy.preInit();
 
+        ModBlocks.init();
+        ModItems.init();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-
+        proxy.init();
     }
 
     @Mod.EventHandler
     public void postInit(FMLInitializationEvent event)
     {
-
+        proxy.postInit();
     }
 }
