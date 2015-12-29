@@ -14,12 +14,27 @@ import net.minecraft.item.Item;
  */
 public class ModCreativeTabs
 {
-    public static final CreativeTabs ECHEM_TAB = new CreativeTabs(Reference.LOWERCASE_MOD_ID)
+    public static final CreativeTabs tabEChem = new CreativeTabs(Reference.LOWERCASE_MOD_ID)
     {
         @Override
         public Item getTabIconItem()
         {
             return ModItems.logo;
+        }
+    };
+
+    public static final CreativeTabs tabElementContainers = new CreativeTabs("elementContainers")
+    {
+        @Override
+        public Item getTabIconItem()
+        {
+            return ModItems.elementContainer;
+        }
+
+        @Override
+        public int getIconItemDamage()
+        {
+            return 1;
         }
     };
 }

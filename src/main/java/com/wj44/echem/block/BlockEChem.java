@@ -4,7 +4,6 @@ import com.wj44.echem.creativetab.ModCreativeTabs;
 import com.wj44.echem.reference.Textures;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * Created by Wesley "WJ44" Joosten on 29/12/2015.
@@ -18,7 +17,7 @@ public class BlockEChem extends Block
     public BlockEChem(Material material)
     {
         super(material);
-        this.setCreativeTab(ModCreativeTabs.ECHEM_TAB);
+        this.setCreativeTab(ModCreativeTabs.tabEChem);
     }
 
     @Override

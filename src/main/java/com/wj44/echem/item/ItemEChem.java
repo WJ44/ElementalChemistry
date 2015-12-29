@@ -16,7 +16,7 @@ public class ItemEChem extends Item
 {
     public ItemEChem()
     {
-        this.setCreativeTab(ModCreativeTabs.ECHEM_TAB);
+        this.setCreativeTab(ModCreativeTabs.tabEChem);
     }
 
     @Override

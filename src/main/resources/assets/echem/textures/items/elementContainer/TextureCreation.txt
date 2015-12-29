@@ -1,0 +1,4 @@
+Calibri, 16
+Second colour on palette(grey)
+
+T > click > type > Ctrl + A > S x 4 > click > Ctrl + Shift + X > Ctrl + Shift + R > type 64 > Tab > type 64 > Enter > Ctrl + Shift + S > type > Enter > Enter

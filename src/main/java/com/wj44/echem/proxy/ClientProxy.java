@@ -2,6 +2,7 @@ package com.wj44.echem.proxy;
 
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
+import com.wj44.echem.item.ItemElementContainer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -23,7 +24,7 @@ public class ClientProxy extends CommonProxy
     @Override
     public void init()
     {
-
+        ItemElementContainer.registerVariants();
     }
 
     @Override
