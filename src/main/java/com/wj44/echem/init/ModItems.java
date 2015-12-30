@@ -1,5 +1,6 @@
 package com.wj44.echem.init;
 
+import com.wj44.echem.item.ItemDataCard;
 import com.wj44.echem.item.ItemEChem;
 import com.wj44.echem.item.ItemElementContainer;
 import com.wj44.echem.reference.Names;
@@ -21,11 +22,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 @GameRegistry.ObjectHolder(Reference.MOD_ID)
 public class ModItems
 {
+    public static final Item dataCard = new ItemDataCard();
     public static final Item elementContainer = new ItemElementContainer();
     public static final Item logo = new ItemEChem().setUnlocalizedName(Names.Items.LOGO);
 
     public static void init()
     {
+        GameRegistry.registerItem(dataCard, Names.Items.DATA_CARD);
         GameRegistry.registerItem(elementContainer, Names.Items.ELEMENT_CONTAINER);
         GameRegistry.registerItem(logo, Names.Items.LOGO);
     }
@@ -34,6 +37,7 @@ public class ModItems
     {
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
+        renderItem.getItemModelMesher().register(dataCard, 0, Textures.Item.DATA_CARD);
         renderItem.getItemModelMesher().register(logo, 0, Textures.Item.LOGO);
 
         registerHasSubtypes(elementContainer, Textures.Item.ELEMENT_CONTAINERS, renderItem);

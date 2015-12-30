@@ -16,6 +16,7 @@ public class Textures
 
     public static final class Item
     {
+        public static final ModelResourceLocation DATA_CARD = ResourceLocationHelper.getModelResourceLocation(Names.Items.DATA_CARD);
         public static final ModelResourceLocation[] ELEMENT_CONTAINERS = ResourceLocationHelper.getModelResourceLocations(Names.Items.ELEMENT_CONTAINER, Names.Items.ELEMENT_CONTAINER_SUBTYPES);
         public static final ModelResourceLocation LOGO = ResourceLocationHelper.getModelResourceLocation(Names.Items.LOGO);
     }

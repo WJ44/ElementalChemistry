@@ -1,4 +1,9 @@
+#Creative Tabs
+itemGroup.echem=ElementalChemistry
+itemGroup.elementContainers=Element Containers
+
 # Items
+item.echem:dataCard.name=Data Card
 item.echem:logo.name=ElementalChemistry Logo
 
 # Element Containers
