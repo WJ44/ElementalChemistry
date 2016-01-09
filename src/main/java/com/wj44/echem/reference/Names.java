@@ -9,6 +9,17 @@ package com.wj44.echem.reference;
  */
 public class Names
 {
+    public static final class Blocks
+    {
+        public static final String DATA_BANK = "dataBank";
+    }
+
+    public static final class Containers
+    {
+        public static final String PREFIX = "container." + Textures.RESOURCE_PREFIX;
+        public static final String DATA_BANK = PREFIX + Blocks.DATA_BANK;
+    }
+
     public static final class Items
     {
         public static final String DATA_CARD = "dataCard";
