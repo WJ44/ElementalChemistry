@@ -1,7 +1,9 @@
 package com.wj44.echem.handler;
 
 import com.wj44.echem.client.gui.inventory.GuiDataBank;
+import com.wj44.echem.client.gui.inventory.GuiItemScanner;
 import com.wj44.echem.inventory.ContainerDataBank;
+import com.wj44.echem.inventory.ContainerItemScanner;
 import com.wj44.echem.reference.Guis;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -27,6 +29,10 @@ public class GuiHandler implements IGuiHandler
         {
             return new ContainerDataBank(player.inventory, (IInventory) world.getTileEntity(pos));
         }
+        else if (ID == Guis.ITEM_SCANNER.ordinal())
+        {
+            return new ContainerItemScanner(player.inventory, (IInventory) world.getTileEntity(pos));
+        }
         return null;
     }
 
@@ -37,6 +43,10 @@ public class GuiHandler implements IGuiHandler
         if (ID == Guis.DATA_BANK.ordinal())
         {
             return new GuiDataBank(player.inventory, (IInventory) world.getTileEntity(pos));
+        }
+        else if (ID == Guis.ITEM_SCANNER.ordinal())
+        {
+            return new GuiItemScanner(player.inventory, (IInventory) world.getTileEntity(pos));
         }
         return null;
     }

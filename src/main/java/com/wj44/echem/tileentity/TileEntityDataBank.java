@@ -15,12 +15,11 @@ import net.minecraft.nbt.NBTTagList;
  */
 public class TileEntityDataBank extends TileEntityEChem
 {
-    private static final int INVENTORY_SIZE = 22;
     private static int selectedSlot = 0;
 
     public TileEntityDataBank()
     {
-        inventory = new ItemStack[INVENTORY_SIZE];
+        inventory = new ItemStack[22];
     }
 
     @Override
@@ -37,7 +36,7 @@ public class TileEntityDataBank extends TileEntityEChem
     @Override
     public boolean isItemValidForSlot(int index, ItemStack stack)
     {
-        return stack.getItem() == ModItems.dataCard;
+        return stack.getItem() == ModItems.dataCard && stack.getTagCompound().getBoolean("isScanned");
     }
 
     @Override

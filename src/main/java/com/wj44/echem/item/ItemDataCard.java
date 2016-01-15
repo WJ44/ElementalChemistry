@@ -45,17 +45,7 @@ public class ItemDataCard extends ItemEChem
         {
             tooltip.remove("Empty");
             tooltip.add("Item: " + itemStack.getTagCompound().getString("item"));
-            //TODO add in itemScanner
-//            tooltip.add("Item: " + ItemStack.loadItemStackFromNBT(itemStack.getTagCompound()).getDisplayName());
 
-            //TODO add in itemScanner
-//            String contains = "Contains: ";
-//            for (Element element : APIHelper.getElementList(ItemStack.loadItemStackFromNBT(itemStack.getTagCompound())).getElements())
-//            {
-//                int amount = APIHelper.getElementAmount(ItemStack.loadItemStackFromNBT(itemStack.getTagCompound()), element);
-//                contains += amount + " " + element.symbol + ", ";
-//            }
-//            contains = contains.substring(0, contains.length()-2);
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
                 tooltip.add("Contains: " + itemStack.getTagCompound().getString("elements"));

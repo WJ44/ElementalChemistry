@@ -3,11 +3,9 @@ package com.wj44.echem.inventory;
 import com.wj44.echem.init.ModItems;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 
 /**
  * Created by Wesley "WJ44" Joosten on 15/01/2016.
@@ -16,7 +14,7 @@ import net.minecraft.tileentity.TileEntity;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class ContainerDataBank extends Container
+public class ContainerDataBank extends ContainerEChem
 {
     IInventory dataBankInventory;
 
@@ -44,21 +42,8 @@ public class ContainerDataBank extends Container
             }
         }
 
-        for (int i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 9; ++j)
-            {
-                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
-
-        for (int k = 0; k < 9; ++k)
-        {
-            this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
-        }
+        addPlayerSlots(playerInventory, 8, 84);
     }
-
-
 
     @Override
     public boolean canInteractWith(EntityPlayer playerIn)

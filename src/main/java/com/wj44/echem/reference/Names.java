@@ -12,12 +12,14 @@ public class Names
     public static final class Blocks
     {
         public static final String DATA_BANK = "dataBank";
+        public static final String ITEM_SCANNER =  "itemScanner";
     }
 
     public static final class Containers
     {
         public static final String PREFIX = "container." + Textures.RESOURCE_PREFIX;
         public static final String DATA_BANK = PREFIX + Blocks.DATA_BANK;
+        public static final String ITEM_SCANNER = PREFIX + Blocks.ITEM_SCANNER;
     }
 
     public static final class Items

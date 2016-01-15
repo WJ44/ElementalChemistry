@@ -18,12 +18,14 @@ public class Textures
     public static final class Block
     {
         public static final ModelResourceLocation DATA_BANK = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DATA_BANK);
+        public static final ModelResourceLocation ITEM_SCANNER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.ITEM_SCANNER);
     }
 
     public static final class Gui
     {
         public static final String GUI_SHEET_LACATION = "textures/gui/";
         public static final ResourceLocation DATA_BANK = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "dataBank.png");
+        public static final ResourceLocation ITEM_SCANNER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "itemScanner.png");
     }
 
     public static final class Item

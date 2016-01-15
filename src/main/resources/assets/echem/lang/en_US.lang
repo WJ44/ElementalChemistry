@@ -1,8 +1,10 @@
 # Blocks
-tile.echem:dataBank=Data Bank
+tile.echem:dataBank.name=Data Bank
+tile.echem:itemScanner.name=Item Scanner
 
 # Containers
-container.echem:dataBank.name=Data Bank
+container.echem:dataBank=Data Bank
+container.echem:itemScanner=Item Scanner
 
 # Creative Tabs
 itemGroup.echem=ElementalChemistry

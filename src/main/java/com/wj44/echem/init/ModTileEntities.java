@@ -2,6 +2,7 @@ package com.wj44.echem.init;
 
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.tileentity.TileEntityDataBank;
+import com.wj44.echem.tileentity.TileEntityItemScanner;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -16,5 +17,6 @@ public class ModTileEntities
     public static void init()
     {
         GameRegistry.registerTileEntity(TileEntityDataBank.class, Names.Blocks.DATA_BANK);
+        GameRegistry.registerTileEntity(TileEntityItemScanner.class, Names.Blocks.ITEM_SCANNER);
     }
 }

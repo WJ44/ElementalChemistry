@@ -1,6 +1,7 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.block.BlockDataBank;
+import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
 import com.wj44.echem.reference.Textures;
@@ -21,10 +22,12 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
     public static final Block dataBank = new BlockDataBank();
+    public static final Block itemScanner = new BlockItemScanner();
 
     public static void init()
     {
         GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
+        GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
     }
 
     public static void registerRenders()
@@ -32,5 +35,6 @@ public class ModBlocks
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(dataBank), 0, Textures.Block.DATA_BANK);
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(itemScanner), 0, Textures.Block.ITEM_SCANNER);
     }
 }
