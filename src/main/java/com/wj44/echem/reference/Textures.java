@@ -2,6 +2,7 @@ package com.wj44.echem.reference;
 
 import com.wj44.echem.util.ResourceLocationHelper;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.util.ResourceLocation;
 
 /**
  * Created by Wesley "WJ44" Joosten on 29/12/2015.
@@ -13,6 +14,17 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 public class Textures
 {
     public static final String RESOURCE_PREFIX = Reference.LOWERCASE_MOD_ID + ":";
+
+    public static final class Block
+    {
+        public static final ModelResourceLocation DATA_BANK = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DATA_BANK);
+    }
+
+    public static final class Gui
+    {
+        public static final String GUI_SHEET_LACATION = "textures/gui/";
+        public static final ResourceLocation DATA_BANK = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "dataBank.png");
+    }
 
     public static final class Item
     {

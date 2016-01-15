@@ -17,7 +17,11 @@ public class TileEntityDataBank extends TileEntityEChem
 {
     private static final int INVENTORY_SIZE = 22;
     private static int selectedSlot = 0;
-    private ItemStack[] inventory = new ItemStack[INVENTORY_SIZE];
+
+    public TileEntityDataBank()
+    {
+        inventory = new ItemStack[INVENTORY_SIZE];
+    }
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack)

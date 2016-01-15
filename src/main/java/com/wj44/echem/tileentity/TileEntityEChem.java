@@ -89,20 +89,20 @@ public abstract class TileEntityEChem extends TileEntity implements IWorldNameab
         NBTTagList nbttaglist = compound.getTagList("Items", 10);
         this.inventory = new ItemStack[this.getSizeInventory()];
 
-        if (compound.hasKey("CustomName", 8))
-        {
-            this.customName = compound.getString("CustomName");
-        }
-
         for (int i = 0; i < nbttaglist.tagCount(); ++i)
         {
             NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot") & 255;
+            int j = nbttagcompound.getByte("Slot");
 
             if (j >= 0 && j < this.inventory.length)
             {
                 this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
             }
+        }
+
+        if (compound.hasKey("CustomName", 8))
+        {
+            this.customName = compound.getString("CustomName");
         }
     }
 

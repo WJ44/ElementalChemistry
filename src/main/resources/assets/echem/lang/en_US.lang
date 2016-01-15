@@ -1,4 +1,10 @@
-#Creative Tabs
+# Blocks
+tile.echem:dataBank=Data Bank
+
+# Containers
+container.echem:dataBank.name=Data Bank
+
+# Creative Tabs
 itemGroup.echem=ElementalChemistry
 itemGroup.elementContainers=Element Containers
 

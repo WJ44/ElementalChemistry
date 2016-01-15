@@ -1,14 +1,17 @@
 package com.wj44.echem;
 
+import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.init.ModRecipes;
+import com.wj44.echem.init.ModTileEntities;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 /**
  * Created by Wesley "WJ44" Joosten on 24/12/2015.
@@ -38,9 +41,12 @@ public class ElementalChemistry
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
         proxy.init();
 
         ModRecipes.init();
+        ModTileEntities.init();
     }
 
     @Mod.EventHandler
