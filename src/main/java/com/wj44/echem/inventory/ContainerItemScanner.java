@@ -23,7 +23,10 @@ public class ContainerItemScanner extends ContainerEChem
     {
         this.itemScannerInventory = itemScannerInventory;
 
-        this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17));
+        this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17)
+        {
+
+        });
         this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35)
         {
             @Override

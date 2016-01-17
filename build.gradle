@@ -25,7 +25,7 @@ group= "com.wj44.echem"
 archivesBaseName = "ElementalChemistry"
 
 minecraft {
-    version = "1.8.9-11.15.0.1688"
+    version = "11.15.0.1705"
     runDir = "run"
     
     mappings = "stable_20"
@@ -77,3 +77,9 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+jar {
+	manifest {
+		attributes 'FMLAT': 'echem_at.cfg'
+	}
+}	

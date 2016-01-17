@@ -77,7 +77,6 @@ public class TileEntityItemScanner extends TileEntityEChem implements ITickable
             if (ElementAPI.hasElements(inventory[INPUT_INVENTORY_INDEX]))
             {
                 ItemStack itemStack = inventory[INPUT_INVENTORY_INDEX];
-                //itemStack.stackSize = 1;
                 NBTTagCompound dataCard = inventory[OUTPUT_INVENTORY_INDEX].getTagCompound();
 
                 itemStack.writeToNBT(dataCard);
@@ -99,9 +98,13 @@ public class TileEntityItemScanner extends TileEntityEChem implements ITickable
                 dataCard.setFloat("volume", properties.volume);
                 dataCard.setInteger("mass", properties.mass);
                 dataCard.setBoolean("isScanned", true);
-
-                //inventory[OUTPUT_INVENTORY_INDEX].setTagCompound(dataCard);
             }
         }
+    }
+
+    @Override
+    public int getInventoryStackLimit()
+    {
+        return 1;
     }
 }

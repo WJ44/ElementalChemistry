@@ -2,6 +2,7 @@ package com.wj44.echem.tileentity;
 
 import com.wj44.echem.init.ModItems;
 import com.wj44.echem.reference.Names;
+import com.wj44.echem.util.LogHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

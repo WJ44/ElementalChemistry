@@ -1,6 +1,6 @@
 package com.wj44.echem.proxy;
 
-import net.minecraft.entity.player.EntityPlayer;
+        import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Created by Wesley "WJ44" Joosten on 24/12/2015.

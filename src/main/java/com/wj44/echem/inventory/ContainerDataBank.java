@@ -99,4 +99,10 @@ public class ContainerDataBank extends ContainerEChem
 
         return itemstack;
     }
+
+    public void selectSlot(int slot)
+    {
+        dataBankInventory.setField(0, slot);
+    }
+
 }

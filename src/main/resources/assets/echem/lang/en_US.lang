@@ -14,6 +14,10 @@ itemGroup.elementContainers=Element Containers
 item.echem:dataCard.name=Data Card
 item.echem:logo.name=ElementalChemistry Logo
 
+# Keys
+keys.categories.echem=ElementalChemistry
+keys.echem.select=Select
+
 # Element Containers
 item.echem:elementContainerHydrogen.name=Element Container (Hydrogen)
 item.echem:elementContainerHelium.name=Element Container (Helium)
