@@ -1,0 +1,27 @@
+{
+	"forge_marker": 1,
+	"defaults": {
+		"textures": {
+			"top": "EChem:blocks/itemScanner_top",
+			"front": "EChem:blocks/itemScanner_front_off",
+			"side": "EChem:blocks/itemScanner_side"
+		},
+		"model": "orientable",
+		"uvlock": true
+	},
+	"variants": {
+		"facing": {
+			"north": {
+			},
+			"south": {
+				"y": 180
+			},
+			"west": {
+				"y": 270
+			},
+			"east": {
+				"y": 90
+			}
+		}
+	}
+}

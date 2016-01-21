@@ -17,16 +17,11 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerItemScanner extends ContainerEChem
 {
-    IInventory itemScannerInventory;
-
     public ContainerItemScanner(InventoryPlayer playerInventory, IInventory itemScannerInventory)
     {
-        this.itemScannerInventory = itemScannerInventory;
+        this.inventory = itemScannerInventory;
 
-        this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17)
-        {
-
-        });
+        this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.INPUT_INVENTORY_INDEX, 56, 17));
         this.addSlotToContainer(new Slot(itemScannerInventory, TileEntityItemScanner.OUTPUT_INVENTORY_INDEX, 116, 35)
         {
             @Override
@@ -43,12 +38,7 @@ public class ContainerItemScanner extends ContainerEChem
         addPlayerSlots(playerInventory, 8, 84);
     }
 
-    @Override
-    public boolean canInteractWith(EntityPlayer playerIn)
-    {
-        return itemScannerInventory.isUseableByPlayer(playerIn);
-    }
-
+    //TODO shift clicking a stack bigger than 1
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex)
     {
@@ -63,9 +53,9 @@ public class ContainerItemScanner extends ContainerEChem
             /**
              * Shift clicking out of the itemScanner, into the inventory
              */
-            if (slotIndex < itemScannerInventory.getSizeInventory())
+            if (slotIndex < inventory.getSizeInventory())
             {
-                if (!mergeItemStack(slotStack, itemScannerInventory.getSizeInventory(), inventorySlots.size(), false))
+                if (!mergeItemStack(slotStack, inventory.getSizeInventory(), inventorySlots.size(), false))
                 {
                     return null;
                 }

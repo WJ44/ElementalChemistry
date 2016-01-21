@@ -1,6 +1,6 @@
 package com.wj44.echem;
 
-import com.wj44.echem.client.handler.KeyInputeEventHandler;
+import com.wj44.echem.client.handler.KeyInputEventHandler;
 import com.wj44.echem.handler.GuiHandler;
 import com.wj44.echem.init.ModBlocks;
 import com.wj44.echem.init.ModItems;
@@ -10,7 +10,6 @@ import com.wj44.echem.network.NetworkHandler;
 import com.wj44.echem.proxy.CommonProxy;
 import com.wj44.echem.reference.Reference;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -48,7 +47,7 @@ public class ElementalChemistry
     public void init(FMLInitializationEvent event)
     {
         NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
-        MinecraftForge.EVENT_BUS.register(new KeyInputeEventHandler());
+        MinecraftForge.EVENT_BUS.register(new KeyInputEventHandler());
 
         proxy.init();
 

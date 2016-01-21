@@ -9,5 +9,5 @@ package com.wj44.echem.reference;
  */
 public enum Guis
 {
-    DATA_BANK, ITEM_SCANNER
+    DATA_BANK, DECOMPOSER, ITEM_SCANNER
 }

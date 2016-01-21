@@ -12,6 +12,7 @@ public class Names
     public static final class Blocks
     {
         public static final String DATA_BANK = "dataBank";
+        public static final String DECOMPOSER = "decomposer";
         public static final String ITEM_SCANNER =  "itemScanner";
     }
 
@@ -19,6 +20,7 @@ public class Names
     {
         public static final String PREFIX = "container." + Textures.RESOURCE_PREFIX;
         public static final String DATA_BANK = PREFIX + Blocks.DATA_BANK;
+        public static final String DECOMPOSER = PREFIX + Blocks.DECOMPOSER;
         public static final String ITEM_SCANNER = PREFIX + Blocks.ITEM_SCANNER;
     }
 

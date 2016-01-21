@@ -1,7 +1,9 @@
 package com.wj44.echem.inventory;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 
 /**
@@ -13,6 +15,14 @@ import net.minecraft.inventory.Slot;
  */
 public abstract class ContainerEChem extends Container
 {
+    protected IInventory inventory;
+
+    @Override
+    public boolean canInteractWith(EntityPlayer playerIn)
+    {
+        return inventory.isUseableByPlayer(playerIn);
+    }
+
     /**
      * Adds the player inventory and the hotbar
      * @param playerInventory

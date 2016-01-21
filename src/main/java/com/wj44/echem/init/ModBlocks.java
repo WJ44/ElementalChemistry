@@ -1,6 +1,7 @@
 package com.wj44.echem.init;
 
 import com.wj44.echem.block.BlockDataBank;
+import com.wj44.echem.block.BlockDecomposer;
 import com.wj44.echem.block.BlockItemScanner;
 import com.wj44.echem.reference.Names;
 import com.wj44.echem.reference.Reference;
@@ -22,11 +23,13 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModBlocks
 {
     public static final Block dataBank = new BlockDataBank();
+    public static final Block decomposer = new BlockDecomposer();
     public static final Block itemScanner = new BlockItemScanner();
 
     public static void init()
     {
         GameRegistry.registerBlock(dataBank, Names.Blocks.DATA_BANK);
+        GameRegistry.registerBlock(decomposer, Names.Blocks.DECOMPOSER);
         GameRegistry.registerBlock(itemScanner, Names.Blocks.ITEM_SCANNER);
     }
 
@@ -35,6 +38,7 @@ public class ModBlocks
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(dataBank), 0, Textures.Block.DATA_BANK);
+        renderItem.getItemModelMesher().register(Item.getItemFromBlock(decomposer), 0, Textures.Block.DECOMPOSER);
         renderItem.getItemModelMesher().register(Item.getItemFromBlock(itemScanner), 0, Textures.Block.ITEM_SCANNER);
     }
 }

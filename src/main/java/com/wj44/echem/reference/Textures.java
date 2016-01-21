@@ -18,6 +18,7 @@ public class Textures
     public static final class Block
     {
         public static final ModelResourceLocation DATA_BANK = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DATA_BANK);
+        public static final ModelResourceLocation DECOMPOSER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.DECOMPOSER);
         public static final ModelResourceLocation ITEM_SCANNER = ResourceLocationHelper.getModelResourceLocation(Names.Blocks.ITEM_SCANNER);
     }
 
@@ -25,6 +26,7 @@ public class Textures
     {
         public static final String GUI_SHEET_LACATION = "textures/gui/";
         public static final ResourceLocation DATA_BANK = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "dataBank.png");
+        public static final ResourceLocation DECOMPOSER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "decomposer.png");
         public static final ResourceLocation ITEM_SCANNER = ResourceLocationHelper.getResourceLocation(GUI_SHEET_LACATION + "itemScanner.png");
     }
 

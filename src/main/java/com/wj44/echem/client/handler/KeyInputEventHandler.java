@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class KeyInputeEventHandler
+public class KeyInputEventHandler
 {
     private static Key getPressedKeyBinding()
     {

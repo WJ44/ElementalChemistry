@@ -16,11 +16,9 @@ import net.minecraft.item.ItemStack;
  */
 public class ContainerDataBank extends ContainerEChem
 {
-    IInventory dataBankInventory;
-
     public ContainerDataBank(InventoryPlayer playerInventory, IInventory dataBankInventory)
     {
-        this.dataBankInventory = dataBankInventory;
+        this.inventory = dataBankInventory;
 
         for(int i = 0; i < 3; i++)
         {
@@ -45,12 +43,6 @@ public class ContainerDataBank extends ContainerEChem
         addPlayerSlots(playerInventory, 8, 84);
     }
 
-    @Override
-    public boolean canInteractWith(EntityPlayer playerIn)
-    {
-        return dataBankInventory.isUseableByPlayer(playerIn);
-    }
-
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
         ItemStack itemstack = null;
@@ -63,14 +55,14 @@ public class ContainerDataBank extends ContainerEChem
 
             if (itemstack.getItem() == ModItems.dataCard)
             {
-                if (index < dataBankInventory.getSizeInventory())
+                if (index < inventory.getSizeInventory())
                 {
-                    if (!this.mergeItemStack(itemstack1,  dataBankInventory.getSizeInventory(), this.inventorySlots.size(), true))
+                    if (!this.mergeItemStack(itemstack1,  inventory.getSizeInventory(), this.inventorySlots.size(), true))
                     {
                         return null;
                     }
                 }
-                else if (!this.mergeItemStack(itemstack1, 0, dataBankInventory.getSizeInventory(), false))
+                else if (!this.mergeItemStack(itemstack1, 0, inventory.getSizeInventory(), false))
                 {
                     return null;
                 }
@@ -102,7 +94,7 @@ public class ContainerDataBank extends ContainerEChem
 
     public void selectSlot(int slot)
     {
-        dataBankInventory.setField(0, slot);
+        inventory.setField(0, slot);
     }
 
 }

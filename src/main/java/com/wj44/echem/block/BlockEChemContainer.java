@@ -100,7 +100,6 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
         if (tileentity instanceof TileEntityDispenser)
         {
             InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityEChem)tileentity);
-
         }
 
         super.breakBlock(worldIn, pos, state);
