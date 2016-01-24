@@ -43,30 +43,31 @@ public class ItemDataCard extends ItemEChem
 
         if (itemStack.getTagCompound().getBoolean("isScanned"))
         {
+            NBTTagCompound tagCompound = itemStack.getTagCompound();
             tooltip.remove("Empty");
-            tooltip.add("Item: " + itemStack.getTagCompound().getString("item"));
+            tooltip.add("Item: " + tagCompound.getString("item"));
 
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
             {
-                tooltip.add("Contains: " + itemStack.getTagCompound().getString("elements"));
+                tooltip.add("Contains: " + tagCompound.getString("elements"));
             }
             else
             {
-                tooltip.remove("Contains: " + itemStack.getTagCompound().getString("elements"));
+                tooltip.remove("Contains: " + tagCompound.getString("elements"));
             }
             if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL))
             {
-                tooltip.add("Formula: " + itemStack.getTagCompound().getString("formula"));
-                tooltip.add("Density: " + itemStack.getTagCompound().getInteger("density") + " kg/m³");
-                tooltip.add("Mass: " + itemStack.getTagCompound().getInteger("mass") + " g");
-                tooltip.add("Volume: " + itemStack.getTagCompound().getFloat("volume")+ " m³");
+                tooltip.add("Formula: " + tagCompound.getString("formula"));
+                tooltip.add("Density: " + tagCompound.getInteger("density") + " kg/m³");
+                tooltip.add("Mass: " + tagCompound.getInteger("mass") + " g");
+                tooltip.add("Volume: " + tagCompound.getFloat("volume")+ " m³");
             }
             else
             {
-                tooltip.remove("Formula: " + itemStack.getTagCompound().getString("formula"));
-                tooltip.remove("Density: " + itemStack.getTagCompound().getInteger("density") + " kg/m³");
-                tooltip.remove("Mass: " + itemStack.getTagCompound().getInteger("mass") + " g");
-                tooltip.remove("Volume: " + itemStack.getTagCompound().getFloat("volume")+ " m³");
+                tooltip.remove("Formula: " + tagCompound.getString("formula"));
+                tooltip.remove("Density: " + tagCompound.getInteger("density") + " kg/m³");
+                tooltip.remove("Mass: " + tagCompound.getInteger("mass") + " g");
+                tooltip.remove("Volume: " + tagCompound.getFloat("volume")+ " m³");
             }
         }
         else

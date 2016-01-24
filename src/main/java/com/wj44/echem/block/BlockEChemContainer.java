@@ -3,6 +3,7 @@ package com.wj44.echem.block;
 import com.wj44.echem.tileentity.TileEntityEChem;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
@@ -12,8 +13,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityDispenser;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
@@ -29,11 +28,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 public abstract class BlockEChemContainer extends BlockEChem implements ITileEntityProvider
 {
+    public static final Material machine = (new Material(MapColor.ironColor));
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
     public BlockEChemContainer()
     {
-        super(Material.iron);
+        super(machine);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
     }
 
@@ -92,12 +92,12 @@ public abstract class BlockEChemContainer extends BlockEChem implements ITileEnt
             }
         }
     }
-
+    
     public void breakBlock(World worldIn, BlockPos pos, IBlockState state)
     {
         TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (tileentity instanceof TileEntityDispenser)
+        if (tileentity instanceof TileEntityEChem)
         {
             InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityEChem)tileentity);
         }

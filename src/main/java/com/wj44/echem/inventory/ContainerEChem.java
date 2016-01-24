@@ -5,6 +5,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
 /**
  * Created by Wesley "WJ44" Joosten on 16/01/2016.
@@ -46,5 +47,119 @@ public abstract class ContainerEChem extends Container
             addSlotToContainer(new Slot(playerInventory, i, x + i * 18, y + 58));
         }
     }
+
     //When using mergeItemStack, the first int is the first slot it tries to use, the second the last + 1, the boolean is whether to do it in reverse or not
+
+    /**
+     * @param stack
+     * @param startIndex first slot tried
+     * @param endIndex last slot tried + 1
+     * @param reverseDirection reverse
+     * @return
+     */
+    @Override
+    protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection)
+    {
+        boolean flag = false;
+        int i = startIndex;
+
+        if (reverseDirection)
+        {
+            i = endIndex - 1;
+        }
+
+        if (stack.isStackable())
+        {
+            while (stack.stackSize > 0 && (!reverseDirection && i < endIndex || reverseDirection && i >= startIndex))
+            {
+                Slot slot = (Slot)this.inventorySlots.get(i);
+                ItemStack itemstack = slot.getStack();
+
+                if (itemstack != null && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack))
+                {
+                    int j = itemstack.stackSize + stack.stackSize;
+
+                    if (j <= stack.getMaxStackSize() && j <= slot.getSlotStackLimit())
+                    {
+                        stack.stackSize = 0;
+                        itemstack.stackSize = j;
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                    else if (itemstack.stackSize < stack.getMaxStackSize() && itemstack.stackSize < slot.getSlotStackLimit())
+                    {
+                        if (stack.stackSize > slot.getSlotStackLimit())
+                        {
+                            stack.stackSize -= slot.getSlotStackLimit() - itemstack.stackSize;
+                            itemstack.stackSize = slot.getSlotStackLimit();
+                        }
+                        else
+                        {
+                            stack.stackSize -= stack.getMaxStackSize() - itemstack.stackSize;
+                            itemstack.stackSize = stack.getMaxStackSize();
+                        }
+                        slot.onSlotChanged();
+                        flag = true;
+                    }
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        if (stack.stackSize > 0)
+        {
+            if (reverseDirection)
+            {
+                i = endIndex - 1;
+            }
+            else
+            {
+                i = startIndex;
+            }
+
+            while (!reverseDirection && i < endIndex || reverseDirection && i >= startIndex)
+            {
+                Slot slot1 = (Slot)this.inventorySlots.get(i);
+                ItemStack itemstack1 = slot1.getStack();
+
+                if (itemstack1 == null && slot1.isItemValid(stack)) // Forge: Make sure to respect isItemValid in the slot.
+                {
+                    itemstack1 = new ItemStack(stack.getItem(), 0);
+                    if (stack.stackSize <= slot1.getSlotStackLimit())
+                    {
+                        itemstack1.stackSize = stack.stackSize;
+                        slot1.putStack(itemstack1);
+                        stack.stackSize = 0;
+                        flag = true;
+                    }
+                    else if (stack.stackSize > slot1.getSlotStackLimit())
+                    {
+                        itemstack1.stackSize = slot1.getSlotStackLimit();
+                        slot1.putStack(itemstack1);
+                        stack.stackSize = stack.stackSize - itemstack1.stackSize;
+                        flag = true;
+                    }
+                }
+
+                if (reverseDirection)
+                {
+                    --i;
+                }
+                else
+                {
+                    ++i;
+                }
+            }
+        }
+
+        return flag;
+    }
 }

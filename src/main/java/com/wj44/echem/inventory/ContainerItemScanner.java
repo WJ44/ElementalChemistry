@@ -38,7 +38,6 @@ public class ContainerItemScanner extends ContainerEChem
         addPlayerSlots(playerInventory, 8, 84);
     }
 
-    //TODO shift clicking a stack bigger than 1
     @Override
     public ItemStack transferStackInSlot(EntityPlayer player, int slotIndex)
     {
