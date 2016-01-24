@@ -75,29 +75,21 @@ public abstract class ContainerEChem extends Container
                 Slot slot = (Slot)this.inventorySlots.get(i);
                 ItemStack itemstack = slot.getStack();
 
-                if (itemstack != null && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack))
+                if (itemstack != null && itemstack.getItem() == stack.getItem() && (!stack.getHasSubtypes() || stack.getMetadata() == itemstack.getMetadata()) && ItemStack.areItemStackTagsEqual(stack, itemstack) && itemstack.stackSize < slot.getSlotStackLimit())
                 {
                     int j = itemstack.stackSize + stack.stackSize;
 
-                    if (j <= stack.getMaxStackSize() && j <= slot.getSlotStackLimit())
+                    if (j <= getStackLimit(stack, slot))
                     {
                         stack.stackSize = 0;
                         itemstack.stackSize = j;
                         slot.onSlotChanged();
                         flag = true;
                     }
-                    else if (itemstack.stackSize < stack.getMaxStackSize() && itemstack.stackSize < slot.getSlotStackLimit())
+                    else if (itemstack.stackSize < getStackLimit(stack, slot))
                     {
-                        if (stack.stackSize > slot.getSlotStackLimit())
-                        {
-                            stack.stackSize -= slot.getSlotStackLimit() - itemstack.stackSize;
-                            itemstack.stackSize = slot.getSlotStackLimit();
-                        }
-                        else
-                        {
-                            stack.stackSize -= stack.getMaxStackSize() - itemstack.stackSize;
-                            itemstack.stackSize = stack.getMaxStackSize();
-                        }
+                        stack.stackSize -= getStackLimit(stack, slot) - itemstack.stackSize;
+                        itemstack.stackSize = getStackLimit(stack, slot);
                         slot.onSlotChanged();
                         flag = true;
                     }
@@ -147,6 +139,10 @@ public abstract class ContainerEChem extends Container
                         stack.stackSize = stack.stackSize - itemstack1.stackSize;
                         flag = true;
                     }
+                    if (itemstack1.stackSize == 0)
+                    {
+                        slot1.putStack(null);
+                    }
                 }
 
                 if (reverseDirection)
@@ -161,5 +157,14 @@ public abstract class ContainerEChem extends Container
         }
 
         return flag;
+    }
+
+    private int getStackLimit(ItemStack itemStack, Slot slot)
+    {
+        if (itemStack.stackSize > slot.getSlotStackLimit())
+        {
+            return slot.getSlotStackLimit();
+        }
+        return itemStack.getMaxStackSize();
     }
 }
