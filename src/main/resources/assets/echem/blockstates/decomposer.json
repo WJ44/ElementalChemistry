@@ -1,27 +1,20 @@
 {
 	"forge_marker": 1,
 	"defaults": {
+		"model": "orientable",
 		"textures": {
 			"top": "EChem:blocks/decomposer_top",
 			"front": "EChem:blocks/decomposer_front_off",
 			"side": "EChem:blocks/decomposer_side"
-		},
-		"model": "orientable",
-		"uvlock": true
+        },
+        "transform": "forge:default-block"
 	},
 	"variants": {
 		"facing": {
-			"north": {
-			},
-			"south": {
-				"y": 180
-			},
-			"west": {
-				"y": 270
-			},
-			"east": {
-				"y": 90
-			}
+			"north": {},
+			"south": { "y": 180 },
+			"west": { "y": 270 },
+			"east": { "y": 90 }
 		}
 	}
 }

@@ -6,6 +6,7 @@ import com.wj44.echem.util.LogHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.ITickable;
 
 /**
  * Created by Wesley "WJ44" Joosten on 09/01/2016.
@@ -14,7 +15,7 @@ import net.minecraft.nbt.NBTTagList;
  * Creative Commons Attribution-NonCommercial-ShareAlike 3.0 License
  * (https://creativecommons.org/licenses/by-nc-sa/3.0/)
  */
-public class TileEntityDataBank extends TileEntityEChem
+public class TileEntityDataBank extends TileEntityEChem implements ITickable
 {
     private static int selectedSlot = 0;
 
@@ -88,5 +89,15 @@ public class TileEntityDataBank extends TileEntityEChem
     {
         super.writeToNBT(compound);
         compound.setInteger("SelectedSlot", selectedSlot);
+    }
+
+    @Override
+    public void update()
+    {
+        if (inventory[selectedSlot] != null)
+        {
+            isActive = true;
+        }
+        else isActive = false;
     }
 }

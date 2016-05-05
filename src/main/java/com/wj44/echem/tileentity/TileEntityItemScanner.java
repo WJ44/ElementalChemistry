@@ -98,7 +98,10 @@ public class TileEntityItemScanner extends TileEntityEChem implements ITickable
                 dataCard.setFloat("volume", properties.volume);
                 dataCard.setInteger("mass", properties.mass);
                 dataCard.setBoolean("isScanned", true);
+
+                isActive = true;
             }
+            else isActive = false;
         }
     }
 

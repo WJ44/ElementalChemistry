@@ -2,6 +2,7 @@ package com.wj44.echem.init;
 
 import com.wj44.echem.item.crafting.RecipeElementContainerCombining;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.oredict.RecipeSorter;
 
 /**
  * Created by Wesley "WJ44" Joosten on 30/12/2015.

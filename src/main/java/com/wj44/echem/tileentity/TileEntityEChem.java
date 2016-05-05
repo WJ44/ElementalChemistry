@@ -20,6 +20,7 @@ public abstract class TileEntityEChem extends TileEntity implements IWorldNameab
 {
     protected ItemStack[] inventory;
     protected String customName;
+    public boolean isActive;
 
     public int getSizeInventory()
     {

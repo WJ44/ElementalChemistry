@@ -122,7 +122,9 @@ public class TileEntityDecomposer extends TileEntityEChem implements ITickable
                     }
 
                     decrStackSize(INPUT_INVENTORY_INDEX, 1);
+                    isActive = true;
                 }
+                else isActive = false;
             }
         }
     }
